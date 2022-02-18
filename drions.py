@@ -47,7 +47,10 @@ def generate_mask(mask_path, img_size, img_name, expert):
     rr, cc = polygon(mask[:,1], mask[:,0])
     img[rr,cc] = 1
     
+
     iio.imwrite(proyect_path + dst_data_path + 'OD' + expert + '/' + dataset + img_name + '.png', img)
+
+    return img
 
     
 def main():
@@ -95,17 +98,22 @@ def main():
     return 'DRIONS'
 
 
-
+# im = iio.imread('/mnt/Almacenamiento/ODOC_segmentation/raw_data/DRIONS/images/image_001.jpg')
+# height, width,_ = im.shape
+# path = '/mnt/Almacenamiento/ODOC_segmentation/raw_data/DRIONS/experts_anotation/anotExpert1_001.txt'
+# expert, img_name = get_mask_data(path)
+# size = (height, width)
+# mask = generate_mask(path,size,img_name, expert)
     
-def if __name__ == '__main__':
+# final_img = im[:,:,0] * mask
+# plt.imshow(final_img)
+# plt.show()
+
+if __name__ == '__main__':
     main()
     
 
 
 
-
-# expert, img_name = get_mask_data(anotations[0])
-# print(size)
-# generate_mask(anotations[0],size,img_name, expert)
 
 
