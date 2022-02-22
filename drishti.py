@@ -117,7 +117,7 @@ def main():
     generate_mask(OD_anot, 'OD')
     print('TERMINO OD')
 
-
+    return dataset, train, test
 
 
 if __name__ == '__main__':

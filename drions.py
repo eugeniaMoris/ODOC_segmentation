@@ -79,9 +79,10 @@ def main():
     for i in imgs_paths:
         name = ntpath.basename(i)
         n = name.split('.')
+        name= n[0].split('_')
         im = iio.imread(i)
         height, width,_ = im.shape
-        iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + n[0] + '.png',im)
+        iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + name[1] + '.png',im)
         #print(proyect_path + dst_data_path + dataset + 'images/' + n[0] + '.png')
 
     size = (height, width)
