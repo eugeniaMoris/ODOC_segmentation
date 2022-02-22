@@ -55,7 +55,7 @@ def image_processing(paths):
         if value[1] != '001':
             im = iio.imread(p)
             height, width,_ = im.shape
-            #iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/' + value[1] + '.png',im)
+            iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/' + value[1] + '.png',im)
 
     return (height,width)
 
@@ -125,15 +125,19 @@ if __name__ == '__main__':
 
 
 
-# path_mask = '/mnt/Almacenamiento/ODOC_segmentation/raw_data/DRISHTI/Drishti-GS1_files/Training/GT/drishtiGS_002/SoftMap'
-# cup = 'drishtiGS_002_cupsegSoftmap.png'
-# OD= 'drishtiGS_002_ODsegSoftmap.png'
+# img_path = '/mnt/Almacenamiento/ODOC_segmentation/data/images/DRISHTI/015.png'
+# cup_path = '/mnt/Almacenamiento/ODOC_segmentation/data/OC/DRISHTI/015.png'
+# OD_path = '/mnt/Almacenamiento/ODOC_segmentation/data/OD1/DRISHTI/015.png'
+
+# img = iio.imread(img_path)
+# cup = iio.imread(cup_path)
+# od = iio.imread(OD_path)
 
 
+# fig, (ax0, ax1, ax2) = plt.subplots(1, 3)
+# ax0.imshow(img)
+# ax1.imshow(img[:,:,0] * cup)
+# ax2.imshow(img[:,:,0] * od)
 
-
-# fig, (ax0, ax1) = plt.subplots(1, 2)
-# ax0.imshow(im)
-# ax1.imshow(new_img)
 
 # plt.show()
