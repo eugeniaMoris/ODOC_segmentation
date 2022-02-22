@@ -1,13 +1,9 @@
-from curses.textpad import rectangle
 import numpy as np
-import matplotlib.pyplot as plt
-#from PIL import Image, ImageDraw
 import glob
 import ntpath
-#import matplotlib.patches as patches
 import imageio as iio
 from skimage.draw import polygon
-from scipy import ndimage
+import argparse
 
 
 proyect_path = '/mnt/Almacenamiento/ODOC_segmentation'
@@ -110,7 +106,17 @@ def main():
 # plt.show()
 
 if __name__ == '__main__':
+    
+    #se agregan todos los parametros que pueden pasarse al software cuando se llama
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument('-w','--wavelet', required=True, nargs='+', type= str, default = 'dmey',help='Lista de las familias de wavelet a utilizar')
+#     args = parser.parse_args()
+
+# #    os.makedirs('./output/checkpoints/', exist_ok=True)
+# #
+#     main(**vars(args))
     main()
+
     
 
 
