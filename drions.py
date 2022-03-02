@@ -43,7 +43,8 @@ def generate_mask(mask_path, img_size, img_name, expert):
     rr, cc = polygon(mask[:,1], mask[:,0])
     img[rr,cc] = 1
     
-
+    if expert == '2':
+        expert = '_extra'
     iio.imwrite(proyect_path + dst_data_path + 'OD' + expert + '/' + dataset + img_name + '.png', img)
 
     return img
