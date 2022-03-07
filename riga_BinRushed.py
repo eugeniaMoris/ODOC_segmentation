@@ -25,7 +25,6 @@ sub_dataset = ['BinRushed1-Corrected','BinRushed2','BinRushed3','BinRushed4']
 
 def generate_mask(path, img):
     ''' generamos la imagen de mascara '''
-    print(path)
 
     mask = iio.imread(path)
 
@@ -106,7 +105,6 @@ def get_images(paths, names, sdataset):
         print(old_name)
         
         img = iio.imread(paths[p_i]) #obtengo imagen
-        print('img path: ', paths[p_i])
         #procesar
         iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '-BinRushed' + '/' +  names[p_i],img) #guardo
 
@@ -136,7 +134,6 @@ def main():
         
 
 
-        #print(img_paths)
         get_images(img_paths, final_img_name, data)
 
         img_paths = []
@@ -166,33 +163,3 @@ if __name__ == '__main__':
 
 # plt.show()
 
-
-
-
-
-
-
-
-# path = '/mnt/Almacenamiento/ODOC_segmentation/raw_data/RIGA/MESSIDOR'
-
-# img_mask = iio.imread(path + '/image1-1.tif' )
-# img = iio.imread(path + '/image1prime.tif')
-
-# print( img.shape, img_mask.shape)
-# resta = img[:,:,0] - img_mask[:,:,0]
-# OD = ndimage.binary_fill_holes(resta).astype(int)
-
-# sub_OD = erosion(OD, disk(20))
-# OC = resta * sub_OD
-# OC_fill = ndimage.binary_fill_holes(OC).astype(int)
-
-
-# fig, (ax0, ax1,ax2,ax3,ax4) = plt.subplots(1, 5)
-# ax0.imshow(img)
-# ax1.imshow(OD)
-# ax2.imshow(OC_fill)
-# ax3.imshow(img[:,:,0] * OD)
-# ax4.imshow(img[:,:,0] * OC_fill)
-
-
-# plt.show()

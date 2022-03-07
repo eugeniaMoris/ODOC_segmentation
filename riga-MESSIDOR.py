@@ -127,7 +127,7 @@ def main():
 
 
     #print(img_paths)
-    get_images(img_paths[:1], final_img_name)
+    get_images(img_paths, final_img_name)
 
     img_paths = []
     final_img_name = []
