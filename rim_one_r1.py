@@ -110,6 +110,7 @@ def main():
 if __name__ == '__main__':
     main()
 
+
 # img_path = '/mnt/Almacenamiento/ODOC_segmentation/data/images/RIM_ONE_R1/009.png'
 # #OC_path = '/mnt/Almacenamiento/ODOC_segmentation/data/OC/RIGA-Magrabia/001.png'
 # OD_path = '/mnt/Almacenamiento/ODOC_segmentation/data/OD1/RIM_ONE_R1/009.png'
@@ -135,13 +136,13 @@ if __name__ == '__main__':
 #print(collections.Counter(OD[800,:])) #255, 0 y 128 para las marcas
 
 
-fig, (ax0, ax1, ax2, ax3) = plt.subplots(1, 4)
-ax0.imshow(img)
-ax1.imshow(OD)
-ax2.imshow(OD_ex1+OD_ex2+OD_ex2+OD_ex3+OD_ex4+OD_ex5)
+# fig, (ax0, ax1, ax2, ax3) = plt.subplots(1, 4)
+# ax0.imshow(img)
+# ax1.imshow(OD)
+# ax2.imshow(OD_ex1+OD_ex2+OD_ex2+OD_ex3+OD_ex4+OD_ex5)
 
 
-ax3.imshow(img[:,:,0] * (OD))
+# ax3.imshow(img[:,:,0] * (OD))
 
-plt.show()
+# plt.show()
     
