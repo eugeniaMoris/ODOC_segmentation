@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import glob
 import ntpath
 import collections
+import data_preprocesing
 
 proyect_path = '/mnt/Almacenamiento/ODOC_segmentation'
 or_data_path = '/raw_data/'
@@ -42,6 +43,7 @@ def get_images(paths):
 def main():
 
     train = []
+    validation = []
     test = []
 
     OD_anot = []
@@ -55,7 +57,7 @@ def main():
         name = n[0].split('_')
         
         imgs_paths.insert(len(imgs_paths), tr_img)
-        train.insert(len(train), name[1])
+        train.insert(len(train), '0' + name[1] + '.png')
 
     #img for test
     for t_img in glob.glob(proyect_path + or_data_path + dataset + '/A. Segmentation/1. Original Images/b. Testing Set/IDRiD_*.jpg'):
@@ -64,7 +66,7 @@ def main():
         name = n[0].split('_')
 
         imgs_paths.insert(len(imgs_paths), t_img)
-        test.insert(len(test), name[1])
+        test.insert(len(test), '0' + name[1] + '.png')
 
         #OD anotations
     for anot_tr_OD in glob.glob(proyect_path + or_data_path + dataset + '/A. Segmentation/2. All Segmentation Groundtruths/a. Training Set/5. Optic Disc/IDRiD_*_OD.tif'):
@@ -75,6 +77,8 @@ def main():
 
     get_images(imgs_paths)
     get_mask(OD_anot)
+
+    data_preprocesing.save_split_file('/mnt/Almacenamiento/ODOC_segmentation/split', 'ODOC_segmentation', dataset, train, validation, test)
 
     return dataset, train, test
 

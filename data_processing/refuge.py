@@ -6,6 +6,7 @@ import glob
 import ntpath
 import collections
 import scipy.io
+import data_preprocesing
 
 
 
@@ -53,9 +54,9 @@ def main():
     img_name = 1
     #f"{img_name:03}"
 
-    train_img = []
-    validation_img = []
-    test_img = []
+    train = []
+    validation = []
+    test = []
 
     img_paths = []
     final_img_name = []
@@ -65,7 +66,7 @@ def main():
     for tr_img in sorted(glob.glob(proyect_path + or_data_path + dataset + '/Training400-images/*/*.jpg')):
         img_paths.insert(len(img_paths), tr_img)
         final_img_name.insert(len(final_img_name),'{0:0=3d}.png'.format(img_name))
-        train_img.insert(len(train_img),'{0:0=3d}.png'.format(img_name))
+        train.insert(len(train),'{0:0=3d}.png'.format(img_name))
         img_name += 1
     
     for mask in sorted(glob.glob(proyect_path + or_data_path + dataset + '/Annotation-Training400/Disc_Cup_Masks/*/*.bmp')):
@@ -76,7 +77,7 @@ def main():
     for tr_img in sorted(glob.glob(proyect_path + or_data_path + dataset + '/REFUGE-Validation400/*.jpg')):
         img_paths.insert(len(img_paths), tr_img)
         final_img_name.insert(len(final_img_name),'{0:0=3d}.png'.format(img_name))
-        validation_img.insert(len(validation_img),'{0:0=3d}.png'.format(img_name))
+        validation.insert(len(validation),'{0:0=3d}.png'.format(img_name))
         img_name += 1
     
     for mask in sorted(glob.glob(proyect_path + or_data_path + dataset + '/REFUGE-Validation400-GT/Disc_Cup_Masks/*.bmp')):
@@ -86,7 +87,7 @@ def main():
     for tr_img in sorted(glob.glob(proyect_path + or_data_path + dataset + '/test_dataset/Images/*.jpg')):
         img_paths.insert(len(img_paths), tr_img)
         final_img_name.insert(len(final_img_name),'{0:0=3d}.png'.format(img_name))
-        test_img.insert(len(test_img),'{0:0=3d}.png'.format(img_name))
+        test.insert(len(test),'{0:0=3d}.png'.format(img_name))
         img_name += 1
     
     for mask in sorted(glob.glob(proyect_path + or_data_path + dataset + '/test_dataset/GT/Disc_Cup_Masks/*.bmp')):
@@ -98,7 +99,8 @@ def main():
     get_mask(mask_paths, final_img_name)
 
     #print(dataset, train_img, validation_img, test_img)
-    return dataset, train_img, validation_img, test_img
+    data_preprocesing.save_split_file('/mnt/Almacenamiento/ODOC_segmentation/split', 'ODOC_segmentation', dataset, train, validation, test)
+    return dataset, train, validation, test
 
 
 

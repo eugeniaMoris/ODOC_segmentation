@@ -7,11 +7,13 @@ import ntpath
 import imageio as iio
 from skimage.draw import polygon
 import matplotlib.pyplot as plt
+import data_preprocesing
 
 proyect_path = '/mnt/Almacenamiento/ODOC_segmentation'
 or_data_path = '/raw_data/'
 dst_data_path = '/data/'
 dataset = 'DRISHTI'
+
 
 def generate_mask(paths, anot_type):
     for p in paths:
@@ -39,11 +41,7 @@ def generate_mask(paths, anot_type):
             if anot_type == 'OD':
                 anot_type = 'OD1'
             iio.imwrite(proyect_path + dst_data_path + anot_type + '/' + dataset + '/' + str(img_name[1]) + '.png',new_img)
-            
 
-
-
-    return
 
 def image_processing(paths):
 
@@ -61,6 +59,7 @@ def image_processing(paths):
 
 def main():
     train = []
+    validation = []
     test = []
 
     OC_anot = []
@@ -70,21 +69,26 @@ def main():
 
     #img for train
     for tr_img in glob.glob(proyect_path + or_data_path + dataset + '/Drishti-GS1_files/Training/Images/drishti*.png'):
-        name = ntpath.basename(tr_img)
-        n = name.split('.')
+        base_name = ntpath.basename(tr_img)
+        n = base_name.split('.')
+        name= n[0].split('_')
         
         imgs_paths.insert(len(imgs_paths), tr_img)
-        train.insert(len(train), n[0])
+        if name[1] != '001':
+            train.insert(len(train), name[1] + '.png')
     
     print('TERMINO PATH TRAIN')
 
     #img for test
     for t_img in glob.glob(proyect_path + or_data_path + dataset + '/Drishti-GS1_files/Test/Images/drishti*.png'):
-        name = ntpath.basename(t_img)
-        n = name.split('.')
+        base_name = ntpath.basename(t_img)
+        n = base_name.split('.')
+        name= n[0].split('_')
         
         imgs_paths.insert(len(imgs_paths), t_img)
-        test.insert(len(test), n[0])
+
+        if name[1] != '001':
+            test.insert(len(test), name[1] + '.png')
 
     print('TERMINO PATH TEST')
     
@@ -109,13 +113,15 @@ def main():
     
 
     size = image_processing(imgs_paths)
-    print('TERMINO PASAR IMAGENES')
+    # print('TERMINO PASAR IMAGENES')
 
     generate_mask(OC_anot, 'OC')
-    print('TERMINO OC')
+    # print('TERMINO OC')
 
     generate_mask(OD_anot, 'OD')
-    print('TERMINO OD')
+    # print('TERMINO OD')
+
+    data_preprocesing.save_split_file('/mnt/Almacenamiento/ODOC_segmentation/split', 'ODOC_segmentation', dataset, train, validation, test)
 
     return dataset, train, test
 
