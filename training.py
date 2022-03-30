@@ -29,10 +29,8 @@ def main(config,hparams):
         verbose=True,
     )
     # stop_callback = EarlyStopping(
-    #     monitor='val_loss',
-    #     mode='auto',
-    #     patience=5,
-    #     verbose=True,
+
+
     # )
 
     split_file = hparams.split + '/ODOC_segmentation_' + hparams.dataset + '.ini'
@@ -54,7 +52,7 @@ def main(config,hparams):
     logger = TensorBoardLogger('lightning_logs', name='drishti_model')
     trainer = Trainer(auto_lr_find=False,
             auto_scale_batch_size= False,
-            max_epochs=50, 
+            max_epochs=30, 
             accelerator="gpu",
             gpus=1,
             logger=logger,

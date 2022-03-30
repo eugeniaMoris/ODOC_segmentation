@@ -130,7 +130,7 @@ class DataModuleClass(pl.LightningDataModule):
         self.batch_size=5
         
         #self.transform = transforms.Compose([transforms.ToTensor()])
-        self.transform = transforms.Compose([transforms.Normalize(mean=0.5,std=0.5)])
+        self.transform = transforms.Compose([transforms.Normalize(mean=0,std=1)])
         self.dataset= dataset
         self.num_workes = num_workers
 
@@ -225,6 +225,9 @@ class Dataset_proc(Dataset):
         self.paths = paths
         self.masks = masks
         self.names = split
+
+
+
         self.preprocesamiento = transforms.Compose([transforms.Normalize(mean=0,std=1)])
         #transforms.Resize(size=(512,512), interpolation=0)]) #, interpolation= <InterpolationMode.NEAREST>
         #self.mask_preprocessing = transforms.ToTensor()
@@ -249,17 +252,23 @@ class Dataset_proc(Dataset):
         img = img.float()
         #OD_mask = OD_mask.long()
 
-        img = self.preprocesamiento(img) #NORMALIZO LA IMAGEN
+        mean_r = torch.mean(img[0,:,:])
+        mean_g = torch.mean(img[1,:,:])
+        mean_b = torch.mean(img[2,:,:])
+
+        std_r = torch.mean(img[0,:,:])
+        std_g = torch.mean(img[1,:,:])
+        std_b = torch.mean(img[2,:,:])
+
+        #print(img.size(), mean_r, mean_g, mean_b)
+
+        img = F.normalize(img, [mean_r, mean_g, mean_b], [std_r,std_g, std_b]) #normalizo la imagen
 
         img = self.scale_img(img, 512, 512)
         mask = self.scale_img(OD_mask, 512, 512)
-        #mask = self.mask_preprocessing(OD_mask)
 
         mask = mask[0,:,:]
     
-        #print('SIZES: ', img.size(), mask.size())
-
-
         return img.float(), mask.long()
 
     def scale_img(self,image, width, height):
