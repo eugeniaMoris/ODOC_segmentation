@@ -8,6 +8,9 @@ import imageio as iio
 from skimage.draw import polygon
 import matplotlib.pyplot as plt
 import data_preprocesing
+from utils import crop_fov, crop_fov_2
+import cv2
+from skimage.transform import resize
 
 proyect_path = '/mnt/Almacenamiento/ODOC_segmentation'
 or_data_path = '/raw_data/'
@@ -15,47 +18,42 @@ dst_data_path = '/data/'
 dataset = 'DRISHTI'
 
 
-def generate_mask(paths, anot_type):
-    for p in paths:
-        name = ntpath.basename(p)
-        n = name.split('.')
-        img_name = n[0].split('_')
+def generate_mask(path):
+    
+    name = ntpath.basename(path)
+    n = name.split('.')
+    img_name = n[0].split('_')
 
-        print('Name img: ', img_name[1])
-        new_img = []
-        if img_name[1] != '001':
-            im = iio.imread(p)
-            img = np.array(im)
-            row, col = img.shape
-            new_img = np.zeros((row,col),dtype=np.uint8)
-
-
-            pos = np.where(img == 1)[0]
-            for i in range(row):
-                for j in range(col):
-                    value = img[i,j]
-                    if value == 255:
-                        new_img[i,j]= 255
-            print(new_img.shape)
-
-            if anot_type == 'OD':
-                anot_type = 'OD1'
-            iio.imwrite(proyect_path + dst_data_path + anot_type + '/' + dataset + '/' + str(img_name[1]) + '.png',new_img)
+    new_img = []
+    if img_name[1] != '001':
+        im = iio.imread(path)
+        img = np.array(im)
+        row, col = img.shape
+        new_img = np.zeros((row,col),dtype=np.uint8)
 
 
-def image_processing(paths):
+        pos = np.where(img == 1)[0]
+        for i in range(row):
+            for j in range(col):
+                value = img[i,j]
+                if value == 255:
+                    new_img[i,j]= 255
+        
+        return new_img, img_name[1]
 
-    for p in paths:
-        name = ntpath.basename(p)
-        n = name.split('.')
-        value = n[0].split('_')
-        #print('value: ', value)
-        if value[1] != '001':
-            im = iio.imread(p)
-            height, width,_ = im.shape
-            iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/' + value[1] + '.png',im)
 
-    return (height,width)
+def image_processing(path):
+
+    im = None
+    name = ntpath.basename(path)
+    n = name.split('.')
+    value = n[0].split('_')
+    #print('value: ', value)
+    if value[1] != '001':
+        im = iio.imread(path)
+        #iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/' + value[1] + '.png',im)
+
+    return im, value[1]
 
 def main():
     train = []
@@ -68,7 +66,7 @@ def main():
     imgs_paths = []
 
     #img for train
-    for tr_img in glob.glob(proyect_path + or_data_path + dataset + '/Drishti-GS1_files/Training/Images/drishti*.png'):
+    for tr_img in sorted(glob.glob(proyect_path + or_data_path + dataset + '/Drishti-GS1_files/Training/Images/drishti*.png')):
         base_name = ntpath.basename(tr_img)
         n = base_name.split('.')
         name= n[0].split('_')
@@ -77,10 +75,9 @@ def main():
         if name[1] != '001':
             train.insert(len(train), name[1] + '.png')
     
-    print('TERMINO PATH TRAIN')
 
     #img for test
-    for t_img in glob.glob(proyect_path + or_data_path + dataset + '/Drishti-GS1_files/Test/Images/drishti*.png'):
+    for t_img in sorted(glob.glob(proyect_path + or_data_path + dataset + '/Drishti-GS1_files/Test/Images/drishti*.png')):
         base_name = ntpath.basename(t_img)
         n = base_name.split('.')
         name= n[0].split('_')
@@ -90,36 +87,56 @@ def main():
         if name[1] != '001':
             test.insert(len(test), name[1] + '.png')
 
-    print('TERMINO PATH TEST')
     
 
     #OC anotations
-    for anot_tr_OC in glob.glob(proyect_path + or_data_path + dataset + '/Drishti-GS1_files/Training/GT/drishti*/SoftMap/*cupseg*.png'):
+    for anot_tr_OC in sorted(glob.glob(proyect_path + or_data_path + dataset + '/Drishti-GS1_files/Training/GT/drishti*/SoftMap/*cupseg*.png')):
         OC_anot.insert(len(OC_anot), anot_tr_OC)
 
-    for anot_t_OC in glob.glob(proyect_path + or_data_path + dataset + '/Drishti-GS1_files/Test/Test_GT/drishti*/SoftMap/*cupseg*.png'):
+    for anot_t_OC in sorted(glob.glob(proyect_path + or_data_path + dataset + '/Drishti-GS1_files/Test/Test_GT/drishti*/SoftMap/*cupseg*.png')):
         OC_anot.insert(len(OC_anot), anot_t_OC)
 
-    print('TERMINO PATH OC')
 
     #OD anotations
-    for anot_tr_OD in glob.glob(proyect_path + or_data_path + dataset + '/Drishti-GS1_files/Training/GT/drishti*/SoftMap/*ODseg*.png'):
+    for anot_tr_OD in sorted(glob.glob(proyect_path + or_data_path + dataset + '/Drishti-GS1_files/Training/GT/drishti*/SoftMap/*ODseg*.png')):
         OD_anot.insert(len(OD_anot), anot_tr_OD)
 
-    for anot_t_OD in glob.glob(proyect_path + or_data_path + dataset + '/Drishti-GS1_files/Test/Test_GT/drishti*/SoftMap/*ODseg*.png'):
+    for anot_t_OD in sorted(glob.glob(proyect_path + or_data_path + dataset + '/Drishti-GS1_files/Test/Test_GT/drishti*/SoftMap/*ODseg*.png')):
         OD_anot.insert(len(OD_anot), anot_t_OD)
 
-    print('TERMINO PATH OD')
     
+    for proc in range(len(imgs_paths)):
 
-    size = image_processing(imgs_paths)
-    # print('TERMINO PASAR IMAGENES')
+        img, name = image_processing(imgs_paths[proc])
 
-    generate_mask(OC_anot, 'OC')
-    # print('TERMINO OC')
+        if name != '001': #esta imagen no tiene ambas mascaras generadas por lo que se descarta
+            mask1, n1 = generate_mask(OC_anot[proc])
+            # print('TERMINO OC')
 
-    generate_mask(OD_anot, 'OD')
-    # print('TERMINO OD')
+            mask2, n2 = generate_mask(OD_anot[proc])
+            # print('TERMINO OD')
+
+            n_img, n_mask1, n_mask2 = crop_fov_2(img, mask1, mask2)
+
+            # n_img = n_img.copy()
+            # n_mask1= n_mask1.copy()
+            # n_mask2= n_mask2.copy()
+            # print('TIPOS: ' ,type(n_img))
+            # n_img = resize(n_img,(512, 512,3))
+            # n_mask1 = resize(n_mask1, (512,512))
+            # n_mask2 = resize(n_mask2, (512,512))
+            # #vecinos mas cercanos
+
+
+
+            iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/' + name + '.png',n_img)
+            iio.imwrite(proyect_path + dst_data_path + 'OC/' + dataset + '/' + name + '.png',n_mask1)
+            iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '/' + name + '.png',n_mask2)
+
+            print(f'Imagen {name}, {n1}, {n2}: procesada')
+
+
+
 
     data_preprocesing.save_split_file('/mnt/Almacenamiento/ODOC_segmentation/split', 'ODOC_segmentation', dataset, train, validation, test)
 

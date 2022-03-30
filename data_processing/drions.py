@@ -4,7 +4,10 @@ import ntpath
 import imageio as iio
 from skimage.draw import polygon
 import argparse
-
+from scipy.ndimage import binary_fill_holes, gaussian_filter
+import cv2
+from skimage import measure, filters
+import data_processing.utils as utils
 
 proyect_path = '/mnt/Almacenamiento/ODOC_segmentation'
 or_data_path = '/raw_data/'
@@ -43,13 +46,17 @@ def generate_mask(mask_path, img_size, img_name, expert):
     rr, cc = polygon(mask[:,1], mask[:,0])
     img[rr,cc] = 1
     
-    if expert == '2':
-        expert = '_extra'
-    iio.imwrite(proyect_path + dst_data_path + 'OD' + expert + '/' + dataset + img_name + '.png', img)
-
     return img
 
-    
+def get_path_mask(name_img, paths):
+    experts = []
+    for p in paths:
+        if name_img in p:
+            experts.insert(len(experts), p)
+
+    return experts
+
+
 def main():
     '''
     Data processing para el dataset DRIONS
@@ -71,28 +78,39 @@ def main():
     anotations = []
     imgs_paths = []
 
-    for anot in glob.glob(proyect_path + or_data_path + dataset + 'experts_anotation/anot*.txt'):
+    for anot in sorted(glob.glob(proyect_path + or_data_path + dataset + 'experts_anotation/anot*.txt')):
         anotations.insert(len(anotations), anot)
 
-    for img_p in glob.glob(proyect_path + or_data_path + dataset + 'images/*.jpg'):
+    for img_p in sorted(glob.glob(proyect_path + or_data_path + dataset + 'images/*.jpg')):
         imgs_paths.insert(len(imgs_paths), img_p)
 
     for i in imgs_paths:
         name = ntpath.basename(i)
         n = name.split('.')
         name= n[0].split('_')
+
         im = iio.imread(i)
         height, width,_ = im.shape
-        iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + name[1] + '.png',im)
-        #print(proyect_path + dst_data_path + dataset + 'images/' + n[0] + '.png')
 
-    size = (height, width)
-    for j in anotations:
-        expert, img_name = get_mask_data(j)
-        generate_mask(j,size,img_name, expert)
+        mask_paths  = get_path_mask(name[1], anotations)
+        mask1 = generate_mask(mask_paths[0],(height, width),name[1], '1')
+        mask2 = generate_mask(mask_paths[1],(height, width),name[1], '2')
+        
+        new_img, n_mask1, n_mask2 = utils.crop_fov_2(im, mask1, mask2)
 
-    #retorna nombre dataset, paths train ,valid, test para agregar al .ini
-    #return 'DRIONS', train_names, valid_names, test_names
+
+        iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + name[1] + '.png',new_img)
+        iio.imwrite(proyect_path + dst_data_path + 'OD1/'+ dataset + name[1] + '.png', n_mask1)
+        iio.imwrite(proyect_path + dst_data_path + 'OD_extra/'+ dataset + name[1] + '.png', n_mask2)
+        
+
+
+    # size = (height, width)
+    # for j in anotations:
+    #     expert, img_name = get_mask_data(j)
+    #     generate_mask(j,size,img_name, expert)
+
+
     return 'DRIONS'
 
 
@@ -109,14 +127,6 @@ def main():
 
 if __name__ == '__main__':
     
-    #se agregan todos los parametros que pueden pasarse al software cuando se llama
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument('-w','--wavelet', required=True, nargs='+', type= str, default = 'dmey',help='Lista de las familias de wavelet a utilizar')
-#     args = parser.parse_args()
-
-# #    os.makedirs('./output/checkpoints/', exist_ok=True)
-# #
-#     main(**vars(args))
     main()
 
     
