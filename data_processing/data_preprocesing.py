@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 #import cv2
 
 def show(imgs):
+
     if not isinstance(imgs, list):
         imgs = [imgs]
     fig, axs = plt.subplots(ncols=len(imgs), squeeze=False)
@@ -31,20 +32,30 @@ def show(imgs):
         axs[0, i].set(xticklabels=[], yticklabels=[], xticks=[], yticks=[])
 
 def list_2_string(input_l):
-    'convert the lint into a single string separate by ,'
+    '''
+    convert the list into a single string separate by ,
+    used for generate the split file '''
+
     if (input_l == None) or (len(input_l) == 0):
         return ''
     else:
         return ','.join(list(input_l))
 
-def arr_2_string(input_l):
-    'convert the lint into a single string separate by ,'
-    if (input_l == None) or (len(input_l) == 0):
-        return ''
-    else:
-        return ','.join(list(input_l))
+# def arr_2_string(input_l):
+#     'convert the list into a single string separate by ,'
+#     if (input_l == None) or (len(input_l) == 0):
+#         return ''
+#     else:
+#         return ','.join(list(input_l))
 
 def config_file_write(dst, filename, dataset):
+    ''' 
+    Create the config file for the training
+    -----------
+    input
+    dst: the destination were to save the file
+    dataset: the name of the dataset to train
+    '''
 
     #CREATE OBJECT
     config_file = configparser.ConfigParser()
@@ -70,14 +81,6 @@ def config_file_write(dst, filename, dataset):
         configfileObj.close()
     
     print("Config file 'configurations.ini' created")
-
-    #split_file = open(path.join(dst,filename + '_' + dataset + '.ini'),'w')
-    #split_file.write(split_file)
-    #split_file.close()
-
-    #print(' - Training: {} images'.format(len(train)))
-    #print(' - Validation: {} images'.format(len(validation)))
-    #print(' - Test: {} images'.format(len(test)))
 
 
 def save_split_file(dst, filename, dataset, train, validation, test):
@@ -111,10 +114,12 @@ def save_split_file(dst, filename, dataset, train, validation, test):
     split.set('split', 'validation', list_2_string(validation))
     split.set('split','test',list_2_string(test))
 
+    #SAVE THE FILE
     split_file = open(path.join(dst,filename + '_' + dataset + '.ini'),'w')
     split.write(split_file)
     split_file.close()
 
+    #IMPRIMO LA CANTIDAD DE IMAGENES PERTENECIENTES A CADA GRUPO
     print(' - Training: {} images'.format(len(train)))
     print(' - Validation: {} images'.format(len(validation)))
     print(' - Test: {} images'.format(len(test)))
@@ -122,15 +127,27 @@ def save_split_file(dst, filename, dataset, train, validation, test):
     return split
 
 class DataModuleClass(pl.LightningDataModule):
-    def __init__(self, data_path, split_file, dataset, num_workers=8):
+    '''
+    MODULO THE DATASET NECESARIO PARA EL ENTRENAMIENTO  CON PYTORCH LIGHTNING
+    INDICO COMO SE LEVANTAN LAS IMAGENES Y GENERO LOS DATALODER TANTO PARA ENTRENAMIENTOS, VALIDACION Y TEST
+    '''
+    def __init__(self, data_path, split_file, dataset, num_workers=4):
+        '''
+        INPUTS
+        data_path: path donde se encuentran los datos imagen/mascara
+        splt_file: archivo split que nos indica la division entre entrenamiento, validacion y test
+        dataset: nombre del dataset utilizado
+        num_workers: nmero de workers a utilizar
+        '''
         super().__init__()#train_transforms, val_transforms, test_transforms, dims
-        self.data_path=data_path
-        self.split_file=split_file
-
-        self.batch_size=5
         
-        #self.transform = transforms.Compose([transforms.ToTensor()])
+        #BATCH_SIZE
+        self.batch_size=5
+        #transform a utilizar, despues pasados por parametro por ahi
         self.transform = transforms.Compose([transforms.Normalize(mean=0,std=1)])
+
+        self.data_path = data_path 
+        self.split_file = split_file         
         self.dataset= dataset
         self.num_workes = num_workers
 
@@ -142,28 +159,29 @@ class DataModuleClass(pl.LightningDataModule):
         return
 
     def setup(self, stage=None):
-        '''Defin steps that shouls be done in every GPU, like splitting data
+        '''
+        Define steps that shouls be done in every GPU, like splitting data
         applying transforms, etc.
         Usually used to handle the task of loading the data'''
 
-        # img_paths = self.data_path + '/imagenes/' + self.dataset
-        # OD_paths = self.data_path + '/OD1/' + self.dataset
-        # OC_paths = self.data_path + '/OC/' + self.dataset
-
+        #OBTENGO EL NOMBRE DE LOS ARCHIVOS PERTENECIENTE A CADA GRUPO
+        #YA SEA ENTRENAMIENTO, VALIDACION O TEST
         #transformo el string del .ini en una arreglo de string
         tr_names = np.array((self.split_file['split']['training']).split(','))
         val_names = np.array((self.split_file['split']['validation']).split(','))
         test_names = np.array((self.split_file['split']['test']).split(','))
-        print('LEN: ', len(val_names))
+        
+        
         if len(val_names) < 2:
-            print('entra')
-            #en caso de no tener valores de validacion se separa 10% de los datos de train para validar
+            #EN CASO DE NO TENER VALORES PARA VALIDACION SE SEPARA EL 10% DE LOS
+            #VALORES DE ENTRENAMIENTO PARA VALIDAR
+
             n_val = int(len(tr_names) * 0.1)
             n_train = len(tr_names) - n_val
             val_names = tr_names[n_train:]
             tr_names = tr_names[:n_train]
 
-
+        #OBTENGO LOS PATHS THE IMAGENES Y MASCARAS
         img_paths = []
         OD_paths = []
         #OC_paths = []
@@ -178,14 +196,10 @@ class DataModuleClass(pl.LightningDataModule):
         #     OC_paths.insert(len(OC_paths),path)
 
 
+        #CREO QLE DATASET PARA LOS VALORES DE ENTRENAMIENTO VALIDACION Y TEST
         self.train_data = Dataset_proc(img_paths, OD_paths, tr_names)
         self.valid_data = Dataset_proc(img_paths, OD_paths, val_names)
         self.test_data = Dataset_proc(img_paths, OD_paths, test_names)
-
-        print('TRAINING NAMES: ', sorted(self.train_data.names))
-        print('VALIDATION NAMES: ', sorted(self.valid_data.names))
-
-        print('shape in setup data: ', ((self.train_data[0])[0]).size())
 
         return
 
@@ -206,52 +220,57 @@ class Dataset_proc(Dataset):
     def __init__(self,img_path, OD_path, split, augmentacion=None, scale=1):
         '''
         ---------------------------------
-        input:
+        input
         img_path: lista con los paths de las imagenes
         OD_path: lista con los paths de las mascaras de OD
+        split: nombre base de las imagenes pertenecientes al dataset
+        augmentacion: la augmentacion a aplicarse sobre los datos
+        ---------------------------------
         '''
-        # img_p = []
-        # self.OD_path = OD_path
-        # self.scale = scale
 
         paths = []
         masks= []
-        for i in range(len(img_path)):
+
+        #OBTENGO LOS PATHS THE LAS IMAGENES QUE PERTENECEN AL GRUPO QUE QUIERO
+        for i in range(len(img_path)): 
             base_name = ntpath.basename(img_path[i])
-            if base_name in split:
+            if base_name in split: 
                 paths.insert(len(paths),img_path[i])
                 masks.insert(len(masks),OD_path[i])
+
 
         self.paths = paths
         self.masks = masks
         self.names = split
 
-
-
-        self.preprocesamiento = transforms.Compose([transforms.Normalize(mean=0,std=1)])
-        #transforms.Resize(size=(512,512), interpolation=0)]) #, interpolation= <InterpolationMode.NEAREST>
-        #self.mask_preprocessing = transforms.ToTensor()
         self.augmentation = augmentacion
 
     
     def __len__(self):
+        '''
+        Devueve el tamano de datos pertenecientes al dataset
+        '''
         return len(self.paths)
 
     def __getitem__(self, index):
 
-        #print(ntpath.basename(self.paths[index]))
+        #LEO LA IMAGEN Y LA MASCARA, DEVUELVE 
+        # EN FORMATO TENSOR
         img = read_image(self.paths[index])
         OD_mask = read_image(self.masks[index])
 
-        #dejo la imagen mascara solo con valores 0/1
+        #DEJO LA MASCARA SOLO CON VALORES 0|1
         OD_mask[OD_mask>0] = 1
 
+        #APLICO LAS AUGMENTACIONES EN CASO DE HABER
         if self.augmentation != None:
             print('aumentacion')
 
         img = img.float()
-        #OD_mask = OD_mask.long()
 
+        #NORMALIZO LA IMAGEN, 
+        #Obtengo media y desvio por cada imagen y normalizo la imagen
+        #posteriormente la resizeo a un valor mas chico de 512,512
         mean_r = torch.mean(img[0,:,:])
         mean_g = torch.mean(img[1,:,:])
         mean_b = torch.mean(img[2,:,:])
@@ -260,10 +279,9 @@ class Dataset_proc(Dataset):
         std_g = torch.mean(img[1,:,:])
         std_b = torch.mean(img[2,:,:])
 
-        #print(img.size(), mean_r, mean_g, mean_b)
-
         img = F.normalize(img, [mean_r, mean_g, mean_b], [std_r,std_g, std_b]) #normalizo la imagen
 
+        #RE-ESCALO LAS IMAGENES A 512X512 
         img = self.scale_img(img, 512, 512)
         mask = self.scale_img(OD_mask, 512, 512)
 
@@ -275,10 +293,11 @@ class Dataset_proc(Dataset):
         ''' 
         retorna la imagen re escalada
         '''
-        scaledImg = F.resize(image, (width,height), interpolation=0)
-        #scaledImg = nnf.interpolate(image, (width,height), mode='nearest')
-        #scaledImg = cv2.resize(image, (width,height), interpolation= cv2.INTER_AREA)
+        scaledImg = F.resize(image, (width,height), interpolation=transforms.InterpolationMode.NEAREST)
         return scaledImg
+
+
+
 
 ##########################  test  ###############3
         

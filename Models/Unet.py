@@ -13,6 +13,7 @@ import pytorch_lightning as pl
 from data_processing import *
 from sklearn.metrics import f1_score,accuracy_score
 #import imageio as iio
+from PIL import Image
 
 class UnetConvBlock(nn.Module):
     def __init__(self, in_channels, out_channels,is_BN,dropout,activation='relu'):
@@ -119,11 +120,6 @@ class Unet(pl.LightningModule):
             self.is_deconv = bool(config['architecture']['is_deconv'])
         if 'batch-norm' in config['architecture']:
             self.is_batchnorm = bool(config['architecture']['batch_normalization'])
-        #if 'dropout' in config['training']:
-        #    self.dropout = float(config['training']['dropout'])
-        #if 'use-otsu' in config['experiment']:
-        #    self.use_otsu = bool(config['experiment']['use-otsu'])
-
 
         self.dropout = [0.0, 0.0, 0.0, 0.0, float(config['architecture']['dropout']), 0.0, 0.0, 0.0, 0.0]
         
@@ -142,7 +138,6 @@ class Unet(pl.LightningModule):
         filters_encoder = np.array(filters_encoder)
         filters_decoder = np.array(filters_decoder)
 
-        #print('FILTERS: ', filters_encoder, filters_decoder)
         activation = config['architecture']['activation']
         self.activation_fn = utils_model.get_activation_fn(activation)
         pooling = config['architecture']['pooling']
@@ -216,26 +211,28 @@ class Unet(pl.LightningModule):
         #print('Y_hat: ', y_hat.size(), y.size())
 
         loss = self.loss(y_hat,y) 
-        self.logger.experiment.add_scalar("Train Loss", loss,
+        self.logger.experiment.add_scalars("Loss", {'train loss': loss},
                                             self.global_step)
         
         y_arg = torch.argmax(y_hat,dim=1)
         acc = self.acc_metric(y,y_arg)
-        self.logger.experiment.add_scalar("Train Acc", acc,
+        self.logger.experiment.add_scalars("Acc", {' train acc' : acc},
                                             self.global_step)
         acc= torch.tensor(acc)
-        #print('LOSS: ', loss)
-        #print('ACC: ', acc)
+        #print('LOSS TRAINING: ', loss)
+
         return {'loss':loss, 'acc':acc}
 
     def training_epoch_end(self, outputs):
         avg_loss = torch.stack([x['loss'] for x in outputs]).mean()
-        self.logger.experiment.add_scalar("train_avg_loss",avg_loss,
-                                            self.global_step)
+
+        self.logger.experiment.add_scalars("Avg loss",{'train':avg_loss},
+                                            self.current_epoch)
 
         avg_acc = torch.stack([x['acc'] for x in outputs]).mean()
-        self.logger.experiment.add_scalar("train_avg_acc",avg_acc,
-                                            self.global_step)
+
+        self.logger.experiment.add_scalars("Avg acc",{'train' :avg_acc},
+                                            self.current_epoch)
 
     def validation_step(self, batch, batch_nb):
 
@@ -256,49 +253,109 @@ class Unet(pl.LightningModule):
         acc= torch.tensor(acc)
         dice= torch.tensor(dice)
 
-        self.logger.experiment.add_scalar("Valid_Loss", loss,
+        self.logger.experiment.add_scalars("Loss", {'Val loss' : loss},
                                             self.global_step)
 
         self.logger.experiment.add_scalar("Valid_DICE", dice,
         self.global_step)
 
-        self.logger.experiment.add_scalar("Valid_acc", acc,
+        self.logger.experiment.add_scalars("Acc", {'Val acc' : acc},
         self.global_step)
+
+        #print(f'\n VALIDATION LOSS: {loss} ON EPOCH {self.current_epoch} \n',)
+        #self.log('val_loss', loss)
+        self.log('dice', dice)
+
+
 
         return {'val_loss': loss, 'val_dice': dice, 'val_acc': acc}
 
     def validation_epoch_end(self, outputs):
 
         ''' al terminar la validacion se calcula el promedio de la loss de validacion'''
+        #print('OUTPUTS: ', outputs)
         avg_loss = torch.stack([x['val_loss'] for x in outputs]).mean()
-        self.logger.experiment.add_scalar("valid_avg_loss",avg_loss,
-                                            self.global_step)
+        self.logger.experiment.add_scalars("Avg loss",{'valid':avg_loss},
+                                            self.current_epoch
+                                             )
 
         avg_dice = torch.stack([x['val_dice'] for x in outputs]).mean()
         self.logger.experiment.add_scalar("valid_avg_dice",avg_dice,
-                                            self.global_step)
+                                            self.current_epoch)
 
         avg_acc = torch.stack([x['val_acc'] for x in outputs]).mean()
-        self.logger.experiment.add_scalar("valid_avg_acc",avg_acc,
-                                            self.global_step)
+        self.logger.experiment.add_scalars("Avg acc",{'valid':avg_acc},
+                                            self.current_epoch)
         x, y= self.valid_sample
         pred = self.forward(x)
         pred = self.softmax(pred)
         pred_arg = torch.argmax(pred, dim=1)
 
+        img = self.generate_img(pred_arg[0,:,:], y[0,:,:])
 
-        self.logger.experiment.add_image("Img", x[0,:,:,:], dataformats="CHW")
+        self.logger.experiment.add_image("Img", x[0,:,:,:] , dataformats="CHW")
         self.logger.experiment.add_image("ground truth", y[0,:,:], dataformats="HW")
         self.logger.experiment.add_image("predict", pred[0,1,:,:], dataformats="HW")
         self.logger.experiment.add_image("predict_arg", pred_arg[0,:,:], dataformats="HW")
+        self.logger.experiment.add_image("prediction", img, dataformats="CHW")
 
+        self.log('avg_val_loss', avg_loss)
+        print(f'\n VALIDATION AVG LOSS: {avg_dice} ON EPOCH {self.current_epoch} \n',)
+
+
+        
 
         return {'avg_val_loss': avg_loss, 'avg_val_dice': avg_dice}
 
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=0.1) 
 
+    def generate_img(self, pred, true):
+        ''' In this method we generate img for TP, FP ans FN
+        ------------------
+        input:
+        pred: img 2D with the prediction
+        true: img 2D with the ground truth
+        '''
+        #print('SHAPES: ', pred.size(), true.size())
+        TP = pred * true
+        FP = pred - true
+        FP[FP == -1] = 0
+        FN = true - pred
+        FN[FN == -1] = 0
 
+        #print('uniques: ', torch.unique(TP), torch.unique(FP), torch.unique(FN))
+        img = self.tensor_to_image(TP,FP,FN)
+
+        return img
+
+
+    def tensor_to_image(self,green, red, blue):
+
+        green = green*255
+        red = red*255
+        blue = blue*255
+
+        green = green.cpu()
+        red = red.cpu()
+        blue = blue.cpu()
+
+        #print('SHAPE ', green.shape, red.shape, blue.shape)
+
+        green = np.array(green, dtype=np.uint8)
+        red = np.array(red, dtype=np.uint8)
+        blue = np.array(blue, dtype=np.uint8)
+        #print('SHAPE arr ', green.shape, red.shape, blue.shape)
+
+
+        tensor = np.array([red,green,blue])
+
+        #print('SHAPE TENSOR ', tensor.shape)
+        #if np.ndim(tensor)>3:
+        #    assert tensor.shape[0] == 1
+        #    tensor = tensor[0]
+        #return Image.fromarray(tensor, 'RGB')
+        return tensor
 
     def dice_metric(self,gt, pred):
         '''
@@ -320,6 +377,7 @@ class Unet(pl.LightningModule):
 
     @staticmethod
     def add_model_specific_args(parent_parser):
+
         parser = parent_parser.add_argument_group("Unet")
         #parser.add_argument("--data_path", type=str, default="/some/path")
         #parser.add_argument("--data split", type=str, default='/some/path')

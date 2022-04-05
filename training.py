@@ -9,8 +9,9 @@ import torch.nn as nn
 
 from Models.Unet import Unet
 from pytorch_lightning import Trainer, seed_everything
-from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
+from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.loggers import TensorBoardLogger
+from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 #import tensorboard
 
 from data_processing.data_preprocesing import DataModuleClass
@@ -28,36 +29,40 @@ def main(config,hparams):
         dirpath=os.path.join(log_dir, 'checkpoints'),
         verbose=True,
     )
-    # stop_callback = EarlyStopping(
-
-
-    # )
 
     split_file = hparams.split + '/ODOC_segmentation_' + hparams.dataset + '.ini'
     config_split = ConfigParser()
     config_split.read(split_file)
 
+    #CREATE THE DATAMODULE CLASS
     dataMod = DataModuleClass(hparams.data_path,
             config_split,
             hparams.dataset)
-    #dataMod.setup()
 
-    # trainer = Trainer(
-    #     gpus=1,
-    #     checkpoint_callback=checkpoint_callback,
-    #     early_stop_callback=stop_callback,
-    # )
     seed_everything(42, workers=True)
 
-    logger = TensorBoardLogger('lightning_logs', name='drishti_model')
-    trainer = Trainer(auto_lr_find=False,
+    #CALLBACKS USED
+    early_stop_callback = EarlyStopping(monitor='dice', patience=3, verbose=True, mode='max') #Early stopping
+    callback= ModelCheckpoint(monitor='dice', mode='max', #GUARDA EL MEJOR MODELO
+            save_last=True, # GUARDA EL ULTIMO MODELO
+            save_weights_only=True) #GUARDA SOLAMENTE LOS PESOS DEL MODELO
+
+
+    logger = TensorBoardLogger('lightning_logs', name='drishti_model') #for the tensor board
+
+    #generate the trainer
+    trainer = Trainer(
+            callbacks=[callback, early_stop_callback], #add callbacks
+            auto_lr_find=True,
             auto_scale_batch_size= False,
             max_epochs=30, 
             accelerator="gpu",
             gpus=1,
-            logger=logger,
-            log_every_n_steps=2,
-            fast_dev_run=False) #correra un unico batch, para testear si el modelo anda
+            logger=logger, #logger for the tensorboard
+            log_every_n_steps=5,
+            fast_dev_run=False) #if True, correra un unico batch, para testear si el modelo anda
+
+    #train the model
     trainer.fit(model,dataMod)
 
 if __name__ == '__main__':
