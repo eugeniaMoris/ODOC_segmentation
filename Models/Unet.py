@@ -16,10 +16,23 @@ from sklearn.metrics import f1_score,accuracy_score
 from PIL import Image
 
 class UnetConvBlock(nn.Module):
+
+    '''
+    Bloque de la Unet, la misma consiste en un conjunto de 2 capas convolucionales
+    '''
     def __init__(self, in_channels, out_channels,is_BN,dropout,activation='relu'):
+        '''
+        input:
+        in_channels: size of the input
+        out_channels: size of the output
+        is_BN: (bool) True if we want to use Batch Normalization
+        dropout: value of dropout to use
+        activation: (str) the type of activation fuction to use in the block
+        '''
+                
         super(UnetConvBlock,self).__init__()
 
-        #primer conv
+        #FIRST CONV LAYER
         conv1 = nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=3, stride=1, padding=1, bias=not(is_BN)) #si hay BatchNormalization queda en False
         activation_1 = utils_model.get_activation_fn(activation)
         
@@ -28,7 +41,7 @@ class UnetConvBlock(nn.Module):
         else:
             self.conv1 = nn.Sequential(conv1, activation_1)
 
-        #segundo conv
+        #SECOND CONV LAYER
         conv2 = nn.Conv2d(in_channels= out_channels, out_channels=out_channels, kernel_size=3, stride=1, padding=1, bias=not(is_BN))
         activation_2 = utils_model.get_activation_fn(activation)
         
@@ -37,6 +50,7 @@ class UnetConvBlock(nn.Module):
         else:
             self.conv2 = nn.Sequential(conv2, activation_2)
 
+        #DROPOUT
         if dropout > 0.0:
             self.drop = nn.Dropout(dropout)
         else:
@@ -44,6 +58,9 @@ class UnetConvBlock(nn.Module):
 
     
     def forward(self, x):
+        '''
+        Foward function of the U-net block
+        '''
         output= self.conv1(x)
         output = self.conv2(output)
 
@@ -54,7 +71,7 @@ class UnetConvBlock(nn.Module):
 
 class UnetUpsampling(nn.Module):
     '''
-    constructor del upsampling block
+    Construction of the upsampling block
     TransposeConvolution / Upsampling
     Convolutional block
     '''
@@ -63,7 +80,7 @@ class UnetUpsampling(nn.Module):
         super(UnetUpsampling, self).__init__()
 
         if is_deconv: #we need a transposeConv (agrandamos el input)
-            #primero un convolution transpose seguido de una convolucion simple
+            #first a convolution transpose following by a simpler convolucion layer
             self.up = nn.ConvTranspose2d(upsample_size,upsample_size,kernel_size=2,stride=2)
             conv = nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=1, padding=1, bias=not(is_BN))
             activation1 = utils_model.get_activation_fn(activation)
@@ -77,6 +94,7 @@ class UnetUpsampling(nn.Module):
             #first a upersamplig operation and then a convolutional block
             self.up = nn.Upsample(scale_factor=2)
             self.conv = UnetConvBlock(in_channels, out_channels, is_BN, dropout, activation)
+        
         #ver despues porque algunos es con deconv y porque otros no 
         #sera para el ultimo conv?
 
@@ -98,6 +116,13 @@ class UnetUpsampling(nn.Module):
 
 class Unet(pl.LightningModule):
     def __init__(self, config, loss):
+        '''
+        Unet architecture
+        ----------------------
+        input
+        config: config file with configuration of the model
+        loss: loss function to use in the model
+        ----------------------'''
         super(Unet, self).__init__()
         self.loss = loss
         self.config=config
@@ -105,7 +130,7 @@ class Unet(pl.LightningModule):
         #METRICS
         
         self.name='model'
-        self.n_classes = 2
+        self.n_classes = 2 #we have a mask with 0|1
         self.is_deconv = False
         self.is_BN = True
         self.dropout = 0.0
@@ -123,17 +148,17 @@ class Unet(pl.LightningModule):
 
         self.dropout = [0.0, 0.0, 0.0, 0.0, float(config['architecture']['dropout']), 0.0, 0.0, 0.0, 0.0]
         
+        #de mas grande a mas chico
         filters_e=config['architecture']['filters_encoder'].split(',')
-        print(filters_e)
         filters_encoder=[]
         for f in filters_e:
             filters_encoder.insert(len(filters_encoder),int(f))
 
+        # de mas chico a mas grande
         filters_d=config['architecture']['filters_decoder'].split(',')
         filters_decoder=[]
         for f in filters_d:
             filters_decoder.insert(len(filters_decoder),int(f))
-        
         
         filters_encoder = np.array(filters_encoder)
         filters_decoder = np.array(filters_decoder)
@@ -141,6 +166,8 @@ class Unet(pl.LightningModule):
         activation = config['architecture']['activation']
         self.activation_fn = utils_model.get_activation_fn(activation)
         pooling = config['architecture']['pooling']
+
+        #ARCHITECTURE
 
         #DOWNSAMPLING
         #dconv = down conv
@@ -167,15 +194,11 @@ class Unet(pl.LightningModule):
         self.final = nn.Conv2d(int(filters_decoder[0]), self.n_classes, 1)
 
     def forward(self, inputs):
-        #print('INPUT SIZE: ', inputs.size())
-        #print('EPOCH: ',self.current_epoch )
-        #batch_size, _, _, _ = inputs.size()
-
-        #x = inputs.view(batch_size, -1)
-
+        '''
+        UNET FORWARD FUNCTION
+        '''
         #downsampling
         dconv1 = self.dconv1(inputs)
-        #dconv1 = self.dconv1(x)
         pool1  = self.pool1( dconv1)
         dconv2 = self.dconv2( pool1)
         pool2  = self.pool2( dconv2)
@@ -195,166 +218,160 @@ class Unet(pl.LightningModule):
 
         final = self.final(uconv1)
 
-        #print('FINAL SHAPE: ', final.size())
         return final
 
     def training_step(self, batch, batch_nb):
-        #if(self.current_epoch==1):
-            #sampleImg=torch.rand((1,1,28,28))
-            #self.logger.experiment.add_graph(Unet(self.config,self.loss),sampleImg)
-
+        '''
+        training step inside the training loop
+        it is made it for each batch of data'''
 
         x,y = batch
-        #print('TRAINING STE: ', x.size())
-
         y_hat = self.forward(x)
-        #print('Y_hat: ', y_hat.size(), y.size())
 
-        loss = self.loss(y_hat,y) 
-        self.logger.experiment.add_scalars("Loss", {'train loss': loss},
-                                            self.global_step)
+        #calculate the error/loss of the classification
+        loss = self.loss(y_hat,y)  
+
+        #SAVE METRICS IN THE TENSORBOARD
+        self.logger.experiment.add_scalars("Loss", {'train loss': loss}, self.global_step)
         
-        y_arg = torch.argmax(y_hat,dim=1)
-        acc = self.acc_metric(y,y_arg)
-        self.logger.experiment.add_scalars("Acc", {' train acc' : acc},
-                                            self.global_step)
-        acc= torch.tensor(acc)
-        #print('LOSS TRAINING: ', loss)
+        #IN CASE WE WANT TO SAVE ACC
+        #y_arg = torch.argmax(y_hat,dim=1)
+        #acc = self.acc_metric(y,y_arg)
+        #acc= torch.tensor(acc)
+        #self.logger.experiment.add_scalars("Acc", {' train acc' : acc}, self.global_step)
 
-        return {'loss':loss, 'acc':acc}
+        return {'loss':loss}
 
     def training_epoch_end(self, outputs):
+        '''
+        Function called at the end of the training loop in one epoch
+        outputs: values saved in the return of the training_step'''
+
         avg_loss = torch.stack([x['loss'] for x in outputs]).mean()
-
-        self.logger.experiment.add_scalars("Avg loss",{'train':avg_loss},
-                                            self.current_epoch)
-
-        avg_acc = torch.stack([x['acc'] for x in outputs]).mean()
-
-        self.logger.experiment.add_scalars("Avg acc",{'train' :avg_acc},
-                                            self.current_epoch)
+        self.logger.experiment.add_scalars("Avg loss",{'train':avg_loss}, self.current_epoch) #graph in tensorboard
 
     def validation_step(self, batch, batch_nb):
+        '''
+        Operates on a single batch of data from the validation set. In this step you'd might generate 
+        examples or calculate anything of interest like Dice.
+        '''
 
         x, y= batch
 
+        #save the first validation batch for a future prediction
         if(self.current_epoch==0):
             self.valid_sample = x,y
 
-        #print('\n VALIDATION STE: ', y.size())
         y_hat= self.forward(x)
-        loss = self.loss(y_hat,y)
-        #calcular la dice 
 
+        #CALCULATE DICE
+        loss = self.loss(y_hat,y)
+        
+        #CALCULATE DICE
         y_arg = torch.argmax(y_hat,dim=1)
         dice = self.dice_metric(y,y_arg)
-        acc = self.acc_metric(y,y_arg)
-
-        acc= torch.tensor(acc)
         dice= torch.tensor(dice)
 
-        self.logger.experiment.add_scalars("Loss", {'Val loss' : loss},
-                                            self.global_step)
+        self.logger.experiment.add_scalars("Loss", {'Val loss' : loss}, self.global_step)
 
-        self.logger.experiment.add_scalar("Valid_DICE", dice,
-        self.global_step)
+        self.logger.experiment.add_scalar("Valid_DICE", dice, self.global_step)
 
-        self.logger.experiment.add_scalars("Acc", {'Val acc' : acc},
-        self.global_step)
+        #SAVE THE LOG FOR THE CALLBACK FOR EARLY STOPPING AND FOR SAVE THE BEST MODEL IN FUNCTION OF THE DICE IN VALIDATION
+        self.log('dice', dice) 
 
-        #print(f'\n VALIDATION LOSS: {loss} ON EPOCH {self.current_epoch} \n',)
-        #self.log('val_loss', loss)
-        self.log('dice', dice)
-
-
-
-        return {'val_loss': loss, 'val_dice': dice, 'val_acc': acc}
+        return {'val_loss': loss, 'val_dice': dice}
 
     def validation_epoch_end(self, outputs):
 
         ''' al terminar la validacion se calcula el promedio de la loss de validacion'''
-        #print('OUTPUTS: ', outputs)
+
+        
         avg_loss = torch.stack([x['val_loss'] for x in outputs]).mean()
-        self.logger.experiment.add_scalars("Avg loss",{'valid':avg_loss},
-                                            self.current_epoch
-                                             )
-
         avg_dice = torch.stack([x['val_dice'] for x in outputs]).mean()
-        self.logger.experiment.add_scalar("valid_avg_dice",avg_dice,
-                                            self.current_epoch)
+        
+        #SAVE THE VALUE IN TENSORBOARD
+        self.logger.experiment.add_scalars("Avg loss",{'valid':avg_loss}, self.current_epoch)
+        self.logger.experiment.add_scalar("valid_avg_dice",avg_dice, self.current_epoch)
 
-        avg_acc = torch.stack([x['val_acc'] for x in outputs]).mean()
-        self.logger.experiment.add_scalars("Avg acc",{'valid':avg_acc},
-                                            self.current_epoch)
+        #TAKE THE FIRST VALIDATION BATCH SAVED AND PREDICT THE FIRST SAMPLE
         x, y= self.valid_sample
         pred = self.forward(x)
-        pred = self.softmax(pred)
-        pred_arg = torch.argmax(pred, dim=1)
 
+        #IN THE PREDICTION WITHOUT LOSS CALCULATION WE NEED TO ADD THE SOFTMAX LAYER
+        pred = self.softmax(pred) #WE HAD THE PROBABILITIES 
+        pred_arg = torch.argmax(pred, dim=1) #BINARY IMAGE OF THE SEGMENTATION
+
+        #WE GENERATE THE IMAGE OF THE SEGMENTATION WITH THE tp, fp AND fn
         img = self.generate_img(pred_arg[0,:,:], y[0,:,:])
 
+        #SAVE THE IMAGES IN TENSORBOARD
         self.logger.experiment.add_image("Img", x[0,:,:,:] , dataformats="CHW")
         self.logger.experiment.add_image("ground truth", y[0,:,:], dataformats="HW")
         self.logger.experiment.add_image("predict", pred[0,1,:,:], dataformats="HW")
         self.logger.experiment.add_image("predict_arg", pred_arg[0,:,:], dataformats="HW")
         self.logger.experiment.add_image("prediction", img, dataformats="CHW")
 
+        #IN CASE WE WANT TO SEE DE VALIDATION LOSS FOR EARLY STOPPING
         self.log('avg_val_loss', avg_loss)
-        print(f'\n VALIDATION AVG LOSS: {avg_dice} ON EPOCH {self.current_epoch} \n',)
-
-
-        
-
+     
         return {'avg_val_loss': avg_loss, 'avg_val_dice': avg_dice}
 
     def configure_optimizers(self):
+        '''
+        Configuration of the opimizer used in the model
+        '''
         return torch.optim.Adam(self.parameters(), lr=0.1) 
 
     def generate_img(self, pred, true):
-        ''' In this method we generate img for TP, FP ans FN
+        '''
+         In this method we generate img for TP, FP ans FN
         ------------------
         input:
         pred: img 2D with the prediction
         true: img 2D with the ground truth
+        ----------------
+        output
+        a 3D image
+        in red dimension we mark the FP
+        in green dimension we mark the TP
+        in Blue dimension we wark the FN 
         '''
-        #print('SHAPES: ', pred.size(), true.size())
-        TP = pred * true
-        FP = pred - true
+
+        TP = pred * true #both images got 1
+        FP = pred - true #is in prediction but not in true
         FP[FP == -1] = 0
-        FN = true - pred
+        FN = true - pred #is in true but not in prediction
         FN[FN == -1] = 0
 
-        #print('uniques: ', torch.unique(TP), torch.unique(FP), torch.unique(FN))
         img = self.tensor_to_image(TP,FP,FN)
 
         return img
 
 
     def tensor_to_image(self,green, red, blue):
-
+        '''
+        We want to transform a tensor into a image
+        ---------------------
+        input
+        green: information for the green dimension
+        red: information fot the red dimension
+        blue: information for the blue dimension
+        '''
         green = green*255
         red = red*255
         blue = blue*255
 
+        #as we want to use numpy we need to go into a cpu instead of gpu
         green = green.cpu()
         red = red.cpu()
         blue = blue.cpu()
 
-        #print('SHAPE ', green.shape, red.shape, blue.shape)
-
         green = np.array(green, dtype=np.uint8)
         red = np.array(red, dtype=np.uint8)
         blue = np.array(blue, dtype=np.uint8)
-        #print('SHAPE arr ', green.shape, red.shape, blue.shape)
-
 
         tensor = np.array([red,green,blue])
 
-        #print('SHAPE TENSOR ', tensor.shape)
-        #if np.ndim(tensor)>3:
-        #    assert tensor.shape[0] == 1
-        #    tensor = tensor[0]
-        #return Image.fromarray(tensor, 'RGB')
         return tensor
 
     def dice_metric(self,gt, pred):
@@ -377,6 +394,10 @@ class Unet(pl.LightningModule):
 
     @staticmethod
     def add_model_specific_args(parent_parser):
+
+        '''
+        dont used
+        but if we want to take parameter for the console we can use this'''
 
         parser = parent_parser.add_argument_group("Unet")
         #parser.add_argument("--data_path", type=str, default="/some/path")
