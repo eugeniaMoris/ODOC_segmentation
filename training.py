@@ -4,6 +4,9 @@ from argparse import ArgumentParser
 from configparser import ConfigParser
 #from posixpath import split
 import torch.nn as nn
+import torchvision.transforms as transforms
+from Models.Augmentation import *
+import numpy as np
 
 #from numpy import dtype, lookfor
 
@@ -15,10 +18,12 @@ from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 #import tensorboard
 
 from data_processing.data_preprocesing import DataModuleClass
+import matplotlib.pyplot as plt
 
 def main(config,hparams):
     loss = nn.CrossEntropyLoss()
-    model = Unet(config, loss)
+    model = Unet(config, loss, hparams.dataset)
+
     
     os.makedirs(hparams.log_dir, exist_ok=True)
     try:
@@ -35,9 +40,11 @@ def main(config,hparams):
     config_split.read(split_file)
 
     #CREATE THE DATAMODULE CLASS
-    dataMod = DataModuleClass(hparams.data_path,
-            config_split,
-            hparams.dataset)
+    composed= transforms.Compose([Hflip(.5), Vflip(.5), GaussianBlur(),ColorJitter(), RandomAffine(degrees=(0,180),translate=[1,1],scale=(.8,1.2)),ToTensor()])
+
+    dataMod = DataModuleClass(data_path= hparams.data_path,
+            split_file= config_split,
+            dataset= hparams.dataset)
 
     seed_everything(42, workers=True)
 
@@ -53,7 +60,7 @@ def main(config,hparams):
     #generate the trainer
     trainer = Trainer(
             callbacks=[callback, early_stop_callback], #add callbacks
-            auto_lr_find=True,
+            auto_lr_find=False,
             auto_scale_batch_size= False,
             max_epochs=30, 
             accelerator="gpu",
@@ -64,6 +71,8 @@ def main(config,hparams):
 
     #train the model
     trainer.fit(model,dataMod)
+    trainer.validate(datamodule=dataMod,ckpt_path='best',verbose=True)
+    trainer.predict(model= model,ckpt_path='best', datamodule=dataMod)
 
 if __name__ == '__main__':
     parser = ArgumentParser(add_help=False)
@@ -81,3 +90,59 @@ if __name__ == '__main__':
 
 
     main(config,hparams)
+
+
+
+#CREATE THE DATAMODULE CLASS
+
+sf ='/mnt/Almacenamiento/ODOC_segmentation/split'
+split_file = sf + '/ODOC_segmentation_' + 'DRISHTI' + '.ini'
+config_split = ConfigParser()
+config_split.read(split_file)
+
+#composed =None
+#composed= transforms.Compose([ToTensor()])
+#composed= transforms.Compose([Hflip(.5),ToTensor()])
+#composed= transforms.Compose([Hflip(.5), Vflip(.5), GaussianBlur(), ToTensor()])
+#composed= transforms.Compose([Hflip(.5), Vflip(.5), RandomAffine(degrees=(0,0.5),translate=(0.2,0.2),scale=(0.8,1.2)),ToTensor()])
+#composed= transforms.Compose([Hflip(.5), Vflip(.5), GaussianBlur(),ColorJitter(), RandomAffine(degrees=(0,10),translate=(1,1),scale=(0,10)),ToTensor()])
+composed= transforms.Compose([Hflip(.5), Vflip(.5), GaussianBlur(),ColorJitter(), RandomAffine(degrees=(0,180),translate=[1,1],scale=(.8,1.2)),ToTensor()])
+
+
+
+dataMod = DataModuleClass(data_path= '/mnt/Almacenamiento/ODOC_segmentation/data',
+        split_file= config_split,
+        dataset= 'DRISHTI',
+        aumentation= composed)
+
+dataMod.setup()
+print(dataMod)
+dataset = dataMod.train_dataloader()
+images, labels,name,_ = next(iter(dataset))
+#x,y,_,_ = data_iter.next()
+
+img1 = images[0,:,:,:].cpu()
+img1 = img1.clip(0,1)
+img1 = np.transpose(img1, (1,2,0))
+
+img2 = images[1,:,:,:].cpu()
+img2 = img2.clip(0,255)
+img2 = np.transpose(img2, (1,2,0))
+#img2 = img2 * 255
+
+img3 = images[2,:,:,:].cpu()
+img3 = img3.clip(0,255)
+img3 = np.transpose(img3, (1,2,0))
+#img3 = img3 * 255
+
+fig, (ax0, ax1,ax2,ax3,ax4,ax5) = plt.subplots(1, 6)
+ax0.imshow(img1)
+ax1.imshow(labels[0,:,:])
+ax2.imshow(img2)
+ax3.imshow(labels[1,:,:])
+ax4.imshow(img3)
+ax5.imshow(labels[2,:,:])
+fig.suptitle(name[0] + name[1] + name[2])
+
+
+plt.show()

@@ -1,19 +1,23 @@
 #from random import random
 #from typing import Final
 #from warnings import filters
+from unicodedata import name
 import numpy as np
+from sklearn.preprocessing import scale
 #import tensorboard
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-#from torchvision.utils import save_image
+import torchvision.transforms.functional as FT
+from torchvision.utils import save_image
 #from torch.utils.data import DataLoader, random_split
 from . import utils_model
 import pytorch_lightning as pl
 from data_processing import *
 from sklearn.metrics import f1_score,accuracy_score
-#import imageio as iio
+import imageio as iio
 from PIL import Image
+import torchvision.transforms as transforms
 
 class UnetConvBlock(nn.Module):
 
@@ -115,7 +119,7 @@ class UnetUpsampling(nn.Module):
         return self.conv(torch.cat([from_skip_connection,rescaled_input],1))
 
 class Unet(pl.LightningModule):
-    def __init__(self, config, loss):
+    def __init__(self, config, loss, model_name):
         '''
         Unet architecture
         ----------------------
@@ -129,14 +133,15 @@ class Unet(pl.LightningModule):
         self.softmax = nn.Softmax(dim=1)
         #METRICS
         
-        self.name='model'
+        self.name= model_name
         self.n_classes = 2 #we have a mask with 0|1
         self.is_deconv = False
         self.is_BN = True
         self.dropout = 0.0
         self.use_otsu = False 
 
-        self.valid_sample = None       
+        self.valid_sample = None     
+        self.count = 0  
 
         # change configuration if available in the file
         if 'n_classes' in config['architecture']:
@@ -225,7 +230,7 @@ class Unet(pl.LightningModule):
         training step inside the training loop
         it is made it for each batch of data'''
 
-        x,y = batch
+        x,y, names, shapes = batch
         y_hat = self.forward(x)
 
         #calculate the error/loss of the classification
@@ -256,11 +261,11 @@ class Unet(pl.LightningModule):
         examples or calculate anything of interest like Dice.
         '''
 
-        x, y= batch
+        x, y, names, shapes= batch
 
         #save the first validation batch for a future prediction
         if(self.current_epoch==0):
-            self.valid_sample = x,y
+            self.valid_sample = x,y, names, shapes
 
         y_hat= self.forward(x)
 
@@ -294,7 +299,7 @@ class Unet(pl.LightningModule):
         self.logger.experiment.add_scalar("valid_avg_dice",avg_dice, self.current_epoch)
 
         #TAKE THE FIRST VALIDATION BATCH SAVED AND PREDICT THE FIRST SAMPLE
-        x, y= self.valid_sample
+        x, y, names, shapes = self.valid_sample
         pred = self.forward(x)
 
         #IN THE PREDICTION WITHOUT LOSS CALCULATION WE NEED TO ADD THE SOFTMAX LAYER
@@ -305,7 +310,7 @@ class Unet(pl.LightningModule):
         img = self.generate_img(pred_arg[0,:,:], y[0,:,:])
 
         #SAVE THE IMAGES IN TENSORBOARD
-        self.logger.experiment.add_image("Img", x[0,:,:,:] , dataformats="CHW")
+        self.logger.experiment.add_image("Img" + names[0], x[0,:,:,:] , dataformats="CHW")
         self.logger.experiment.add_image("ground truth", y[0,:,:], dataformats="HW")
         self.logger.experiment.add_image("predict", pred[0,1,:,:], dataformats="HW")
         self.logger.experiment.add_image("predict_arg", pred_arg[0,:,:], dataformats="HW")
@@ -315,6 +320,53 @@ class Unet(pl.LightningModule):
         self.log('avg_val_loss', avg_loss)
      
         return {'avg_val_loss': avg_loss, 'avg_val_dice': avg_dice}
+
+    def predict_step(self, batch, batch_idx):
+        '''
+        By default, the predict_step() method runs the forward() method. 
+        In order to customize this behaviour, simply override the predict_step() method.
+        '''
+        dst_path = '/mnt/Almacenamiento/ODOC_segmentation/predicted/'
+        x,y, names, shapes = batch
+        y_hat = self.forward(x)
+        pred = self.softmax(y_hat)
+        pred_arg = torch.argmax(pred, dim=1) #BINARY IMAGE OF THE SEGMENTATION
+
+        batch_s, c, h, w = x.size()
+        for b in range(batch_s):
+            name = 'pred_' + names[b] #NAME OF THE FILE
+            self.count = self.count + 1
+
+
+            img = (x[b,:,:,:] * 255).cpu()
+            img = np.transpose(img, (1,2,0))
+            img = np.clip(img, 0, 255)
+
+            probability= (pred[b,1,:,:] * 255).cpu()
+            probability = np.clip(probability, 0, 255)
+
+            deep, h, w = shapes[0][b], shapes[1][b], shapes[2][b]
+            deep = int(deep)
+            h= int(h)
+            w= int(w)
+            #print('PROPABILITY SHAPE: ', probability.shape, (h,w))
+            #scale = F.interpolate(probability,(h,w), mode='nearest')
+            scaledImg = FT.resize(pred[b,:,:,:], (h,w), interpolation=transforms.InterpolationMode.NEAREST)
+            #print('SCALED FINAL SHAPE: ', scaledImg.shape)
+
+            #DEVOLVER A SIZE ANTES DE PASAR A BIANRIO
+
+            binary = (torch.argmax(scaledImg, dim=0)).cpu()
+
+
+            iio.imsave(dst_path + self.name +  '/binary/' + name, binary)
+            iio.imsave(dst_path + self.name +  '/img/' + name, img)
+            iio.imsave(dst_path + self.name +  '/probability/' + name, probability)
+
+            #iio.imsave(dst_path + 'tp_fp_fn/' + name + '.png', tp_fp_fn)
+
+
+        return
 
     def configure_optimizers(self):
         '''
