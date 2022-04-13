@@ -27,6 +27,8 @@ class Hflip():
         self.probability= probability
 
     def __call__(self,sample):
+
+        print('SE APLICO HFLIP')
         inputs, target = sample
 
         rand = torch.rand(1)
@@ -42,6 +44,8 @@ class Vflip():
         self.probability = probability
     
     def __call__(self, sample):
+
+        print('SE APLICO VFLIP')
         inputs, target = sample
         rand = torch.rand(1)
 
@@ -59,6 +63,7 @@ class GaussianBlur:
         self.sigma= sigma
 
     def __call__(self, sample):
+        print('SE APLICO GAUSSIAN BLUR')
         inputs, target = sample
         blurrer = transforms.GaussianBlur(self.kernel_size, self.sigma)
         new_input = blurrer(inputs)
@@ -75,6 +80,7 @@ class ColorJitter():
         
 
     def __call__(self, sample):
+        print('SE APLICO COLOR JITTERING')
         inputs, target = sample
         #get value random of the range
         bmin,bmax = self.brightness_range
@@ -102,6 +108,7 @@ class RandomAffine():
         self.scale= scale
 
     def __call__(self, sample):
+        print('SE APLICO RANDOM AFFINE')
         inputs, target = sample
         dmin,dmax = self.degrees
         tmin, tmax = self.translate

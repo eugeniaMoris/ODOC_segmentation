@@ -22,6 +22,8 @@ import matplotlib.pyplot as plt
 import imageio as iio
 from PIL import Image
 
+from Models.Augmentation import ToTensor
+
 def show(imgs):
 
     if not isinstance(imgs, list):
@@ -133,12 +135,14 @@ class DataModuleClass(pl.LightningDataModule):
     MODULO THE DATASET NECESARIO PARA EL ENTRENAMIENTO  CON PYTORCH LIGHTNING
     INDICO COMO SE LEVANTAN LAS IMAGENES Y GENERO LOS DATALODER TANTO PARA ENTRENAMIENTOS, VALIDACION Y TEST
     '''
-    def __init__(self, data_path,  dataset, aumentation, batch_size= 5,split_file=None, num_workers=4):
+    def __init__(self, data_path,  dataset, aumentation, probabilities= None, batch_size= 5,split_file=None, num_workers=0):
         '''
         INPUTS
         data_path: path donde se encuentran los datos imagen/mascara
-        splt_file: archivo split que nos indica la division entre entrenamiento, validacion y test
         dataset: nombre del dataset utilizado
+        aumentation: transforms to apply in the datasets
+        probabilities: probabilities of each transform to be apply. list with the same len than aumentation
+        splt_file: archivo split que nos indica la division entre entrenamiento, validacion y test
         num_workers: nmero de workers a utilizar
         '''
         super().__init__()#train_transforms, val_transforms, test_transforms, dims
@@ -147,6 +151,7 @@ class DataModuleClass(pl.LightningDataModule):
         self.batch_size=batch_size
         #transform a utilizar, despues pasados por parametro por ahi
         self.transform = aumentation
+        self.probabilities = probabilities
 
         self.data_path = data_path 
         self.split_file = split_file         
@@ -202,7 +207,7 @@ class DataModuleClass(pl.LightningDataModule):
         if self.split_file != None:
 
             #CREO QLE DATASET PARA LOS VALORES DE ENTRENAMIENTO VALIDACION Y TEST
-            self.train_data = Dataset_proc(img_paths,OD_path= OD_paths, split= tr_names, dataset = self.dataset, augmentacion=self.transform)
+            self.train_data = Dataset_proc(img_paths,OD_path= OD_paths, split= tr_names, dataset = self.dataset, augmentacion=self.transform, probabilities= self.probabilities)
             self.valid_data = Dataset_proc(img_paths,OD_path= OD_paths,  split= val_names, dataset= self.dataset, augmentacion=None) #EN VALICACION TAMBIRN?
             self.test_data = Dataset_proc(img_paths,OD_path= OD_paths, split= test_names, dataset= self.dataset, augmentacion=None)
 
@@ -229,7 +234,7 @@ class DataModuleClass(pl.LightningDataModule):
 
 
 class Dataset_proc(Dataset):
-    def __init__(self,img_path, dataset, OD_path= None, split= [], augmentacion=None, scale=1):
+    def __init__(self,img_path, dataset, OD_path= None, split= [], augmentacion=None,probabilities=None, scale=1):
         '''
         ---------------------------------
         input
@@ -246,6 +251,11 @@ class Dataset_proc(Dataset):
         self.split = split
         self.dataset = dataset
         self.transform = augmentacion
+        self.probabilities = probabilities
+
+        #ARREGLO DE TRANSFORMACIONES 
+        #ARREGLO DE PROBABILIDADES
+        #SI RANDOM ES MEJOR A PROBABILIDAD SE AGREGA LA TRANSFORMACION AL COMPOSE
 
         if len(split) > 2:
             #OBTENGO LOS PATHS THE LAS IMAGENES QUE PERTENECEN AL GRUPO QUE QUIERO
@@ -285,9 +295,7 @@ class Dataset_proc(Dataset):
         img = Image.open(self.paths[index])
 
         mask= self.masks
-        #shape = img.shape
         shape = img.size
-        #print('SHAPE IN THE GET ITEM: ', shape)
         
         if mask != []:
 
@@ -297,14 +305,20 @@ class Dataset_proc(Dataset):
 
         #APLICO LAS AUGMENTACIONES EN CASO DE HABER
         if self.transform:
-            #apply an array of probability for the selections of the augmentation to do
-            
-            img, OD_mask = self.transform((img,OD_mask))
 
-            print('IMG SHAPE AND MASK SHAPE: ', img.size(), OD_mask.size())
+            #DARLE UNA PROBABILIDAD DE QUE NO TOME TODAS LAS TRANSFOMRACIONES
+            #PREGUNTAR QUE SI NO HAY PROBABILIDADES SE APLICA TODOS
             
+            probabilities = self.probabilities
+            all_transforms = self.transform
             
-
+            #apply an array of probability for the selections of the augmentation to do or not
+            for i in range(len(probabilities)):
+                rand = torch.rand(1)
+                if float(rand) < probabilities[i]:
+                    tr = all_transforms[i]
+                    img, OD_mask = tr((img,OD_mask))
+            
         img = img.float()
         shape = img.size()
 

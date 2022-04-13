@@ -5,6 +5,7 @@ from configparser import ConfigParser
 #from posixpath import split
 import torch.nn as nn
 import torchvision.transforms as transforms
+from yaml import compose
 from Models.Augmentation import *
 import numpy as np
 
@@ -41,7 +42,9 @@ def main(config,hparams):
 
     #CREATE THE DATAMODULE CLASS
     composed= transforms.Compose([Hflip(.5), Vflip(.5), GaussianBlur(),ColorJitter(), RandomAffine(degrees=(0,180),translate=[1,1],scale=(.8,1.2)),ToTensor()])
-
+    transform = [Hflip(.5), Vflip(.5), GaussianBlur(),ColorJitter(), RandomAffine(degrees=(0,180),translate=[1,1],scale=(.8,1.2)),ToTensor()]
+    probabilities = [0.5, 0.5, 0.5,0.5,0.5,1]
+    
     dataMod = DataModuleClass(data_path= hparams.data_path,
             split_file= config_split,
             dataset= hparams.dataset)
@@ -74,75 +77,78 @@ def main(config,hparams):
     trainer.validate(datamodule=dataMod,ckpt_path='best',verbose=True)
     trainer.predict(model= model,ckpt_path='best', datamodule=dataMod)
 
-if __name__ == '__main__':
-    parser = ArgumentParser(add_help=False)
-    parser.add_argument('--data_path', default='/mnt/Almacenamiento/ODOC_segmentation/data')
-    parser.add_argument('--split', default='/mnt/Almacenamiento/ODOC_segmentation/split')
-    parser.add_argument('--config',type=str, help='full path and file name of config file', default='/mnt/Almacenamiento/ODOC_segmentation/codigo/DRISHTI_configuration.ini')
-    parser.add_argument('--dataset',required=True, type=str)
-    parser.add_argument('--log_dir', default='lightning_logs')
-    hparams = parser.parse_args()
+# if __name__ == '__main__':
+#     parser = ArgumentParser(add_help=False)
+#     parser.add_argument('--data_path', default='/mnt/Almacenamiento/ODOC_segmentation/data')
+#     parser.add_argument('--split', default='/mnt/Almacenamiento/ODOC_segmentation/split')
+#     parser.add_argument('--config',type=str, help='full path and file name of config file', default='/mnt/Almacenamiento/ODOC_segmentation/codigo/DRISHTI_configuration.ini')
+#     parser.add_argument('--dataset',required=True, type=str)
+#     parser.add_argument('--log_dir', default='lightning_logs')
+#     hparams = parser.parse_args()
 
-    #READ CONFIG FILE
-    config = ConfigParser()
-    config.read(hparams.config)
-    #parser = Unet.add_model_specific_args(parent_parser)
-
-
-    main(config,hparams)
+#     #READ CONFIG FILE
+#     config = ConfigParser()
+#     config.read(hparams.config)
+#     #parser = Unet.add_model_specific_args(parent_parser)
 
 
-
-#CREATE THE DATAMODULE CLASS
-
-sf ='/mnt/Almacenamiento/ODOC_segmentation/split'
-split_file = sf + '/ODOC_segmentation_' + 'DRISHTI' + '.ini'
-config_split = ConfigParser()
-config_split.read(split_file)
-
-#composed =None
-#composed= transforms.Compose([ToTensor()])
-#composed= transforms.Compose([Hflip(.5),ToTensor()])
-#composed= transforms.Compose([Hflip(.5), Vflip(.5), GaussianBlur(), ToTensor()])
-#composed= transforms.Compose([Hflip(.5), Vflip(.5), RandomAffine(degrees=(0,0.5),translate=(0.2,0.2),scale=(0.8,1.2)),ToTensor()])
-#composed= transforms.Compose([Hflip(.5), Vflip(.5), GaussianBlur(),ColorJitter(), RandomAffine(degrees=(0,10),translate=(1,1),scale=(0,10)),ToTensor()])
-composed= transforms.Compose([Hflip(.5), Vflip(.5), GaussianBlur(),ColorJitter(), RandomAffine(degrees=(0,180),translate=[1,1],scale=(.8,1.2)),ToTensor()])
+#     main(config,hparams)
 
 
 
-dataMod = DataModuleClass(data_path= '/mnt/Almacenamiento/ODOC_segmentation/data',
-        split_file= config_split,
-        dataset= 'DRISHTI',
-        aumentation= composed)
+# #CREATE THE DATAMODULE CLASS
 
-dataMod.setup()
-print(dataMod)
-dataset = dataMod.train_dataloader()
-images, labels,name,_ = next(iter(dataset))
-#x,y,_,_ = data_iter.next()
+# sf ='/mnt/Almacenamiento/ODOC_segmentation/split'
+# split_file = sf + '/ODOC_segmentation_' + 'DRISHTI' + '.ini'
+# config_split = ConfigParser()
+# config_split.read(split_file)
 
-img1 = images[0,:,:,:].cpu()
-img1 = img1.clip(0,1)
-img1 = np.transpose(img1, (1,2,0))
+# #composed =None
+# #composed= transforms.Compose([ToTensor()])
+# #composed= transforms.Compose([Hflip(.5),ToTensor()])
+# #composed= transforms.Compose([Hflip(.5), Vflip(.5), GaussianBlur(), ToTensor()])
+# #composed= transforms.Compose([Hflip(.5), Vflip(.5), RandomAffine(degrees=(0,0.5),translate=(0.2,0.2),scale=(0.8,1.2)),ToTensor()])
+# #composed= transforms.Compose([Hflip(.5), Vflip(.5), GaussianBlur(),ColorJitter(), RandomAffine(degrees=(0,10),translate=(1,1),scale=(0,10)),ToTensor()])
+# composed= transforms.Compose([Hflip(.5), Vflip(.5), GaussianBlur(),ColorJitter(), RandomAffine(degrees=(0,180),translate=[1,1],scale=(.8,1.2)),ToTensor()])
 
-img2 = images[1,:,:,:].cpu()
-img2 = img2.clip(0,255)
-img2 = np.transpose(img2, (1,2,0))
-#img2 = img2 * 255
-
-img3 = images[2,:,:,:].cpu()
-img3 = img3.clip(0,255)
-img3 = np.transpose(img3, (1,2,0))
-#img3 = img3 * 255
-
-fig, (ax0, ax1,ax2,ax3,ax4,ax5) = plt.subplots(1, 6)
-ax0.imshow(img1)
-ax1.imshow(labels[0,:,:])
-ax2.imshow(img2)
-ax3.imshow(labels[1,:,:])
-ax4.imshow(img3)
-ax5.imshow(labels[2,:,:])
-fig.suptitle(name[0] + name[1] + name[2])
+# transform = [Hflip(.5), Vflip(.5), GaussianBlur(),ColorJitter(), RandomAffine(degrees=(0,180),translate=[1,1],scale=(.8,1.2)),ToTensor()]
+# probabilities = [0.5, 0.5, 0.5,0.5,0.5,0]
 
 
-plt.show()
+# dataMod = DataModuleClass(data_path= '/mnt/Almacenamiento/ODOC_segmentation/data',
+#         split_file= config_split,
+#         dataset= 'DRISHTI',
+#         aumentation= transform,
+#         probabilities=probabilities)
+
+# dataMod.setup()
+# print(dataMod)
+# dataset = dataMod.train_dataloader()
+# images, labels,name,_ = next(iter(dataset))
+# #x,y,_,_ = data_iter.next()
+
+# img1 = images[0,:,:,:].cpu()
+# img1 = img1.clip(0,1)
+# img1 = np.transpose(img1, (1,2,0))
+
+# img2 = images[1,:,:,:].cpu()
+# img2 = img2.clip(0,255)
+# img2 = np.transpose(img2, (1,2,0))
+# #img2 = img2 * 255
+
+# img3 = images[2,:,:,:].cpu()
+# img3 = img3.clip(0,255)
+# img3 = np.transpose(img3, (1,2,0))
+# #img3 = img3 * 255
+
+# fig, (ax0, ax1,ax2,ax3,ax4,ax5) = plt.subplots(1, 6)
+# ax0.imshow(img1)
+# ax1.imshow(labels[0,:,:])
+# ax2.imshow(img2)
+# ax3.imshow(labels[1,:,:])
+# ax4.imshow(img3)
+# ax5.imshow(labels[2,:,:])
+# fig.suptitle(name[0] + name[1] + name[2])
+
+
+# plt.show()
