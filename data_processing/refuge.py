@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import glob
 import ntpath
 import collections
+from utils import crop_fov, crop_fov_2
 import scipy.io
 import data_preprocesing
 
@@ -15,39 +16,40 @@ or_data_path = '/raw_data/'
 dst_data_path = '/data/'
 dataset = 'REFUGE'
 
-def get_mask(path, names):
-    for p_i in range(len(path)):
-        mask = iio.imread(path[p_i])
-        plt.imshow(mask)
-        print(collections.Counter(mask[1000,:])) #255, 0 y 128 para las marcas
+def get_mask(path):
+    
+    mask = iio.imread(path)
+    plt.imshow(mask)
+    #print(collections.Counter(mask[1000,:])) #255, 0 y 128 para las marcas
 
-        mask1 = np.copy(mask)
-        mask2 = np.copy(mask)
+    mask1 = np.copy(mask)
+    mask2 = np.copy(mask)
 
-        mask1.astype(np.uint8)
-        mask2.astype(np.uint8)
+    mask1.astype(np.uint8)
+    mask2.astype(np.uint8)
 
-        mask1[mask1 == 0] = 128 # OD
-        mask2[mask2 == 128] = 255 # OC
+    mask1[mask1 == 0] = 128 # OD
+    mask2[mask2 == 128] = 255 # OC
 
-        mask1[mask1 == 255] = 0 # OD
-        mask1[mask1 == 128] = 1 # OD
+    mask1[mask1 == 255] = 0 # OD
+    mask1[mask1 == 128] = 1 # OD
 
-        mask2[mask2 == 0] = 1 # OC
-        mask2[mask2 == 255] = 0 # OC
-
-
-        iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '/' + names[p_i],mask1)
-        iio.imwrite(proyect_path + dst_data_path + 'OC/' + dataset + '/' + names[p_i],mask2)
+    mask2[mask2 == 0] = 1 # OC
+    mask2[mask2 == 255] = 0 # OC
 
 
-    return
+    #iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '/' + names[p_i],mask1)
+    #iio.imwrite(proyect_path + dst_data_path + 'OC/' + dataset + '/' + names[p_i],mask2)
+
+    #OD SEGUIDO DE OC
+    return mask1, mask2
 
 def get_images(paths,names):
     for p_i in range(len(paths)):
         
         img = iio.imread(paths[p_i])
-        iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/' +  names[p_i],img)
+        #iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/' +  names[p_i],img)
+        return img
 
 
 def main():
@@ -94,11 +96,19 @@ def main():
         mask_paths.insert(len(mask_paths), mask)
 
     #print(img_paths[-1], mask_paths[-1])
-    
-    get_images(img_paths, final_img_name)
-    get_mask(mask_paths, final_img_name)
+    for p_i in range(len(img_paths)):
+        
+        img = iio.imread(img_paths[p_i])
+        mask1, mask2 = get_mask(mask_paths[p_i])
+        name = final_img_name[p_i]
 
-    #print(dataset, train_img, validation_img, test_img)
+        n_img, n_mask1, n_mask2 = crop_fov_2(img, mask1, mask2)
+
+        iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/' +  name,n_img)
+        iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '/' + name,n_mask1)
+        iio.imwrite(proyect_path + dst_data_path + 'OC/' + dataset + '/' + name,n_mask2)
+        
+        #print(dataset, train_img, validation_img, test_img)
     data_preprocesing.save_split_file('/mnt/Almacenamiento/ODOC_segmentation/split', 'ODOC_segmentation', dataset, train, validation, test)
     return dataset, train, validation, test
 

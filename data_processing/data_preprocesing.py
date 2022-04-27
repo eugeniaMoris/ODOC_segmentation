@@ -1,7 +1,9 @@
 from configparser import ConfigParser
 import configparser
+from distutils.command.config import config
 #from operator import getitem
 from os import path
+from posixpath import split
 from turtle import st
 import torch
 #from ssl import OP_ENABLE_MIDDLEBOX_COMPAT
@@ -22,7 +24,6 @@ import matplotlib.pyplot as plt
 import imageio as iio
 from PIL import Image
 
-from Models.Augmentation import ToTensor
 
 def show(imgs):
 
@@ -135,12 +136,14 @@ class DataModuleClass(pl.LightningDataModule):
     MODULO THE DATASET NECESARIO PARA EL ENTRENAMIENTO  CON PYTORCH LIGHTNING
     INDICO COMO SE LEVANTAN LAS IMAGENES Y GENERO LOS DATALODER TANTO PARA ENTRENAMIENTOS, VALIDACION Y TEST
     '''
-    def __init__(self, data_path,  dataset, aumentation, probabilities= None, batch_size= 5,split_file=None, num_workers=0):
+    def __init__(self, data_path,  dataset, aumentation, pred_data='total', norm=True, probabilities= None, batch_size= 5,split_file=None, num_workers=8):
         '''
         INPUTS
         data_path: path donde se encuentran los datos imagen/mascara
         dataset: nombre del dataset utilizado
         aumentation: transforms to apply in the datasets
+        pred_data : nos dice de que queremos generar los datos de prediccion, los mismos pueden ser train, valid, test, total
+        norm : la variable indica si se debe aplicar la normalizacion sobre la imagen o no
         probabilities: probabilities of each transform to be apply. list with the same len than aumentation
         splt_file: archivo split que nos indica la division entre entrenamiento, validacion y test
         num_workers: nmero de workers a utilizar
@@ -157,6 +160,8 @@ class DataModuleClass(pl.LightningDataModule):
         self.split_file = split_file         
         self.dataset= dataset
         self.num_workes = num_workers
+        self.pred = pred_data
+        self.made_norm = norm
 
     
     def prepare_data(self):
@@ -207,12 +212,25 @@ class DataModuleClass(pl.LightningDataModule):
         if self.split_file != None:
 
             #CREO QLE DATASET PARA LOS VALORES DE ENTRENAMIENTO VALIDACION Y TEST
-            self.train_data = Dataset_proc(img_paths,OD_path= OD_paths, split= tr_names, dataset = self.dataset, augmentacion=self.transform, probabilities= self.probabilities)
-            self.valid_data = Dataset_proc(img_paths,OD_path= OD_paths,  split= val_names, dataset= self.dataset, augmentacion=None) #EN VALICACION TAMBIRN?
-            self.test_data = Dataset_proc(img_paths,OD_path= OD_paths, split= test_names, dataset= self.dataset, augmentacion=None)
+            self.train_data = Dataset_proc(img_paths,OD_path= OD_paths, split= tr_names, dataset = self.dataset, made_norm=self.made_norm, augmentacion=self.transform, probabilities= self.probabilities)
+            self.valid_data = Dataset_proc(img_paths,OD_path= OD_paths,  split= val_names, dataset= self.dataset, made_norm=self.made_norm, augmentacion=None) #EN VALICACION TAMBIRN?
+            self.test_data = Dataset_proc(img_paths,OD_path= OD_paths, split= test_names, dataset= self.dataset, made_norm=self.made_norm, augmentacion=None)
+        
+            if (self.pred == 'train'):
+                self.pred_data = Dataset_proc(img_paths, OD_path= OD_paths, split= tr_names, dataset = self.dataset, made_norm=self.made_norm, augmentacion=None)
 
-        self.pred_data = Dataset_proc(self.img_paths, self.dataset, augmentacion=None)
-        return
+            if (self.pred == 'valid'):
+                self.pred_data = Dataset_proc(img_paths, OD_path= OD_paths, split= val_names, dataset = self.dataset, made_norm=self.made_norm, augmentacion=None)
+            
+            if (self.pred == 'test'):
+                self.pred_data = Dataset_proc(img_paths, OD_path= OD_paths, split= test_names, dataset = self.dataset, made_norm=self.made_norm, augmentacion=None)
+        
+            if (self.pred == 'total'):
+                self.pred_data = Dataset_proc(self.img_paths, self.dataset, made_norm=self.made_norm, augmentacion=None)
+        else:
+            print('Como no hay split file, se realiza el predict data con el total de las imagenes')
+            self.pred_data = Dataset_proc(self.img_paths, self.dataset, made_norm=self.made_norm, augmentacion=None)
+        
 
     def train_dataloader(self):
         '''return Dataloader for Training data here'''
@@ -234,14 +252,17 @@ class DataModuleClass(pl.LightningDataModule):
 
 
 class Dataset_proc(Dataset):
-    def __init__(self,img_path, dataset, OD_path= None, split= [], augmentacion=None,probabilities=None, scale=1):
+    def __init__(self,img_path, dataset, made_norm=True, OD_path= None, split= [], augmentacion=None,probabilities=None, scale=1):
         '''
         ---------------------------------
         input
         img_path: lista con los paths de las imagenes
+        dataset: nos da el nobre del dataset utilizado
+        made_norm = nos indica si debemos aplicar la normalizacion sobre las imagenes o no
         OD_path: lista con los paths de las mascaras de OD
         split: nombre base de las imagenes pertenecientes al dataset
         augmentacion: la augmentacion a aplicarse sobre los datos
+        probabilities: nos indica las probabilidades de que se aplica cada augmentacion
         ---------------------------------
         '''
 
@@ -250,6 +271,7 @@ class Dataset_proc(Dataset):
         all_names=[]
         self.split = split
         self.dataset = dataset
+        self.made_norm = made_norm
         self.transform = augmentacion
         self.probabilities = probabilities
 
@@ -318,23 +340,13 @@ class Dataset_proc(Dataset):
                 if float(rand) < probabilities[i]:
                     tr = all_transforms[i]
                     img, OD_mask = tr((img,OD_mask))
-            
-        img = img.float()
-        shape = img.size()
+        else:
+            transform = transforms.ToTensor() # YA DEJA LA IMAGEN ENTRE CERO Y UNO
+            img = transform(img)
+            if mask != []:
+                OD_mask = transform(OD_mask)
 
-        #NORMALIZO LA IMAGEN, 
-        #Obtengo media y desvio por cada imagen y normalizo la imagen
-        #posteriormente la resizeo a un valor mas chico de 512S,512
 
-        mean_r = torch.mean(img[0,:,:])
-        mean_g = torch.mean(img[1,:,:])
-        mean_b = torch.mean(img[2,:,:])
-
-        std_r = torch.mean(img[0,:,:])
-        std_g = torch.mean(img[1,:,:])
-        std_b = torch.mean(img[2,:,:])
-
-        img = F.normalize(img, [mean_r, mean_g, mean_b], [std_r,std_g, std_b]) #normalizo la imagen
 
         #RE-ESCALO LAS IMAGENES A 512X512 
         img = self.scale_img(img, 512, 512)
@@ -345,8 +357,28 @@ class Dataset_proc(Dataset):
             OD_new = OD_new[0,:,:]
             OD_new = OD_new.long()
         else:
-            img = torch.from_numpy(img)
+            img = (img)
             OD_new = []
+
+        if self.made_norm:
+            #NORMALIZO LA IMAGEN, 
+            #Obtengo media y desvio por cada imagen y normalizo la imagen
+            #posteriormente la resizeo a un valor mas chico de 512S,512
+
+            img = img.float()
+            shape = img.size()
+
+            mean_r = torch.mean(img[0,:,:])
+            mean_g = torch.mean(img[1,:,:])
+            mean_b = torch.mean(img[2,:,:])
+
+            std_r = torch.std(img[0,:,:])+1e-6
+            std_g = torch.std(img[1,:,:])+1e-6
+            std_b = torch.std(img[2,:,:])+1e-6
+
+            img = F.normalize(img, [mean_r, mean_g, mean_b], [std_r,std_g, std_b]) #normalizo la imagen
+
+            
 
 
     

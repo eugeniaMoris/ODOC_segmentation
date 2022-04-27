@@ -5,40 +5,44 @@ import glob
 import ntpath
 import collections
 import data_preprocesing
+from utils import crop_fov, crop_fov_2
 
 proyect_path = '/mnt/Almacenamiento/ODOC_segmentation'
 or_data_path = '/raw_data/'
 dst_data_path = '/data/'
 dataset = 'IDRID'
 
-def get_mask(paths):
-    for p in paths:
-        name = ntpath.basename(p)
-        n = name.split('.')
-        value = n[0].split('_')
-        name = '0' + value[1]
+def get_mask(path):
+    #for p in paths:
+    name = ntpath.basename(path)
+    n = name.split('.')
+    value = n[0].split('_')
+    name = '0' + value[1]
 
-        mask = iio.imread(p)
-        mask = mask - 0
+    mask = iio.imread(path)
+    mask = mask - 0
 
-        iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '/' + name + '.png',mask)
-        print('mask: ', name)
+    #iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '/' + name + '.png',mask)
+    #print('mask: ', name)
+    return mask, name
+    
 
-def get_images(paths):
+def get_images(path):
     '''
     methodo donde de actualizara la imagen em la forma que se necesite
     '''
 
-    for p in paths:
-        name = ntpath.basename(p)
-        n = name.split('.')
-        value = n[0].split('_')
-        name = '0' + value[1]
+    #for p in paths:
+    name = ntpath.basename(path)
+    n = name.split('.')
+    value = n[0].split('_')
+    name = '0' + value[1]
 
-        #print('IMAGE PATH: ', p)
-        img = iio.imread(p)
+    #print('IMAGE PATH: ', p)
+    img = iio.imread(path)
 
-        iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/' +  name + '.png',img)
+    #iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/' +  name + '.png',img)
+    return img, name
 
 def main():
 
@@ -75,8 +79,14 @@ def main():
     for anot_t_OD in glob.glob(proyect_path + or_data_path + dataset + '/A. Segmentation/2. All Segmentation Groundtruths/b. Testing Set/5. Optic Disc/IDRiD_*_OD.tif'):
         OD_anot.insert(len(OD_anot), anot_t_OD)
 
-    get_images(imgs_paths)
-    get_mask(OD_anot)
+    for path in range(len(imgs_paths)):
+        img,n_img = get_images(imgs_paths[path])
+        mask, n_mask = get_mask(OD_anot[path])
+
+        new_img, new_mask = crop_fov(img, mask)
+
+        iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/' +  n_img + '.png',new_img)
+        iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '/' + n_mask + '.png',new_mask)
 
     data_preprocesing.save_split_file('/mnt/Almacenamiento/ODOC_segmentation/split', 'ODOC_segmentation', dataset, train, validation, test)
 

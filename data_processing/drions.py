@@ -7,7 +7,9 @@ import argparse
 from scipy.ndimage import binary_fill_holes, gaussian_filter
 import cv2
 from skimage import measure, filters
-import data_processing.utils as utils
+import data_preprocesing
+from utils import crop_fov, crop_fov_2
+
 
 proyect_path = '/mnt/Almacenamiento/ODOC_segmentation'
 or_data_path = '/raw_data/'
@@ -96,7 +98,7 @@ def main():
         mask1 = generate_mask(mask_paths[0],(height, width),name[1], '1')
         mask2 = generate_mask(mask_paths[1],(height, width),name[1], '2')
         
-        new_img, n_mask1, n_mask2 = utils.crop_fov_2(im, mask1, mask2)
+        new_img, n_mask1, n_mask2 = crop_fov_2(im, mask1, mask2)
 
 
         iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + name[1] + '.png',new_img)

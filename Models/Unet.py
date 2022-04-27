@@ -142,6 +142,7 @@ class Unet(pl.LightningModule):
 
         self.valid_sample = None     
         self.count = 0  
+        self.lr = 0.1
 
         # change configuration if available in the file
         if 'n_classes' in config['architecture']:
@@ -150,6 +151,9 @@ class Unet(pl.LightningModule):
             self.is_deconv = bool(config['architecture']['is_deconv'])
         if 'batch-norm' in config['architecture']:
             self.is_batchnorm = bool(config['architecture']['batch_normalization'])
+        
+        if 'lr' in config['training']:
+            self.lr = float(config['training']['lr'])
 
         self.dropout = [0.0, 0.0, 0.0, 0.0, float(config['architecture']['dropout']), 0.0, 0.0, 0.0, 0.0]
         
@@ -234,10 +238,17 @@ class Unet(pl.LightningModule):
         y_hat = self.forward(x)
 
         #calculate the error/loss of the classification
-        loss = self.loss(y_hat,y)  
+        loss = self.loss(y_hat,y) 
+
+        y_arg = torch.argmax(y_hat,dim=1)
+        dice = self.dice_metric(y,y_arg)
+        dice= torch.tensor(dice)
 
         #SAVE METRICS IN THE TENSORBOARD
-        self.logger.experiment.add_scalars("Loss", {'train loss': loss}, self.global_step)
+        #self.logger.experiment.add_scalars("Loss", {'train_loss' : loss}, self.global_step)
+        #self.logger.experiment.add_scalars("Dice", {"train_dice": dice}, self.global_step) 
+
+        
         
         #IN CASE WE WANT TO SAVE ACC
         #y_arg = torch.argmax(y_hat,dim=1)
@@ -245,7 +256,7 @@ class Unet(pl.LightningModule):
         #acc= torch.tensor(acc)
         #self.logger.experiment.add_scalars("Acc", {' train acc' : acc}, self.global_step)
 
-        return {'loss':loss}
+        return {'loss':loss, 'dice':dice}
 
     def training_epoch_end(self, outputs):
         '''
@@ -253,7 +264,9 @@ class Unet(pl.LightningModule):
         outputs: values saved in the return of the training_step'''
 
         avg_loss = torch.stack([x['loss'] for x in outputs]).mean()
+        avg_dice = torch.stack([x['dice'] for x in outputs]).mean()
         self.logger.experiment.add_scalars("Avg loss",{'train':avg_loss}, self.current_epoch) #graph in tensorboard
+        self.logger.experiment.add_scalars("Avg_dice",{'train' : avg_dice}, self.current_epoch)
 
     def validation_step(self, batch, batch_nb):
         '''
@@ -274,17 +287,16 @@ class Unet(pl.LightningModule):
         
         #CALCULATE DICE
         y_arg = torch.argmax(y_hat,dim=1)
-        dice = self.dice_metric(y,y_arg)
-        dice= torch.tensor(dice)
+        val_dice = self.dice_metric(y,y_arg)
+        val_dice= torch.tensor(val_dice)
 
-        self.logger.experiment.add_scalars("Loss", {'Val loss' : loss}, self.global_step)
-
-        self.logger.experiment.add_scalar("Valid_DICE", dice, self.global_step)
+        #self.logger.experiment.add_scalars("Loss", {'Val loss' : loss}, self.global_step)
+        #self.logger.experiment.add_scalars("Dice", {'Valid_dice': dice}, self.global_step) 
 
         #SAVE THE LOG FOR THE CALLBACK FOR EARLY STOPPING AND FOR SAVE THE BEST MODEL IN FUNCTION OF THE DICE IN VALIDATION
-        self.log('dice', dice) 
+        self.log('dice', val_dice) 
 
-        return {'val_loss': loss, 'val_dice': dice}
+        return {'val_loss': loss, 'val_dice': val_dice}
 
     def validation_epoch_end(self, outputs):
 
@@ -296,25 +308,25 @@ class Unet(pl.LightningModule):
         
         #SAVE THE VALUE IN TENSORBOARD
         self.logger.experiment.add_scalars("Avg loss",{'valid':avg_loss}, self.current_epoch)
-        self.logger.experiment.add_scalar("valid_avg_dice",avg_dice, self.current_epoch)
+        self.logger.experiment.add_scalars("Avg_dice",{'valid' : avg_dice}, self.current_epoch)
 
         #TAKE THE FIRST VALIDATION BATCH SAVED AND PREDICT THE FIRST SAMPLE
-        x, y, names, shapes = self.valid_sample
-        pred = self.forward(x)
+        # x, y, names, shapes = self.valid_sample
+        # pred = self.forward(x)
 
-        #IN THE PREDICTION WITHOUT LOSS CALCULATION WE NEED TO ADD THE SOFTMAX LAYER
-        pred = self.softmax(pred) #WE HAD THE PROBABILITIES 
-        pred_arg = torch.argmax(pred, dim=1) #BINARY IMAGE OF THE SEGMENTATION
+        # #IN THE PREDICTION WITHOUT LOSS CALCULATION WE NEED TO ADD THE SOFTMAX LAYER
+        # pred = self.softmax(pred) #WE HAD THE PROBABILITIES 
+        # pred_arg = torch.argmax(pred, dim=1) #BINARY IMAGE OF THE SEGMENTATION
 
-        #WE GENERATE THE IMAGE OF THE SEGMENTATION WITH THE tp, fp AND fn
-        img = self.generate_img(pred_arg[0,:,:], y[0,:,:])
+        # #WE GENERATE THE IMAGE OF THE SEGMENTATION WITH THE tp, fp AND fn
+        # img = self.generate_img(pred_arg[0,:,:], y[0,:,:])
 
-        #SAVE THE IMAGES IN TENSORBOARD
-        self.logger.experiment.add_image("Img" + names[0], x[0,:,:,:] , dataformats="CHW")
-        self.logger.experiment.add_image("ground truth", y[0,:,:], dataformats="HW")
-        self.logger.experiment.add_image("predict", pred[0,1,:,:], dataformats="HW")
-        self.logger.experiment.add_image("predict_arg", pred_arg[0,:,:], dataformats="HW")
-        self.logger.experiment.add_image("prediction", img, dataformats="CHW")
+        # #SAVE THE IMAGES IN TENSORBOARD
+        # self.logger.experiment.add_image("Img" + names[0], x[0,:,:,:] , dataformats="CHW")
+        # self.logger.experiment.add_image("ground truth", y[0,:,:], dataformats="HW")
+        # self.logger.experiment.add_image("predict", pred[0,1,:,:], dataformats="HW")
+        # self.logger.experiment.add_image("predict_arg", pred_arg[0,:,:], dataformats="HW")
+        # self.logger.experiment.add_image("prediction", img, dataformats="CHW")
 
         #IN CASE WE WANT TO SEE DE VALIDATION LOSS FOR EARLY STOPPING
         self.log('avg_val_loss', avg_loss)
@@ -372,7 +384,7 @@ class Unet(pl.LightningModule):
         '''
         Configuration of the opimizer used in the model
         '''
-        return torch.optim.Adam(self.parameters(), lr=0.1) 
+        return torch.optim.Adam(self.parameters(), lr=self.lr) 
 
     def generate_img(self, pred, true):
         '''
