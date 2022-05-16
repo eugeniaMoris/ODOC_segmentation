@@ -111,7 +111,7 @@ def crop_fov(fundus_picture, mask, fov_mask= None):
     return (fundus_picture[lim_x_inf:lim_x_sup, lim_y_inf:lim_y_sup,:], 
         mask[lim_x_inf:lim_x_sup, lim_y_inf:lim_y_sup])
 
-def crop_fov_2(fundus_picture,mask1, mask2):
+def crop_fov_2(fundus_picture,mask1, mask2, fov_mask = None):
     '''
     Extract an approximate FOV mask, and crop the picture around it
     '''
@@ -141,6 +141,34 @@ def crop_fov_2(fundus_picture,mask1, mask2):
         mask1[lim_x_inf:lim_x_sup, lim_y_inf:lim_y_sup],
         mask2[lim_x_inf:lim_x_sup, lim_y_inf:lim_y_sup])
 
+def crop_fov_limits(fundus_picture, fov_mask= None):
+    '''
+    Extract an approximate FOV mask, and crop the picture around it,
+    return the limits of the image to cut
+    '''
+
+    # if the FOV mask is not given, estimate it
+    if fov_mask is None:
+        fov_mask, (x, y, r) = get_fov_mask(fundus_picture)
+    # if the FOV mask is given, estimate the center and the radii
+    else:
+        # get the coordinates of the bounding box
+        coordinates = measure.regionprops(fov_mask)[0].bbox
+        # estimate the size of each side
+        side_1 = coordinates[2] - coordinates[0]
+        side_2 = coordinates[3] - coordinates[1]
+        # get the radius
+        r = side_2 // 2
+        # and the central coordinates
+        y = coordinates[0] + (side_1 // 2)
+        x = coordinates[1] + (side_2 // 2)
+
+    lim_x_inf = (y - r) if y>=r else 0
+    lim_x_sup = (y + r) if (y+r)<fundus_picture.shape[0] else fundus_picture.shape[0]
+    lim_y_inf = (x - r) if x>=r else 0
+    lim_y_sup = (x + r) if (x+r)<fundus_picture.shape[1] else fundus_picture.shape[1]
+
+    return lim_x_inf,lim_x_sup, lim_y_inf,lim_y_sup, r
 
 # imagen = '/mnt/Almacenamiento/ODOC_segmentation/data/images/IDRID/001.png'
 # mask = '/mnt/Almacenamiento/ODOC_segmentation/data/OD1/IDRID/001.png'

@@ -124,7 +124,7 @@ def main(config,hparams):
             save_weights_only=False) #GUARDA SOLAMENTE LOS PESOS DEL MODELO
 
 
-    logger = TensorBoardLogger('lightning_logs', name='drishti_model') #for the tensor board
+    logger = TensorBoardLogger('lightning_logs', name=hparams.dataset) #for the tensor board
 
     #generate the trainer
     if hparams.resume != None:

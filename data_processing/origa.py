@@ -5,48 +5,47 @@ import glob
 import ntpath
 import collections
 import scipy.io
+from utils import crop_fov, crop_fov_2
 
 proyect_path = '/mnt/Almacenamiento/ODOC_segmentation'
 or_data_path = '/raw_data/'
 dst_data_path = '/data/'
 dataset = 'ORIGA'
 
-def get_mask(paths):
-    for p in paths:
-        name = ntpath.basename(p)
-        n = name.split('.')
-        name = n[0]
+def get_mask(path):
 
-        mat = scipy.io.loadmat(p)
-        mask = mat['mask']
+    name = ntpath.basename(path)
+    n = name.split('.')
+    name = n[0]
 
-        mask_1 = mask.copy()
-        mask_2 = mask.copy()
+    mat = scipy.io.loadmat(path)
+    mask = mat['mask']
 
-        mask_1.astype(np.uint8)
-        mask_2.astype(np.uint8)
+    mask_1 = mask.copy()
+    mask_2 = mask.copy()
 
-
-        mask_1[mask_1 == 2] = 255 # OD
-        mask_1[mask_1 == 1] = 255 # OD
+    mask_1.astype(np.uint8)
+    mask_2.astype(np.uint8)
 
 
-        mask_2[mask_2 == 1] = 0 # OC
-        mask_2[mask_2 == 2] = 255 # OC
+    mask_1[mask_1 == 2] = 255 # OD
+    mask_1[mask_1 == 1] = 255 # OD
 
 
-        iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '/' + name + '.png',mask_1)
-        iio.imwrite(proyect_path + dst_data_path + 'OC/' + dataset + '/' + name + '.png',mask_2)
-        
-def get_images(paths):
-    for p in paths:
-        name = ntpath.basename(p)
-        n = name.split('.')
-        names = n[0]
+    mask_2[mask_2 == 1] = 0 # OC
+    mask_2[mask_2 == 2] = 255 # OC
 
-        img = iio.imread(p)
+    return mask_1, mask_2
 
-        iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/' +  names + '.png',img)
+def get_images(path):
+
+    name = ntpath.basename(path)
+    n = name.split('.')
+    names = n[0]
+
+    img = iio.imread(path)
+    return img, names
+
 
 
 def main():
@@ -63,8 +62,15 @@ def main():
     for t_img in glob.glob(proyect_path + or_data_path + dataset + '/manual marking/*.mat'):
         anot.insert(len(anot), t_img)
 
-    get_images(imgs_paths)
-    get_mask(anot)
+    for i in range(len(imgs_paths)):
+        img,name = get_images(imgs_paths[i])
+        OD, OC = get_mask(anot[i])
+
+        n_img, new_OD, new_OC = crop_fov_2(img, OD, OC)
+
+        iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/' +  name + '.png',n_img)
+        iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '/' + name + '.png', new_OD)
+        iio.imwrite(proyect_path + dst_data_path + 'OC/' + dataset + '/' + name + '.png', new_OC)
 
     return dataset
 

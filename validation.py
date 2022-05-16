@@ -11,6 +11,7 @@ from yaml import compose
 from Models.Augmentation import *
 import numpy as np
 from training import get_augmentation
+import ntpath
 
 #from numpy import dtype, lookfor
 
@@ -28,7 +29,9 @@ from training import main
 
 def main(config, hparams):
     loss = nn.CrossEntropyLoss()
-    model = Unet(config, loss, hparams.dataset)
+    con_name = ntpath.basename(hparams.config)
+    name = con_name.split('.')
+    model = Unet(config, loss, model_name=hparams.dataset)
 
     split_file = hparams.split + '/ODOC_segmentation_' + hparams.dataset + '.ini'
     config_split = ConfigParser()
@@ -45,7 +48,7 @@ def main(config, hparams):
             pred_data=config['training']['predic_data'],
             norm=bool(config['training']['norm']),
             probabilities=probabilities,
-            batch_size=int(config['training']['batch_size']))
+            batch_size=1)
 
     seed_everything(42, workers=True)
 
@@ -58,9 +61,20 @@ def main(config, hparams):
             #logger=logger, #logger for the tensorboard
             log_every_n_steps=5,
             fast_dev_run=False) #if True, correra un unico batch, para testear si el modelo anda
+    
+    #out = trainer.validate(model=model,datamodule=dataMod,ckpt_path=hparams.model_path,verbose=True)
 
-    out = trainer.validate(model=model,datamodule=dataMod,ckpt_path=hparams.model_path,verbose=True)
+    out = trainer.test(model=model, datamodule=dataMod, ckpt_path=hparams.model_path, verbose=True)
+    
+
+    result_file = hparams.result_path
+    if (result_file != None):
+            #GUARDO LOS RESULTADOS DE VALIDACION EN UN ARCHIVO .TXT
+            with open(result_file, "a+") as file_object:
+                file_object.write(name[0] + ' ' + str(out)+ '\n')
+                file_object.close()
     print('OUT: ', out)
+
 
 
 if __name__ == '__main__':

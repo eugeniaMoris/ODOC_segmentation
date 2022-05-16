@@ -7,7 +7,7 @@ import ntpath
 import collections
 from utils import crop_fov, crop_fov_2
 import scipy.io
-import data_preprocesing
+from data_preprocesing import save_split_file
 
 
 
@@ -32,9 +32,9 @@ def get_mask(path):
     mask2[mask2 == 128] = 255 # OC
 
     mask1[mask1 == 255] = 0 # OD
-    mask1[mask1 == 128] = 1 # OD
+    mask1[mask1 == 128] = 255 # OD
 
-    mask2[mask2 == 0] = 1 # OC
+    mask2[mask2 == 0] = 255 # OC
     mask2[mask2 == 255] = 0 # OC
 
 
@@ -96,20 +96,30 @@ def main():
         mask_paths.insert(len(mask_paths), mask)
 
     #print(img_paths[-1], mask_paths[-1])
+    #img_paths = img_paths[:10]
     for p_i in range(len(img_paths)):
-        
+
         img = iio.imread(img_paths[p_i])
-        mask1, mask2 = get_mask(mask_paths[p_i])
+        OD, OC = get_mask(mask_paths[p_i])
         name = final_img_name[p_i]
 
-        n_img, n_mask1, n_mask2 = crop_fov_2(img, mask1, mask2)
+        if name in test:
+            iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/Test/' +  name, img)
+            iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '/Test/' + name, OD)
+            iio.imwrite(proyect_path + dst_data_path + 'OC/' + dataset + '/Test/' + name, OC)
+        else:
+            n_img, new_OD, new_OC = crop_fov_2(img, OD, OC)
 
-        iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/' +  name,n_img)
-        iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '/' + name,n_mask1)
-        iio.imwrite(proyect_path + dst_data_path + 'OC/' + dataset + '/' + name,n_mask2)
+            iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/' +  name, n_img)
+            iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '/' + name, new_OD)
+            iio.imwrite(proyect_path + dst_data_path + 'OC/' + dataset + '/' + name, new_OC)
         
         #print(dataset, train_img, validation_img, test_img)
-    data_preprocesing.save_split_file('/mnt/Almacenamiento/ODOC_segmentation/split', 'ODOC_segmentation', dataset, train, validation, test)
+    last_test =[]
+    for t in test:
+        last_test.insert(len(last_test),'Test/'+ t)
+    test = last_test
+    save_split_file('/mnt/Almacenamiento/ODOC_segmentation/split', 'ODOC_segmentation', dataset, train, validation, test)
     return dataset, train, validation, test
 
 

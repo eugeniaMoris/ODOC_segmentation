@@ -1,0 +1,607 @@
+version_0/events.out.tfevents.1650910863.alex.234201.0
+version_0/hparams.yaml
+version_0/Avg loss_train/events.out.tfevents.1650910889.alex.234201.3
+version_0/Avg loss_valid/events.out.tfevents.1650910863.alex.234201.1
+version_0/Avg_dice_train/events.out.tfevents.1650910889.alex.234201.4
+version_0/Avg_dice_valid/events.out.tfevents.1650910863.alex.234201.2
+version_0/checkpoints/last.ckpt
+version_0/checkpoints/config_files/DRISHTI_lr-1-epoch=65.ckpt
+version_1/events.out.tfevents.1650914745.alex.246244.0
+version_1/hparams.yaml
+version_1/Avg loss_train/events.out.tfevents.1650914762.alex.246244.3
+version_1/Avg loss_valid/events.out.tfevents.1650914745.alex.246244.1
+version_1/Avg_dice_train/events.out.tfevents.1650914762.alex.246244.4
+version_1/Avg_dice_valid/events.out.tfevents.1650914745.alex.246244.2
+version_1/checkpoints/last.ckpt
+version_1/checkpoints/config_files/DRISHTI_lr-1-epoch=4.ckpt
+config_files/DRISHTI_augm_f-10_p-10.ini
+config_files/DRISHTI_augm_f-10_p-25.ini
+config_files/DRISHTI_augm_f-10_p-50.ini
+config_files/DRISHTI_augm_f-10_p-75.ini
+config_files/DRISHTI_augm_f-25_p-10.ini
+config_files/DRISHTI_augm_f-25_p-25.ini
+config_files/DRISHTI_augm_f-25_p-50.ini
+config_files/DRISHTI_augm_f-25_p-75.ini
+config_files/DRISHTI_augm_f-50_p-10.ini
+config_files/DRISHTI_augm_f-50_p-25.ini
+config_files/DRISHTI_augm_f-50_p-50.ini
+config_files/DRISHTI_augm_f-50_p-75.ini
+config_files/DRISHTI_augm_f-75_p-10.ini
+config_files/DRISHTI_augm_f-75_p-25.ini
+config_files/DRISHTI_augm_f-75_p-50.ini
+config_files/DRISHTI_augm_f-75_p-75.ini
+config_files/DRISHTI_lr-000001.ini
+config_files/DRISHTI_lr-00001.ini
+config_files/DRISHTI_lr-0001.ini
+config_files/DRISHTI_lr-001.ini
+config_files/DRISHTI_lr-01.ini
+config_files/DRISHTI_lr-1.ini
+lightning_logs/drishti_model/OC/130 epochs/version_0/events.out.tfevents.1650915534.alex.248274.0
+lightning_logs/drishti_model/OC/130 epochs/version_0/hparams.yaml
+lightning_logs/drishti_model/OC/130 epochs/version_0/Avg loss_train/events.out.tfevents.1650915551.alex.248274.3
+lightning_logs/drishti_model/OC/130 epochs/version_0/Avg loss_valid/events.out.tfevents.1650915534.alex.248274.1
+lightning_logs/drishti_model/OC/130 epochs/version_0/Avg_dice_train/events.out.tfevents.1650915551.alex.248274.4
+lightning_logs/drishti_model/OC/130 epochs/version_0/Avg_dice_valid/events.out.tfevents.1650915534.alex.248274.2
+lightning_logs/drishti_model/OC/130 epochs/version_0/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/130 epochs/version_0/checkpoints/config_files/DRISHTI_lr-1-epoch=125.ckpt
+lightning_logs/drishti_model/OC/130 epochs/version_1/events.out.tfevents.1650922565.alex.270537.0
+lightning_logs/drishti_model/OC/130 epochs/version_1/hparams.yaml
+lightning_logs/drishti_model/OC/130 epochs/version_1/Avg loss_train/events.out.tfevents.1650922582.alex.270537.3
+lightning_logs/drishti_model/OC/130 epochs/version_1/Avg loss_valid/events.out.tfevents.1650922565.alex.270537.1
+lightning_logs/drishti_model/OC/130 epochs/version_1/Avg_dice_train/events.out.tfevents.1650922582.alex.270537.4
+lightning_logs/drishti_model/OC/130 epochs/version_1/Avg_dice_valid/events.out.tfevents.1650922565.alex.270537.2
+lightning_logs/drishti_model/OC/130 epochs/version_1/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/130 epochs/version_1/checkpoints/config_files/DRISHTI_lr-01-epoch=91.ckpt
+lightning_logs/drishti_model/OC/130 epochs/version_2/events.out.tfevents.1650929585.alex.292735.0
+lightning_logs/drishti_model/OC/130 epochs/version_2/hparams.yaml
+lightning_logs/drishti_model/OC/130 epochs/version_2/Avg loss_train/events.out.tfevents.1650929602.alex.292735.3
+lightning_logs/drishti_model/OC/130 epochs/version_2/Avg loss_valid/events.out.tfevents.1650929585.alex.292735.1
+lightning_logs/drishti_model/OC/130 epochs/version_2/Avg_dice_train/events.out.tfevents.1650929602.alex.292735.4
+lightning_logs/drishti_model/OC/130 epochs/version_2/Avg_dice_valid/events.out.tfevents.1650929585.alex.292735.2
+lightning_logs/drishti_model/OC/130 epochs/version_2/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/130 epochs/version_2/checkpoints/config_files/DRISHTI_lr-001-epoch=93.ckpt
+lightning_logs/drishti_model/OC/130 epochs/version_3/events.out.tfevents.1650936567.alex.314859.0
+lightning_logs/drishti_model/OC/130 epochs/version_3/hparams.yaml
+lightning_logs/drishti_model/OC/130 epochs/version_3/Avg loss_train/events.out.tfevents.1650936585.alex.314859.3
+lightning_logs/drishti_model/OC/130 epochs/version_3/Avg loss_valid/events.out.tfevents.1650936567.alex.314859.1
+lightning_logs/drishti_model/OC/130 epochs/version_3/Avg_dice_train/events.out.tfevents.1650936585.alex.314859.4
+lightning_logs/drishti_model/OC/130 epochs/version_3/Avg_dice_valid/events.out.tfevents.1650936567.alex.314859.2
+lightning_logs/drishti_model/OC/130 epochs/version_3/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/130 epochs/version_3/checkpoints/config_files/DRISHTI_lr-0001-epoch=71.ckpt
+lightning_logs/drishti_model/OC/130 epochs/version_4/events.out.tfevents.1650943588.alex.337059.0
+lightning_logs/drishti_model/OC/130 epochs/version_4/hparams.yaml
+lightning_logs/drishti_model/OC/130 epochs/version_4/Avg loss_train/events.out.tfevents.1650943605.alex.337059.3
+lightning_logs/drishti_model/OC/130 epochs/version_4/Avg loss_valid/events.out.tfevents.1650943588.alex.337059.1
+lightning_logs/drishti_model/OC/130 epochs/version_4/Avg_dice_train/events.out.tfevents.1650943605.alex.337059.4
+lightning_logs/drishti_model/OC/130 epochs/version_4/Avg_dice_valid/events.out.tfevents.1650943588.alex.337059.2
+lightning_logs/drishti_model/OC/130 epochs/version_4/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/130 epochs/version_4/checkpoints/config_files/DRISHTI_lr-00001-epoch=73.ckpt
+lightning_logs/drishti_model/OC/130 epochs/version_5/events.out.tfevents.1650950816.alex.359277.0
+lightning_logs/drishti_model/OC/130 epochs/version_5/hparams.yaml
+lightning_logs/drishti_model/OC/130 epochs/version_5/Avg loss_train/events.out.tfevents.1650950833.alex.359277.3
+lightning_logs/drishti_model/OC/130 epochs/version_5/Avg loss_valid/events.out.tfevents.1650950816.alex.359277.1
+lightning_logs/drishti_model/OC/130 epochs/version_5/Avg_dice_train/events.out.tfevents.1650950833.alex.359277.4
+lightning_logs/drishti_model/OC/130 epochs/version_5/Avg_dice_valid/events.out.tfevents.1650950816.alex.359277.2
+lightning_logs/drishti_model/OC/130 epochs/version_5/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/130 epochs/version_5/checkpoints/config_files/DRISHTI_lr-000001-epoch=129.ckpt
+lightning_logs/drishti_model/OC/50 epoch/version_0/events.out.tfevents.1650647737.euge-System-Product-Name.161256.0
+lightning_logs/drishti_model/OC/50 epoch/version_0/hparams.yaml
+lightning_logs/drishti_model/OC/50 epoch/version_0/Avg loss_train/events.out.tfevents.1650647750.euge-System-Product-Name.161256.3
+lightning_logs/drishti_model/OC/50 epoch/version_0/Avg loss_valid/events.out.tfevents.1650647737.euge-System-Product-Name.161256.1
+lightning_logs/drishti_model/OC/50 epoch/version_0/Avg_dice_train/events.out.tfevents.1650647750.euge-System-Product-Name.161256.4
+lightning_logs/drishti_model/OC/50 epoch/version_0/Avg_dice_valid/events.out.tfevents.1650647737.euge-System-Product-Name.161256.2
+lightning_logs/drishti_model/OC/50 epoch/version_0/checkpoints/epoch=41-step=377.ckpt
+lightning_logs/drishti_model/OC/50 epoch/version_0/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/50 epoch/version_1/events.out.tfevents.1650648682.euge-System-Product-Name.170301.0
+lightning_logs/drishti_model/OC/50 epoch/version_1/hparams.yaml
+lightning_logs/drishti_model/OC/50 epoch/version_1/Avg loss_train/events.out.tfevents.1650648695.euge-System-Product-Name.170301.3
+lightning_logs/drishti_model/OC/50 epoch/version_1/Avg loss_valid/events.out.tfevents.1650648682.euge-System-Product-Name.170301.1
+lightning_logs/drishti_model/OC/50 epoch/version_1/Avg_dice_train/events.out.tfevents.1650648695.euge-System-Product-Name.170301.4
+lightning_logs/drishti_model/OC/50 epoch/version_1/Avg_dice_valid/events.out.tfevents.1650648682.euge-System-Product-Name.170301.2
+lightning_logs/drishti_model/OC/50 epoch/version_1/checkpoints/epoch=24-step=224.ckpt
+lightning_logs/drishti_model/OC/50 epoch/version_1/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/50 epoch/version_2/events.out.tfevents.1650649413.euge-System-Product-Name.178668.0
+lightning_logs/drishti_model/OC/50 epoch/version_2/hparams.yaml
+lightning_logs/drishti_model/OC/50 epoch/version_2/Avg loss_train/events.out.tfevents.1650649426.euge-System-Product-Name.178668.3
+lightning_logs/drishti_model/OC/50 epoch/version_2/Avg loss_valid/events.out.tfevents.1650649413.euge-System-Product-Name.178668.1
+lightning_logs/drishti_model/OC/50 epoch/version_2/Avg_dice_train/events.out.tfevents.1650649426.euge-System-Product-Name.178668.4
+lightning_logs/drishti_model/OC/50 epoch/version_2/Avg_dice_valid/events.out.tfevents.1650649413.euge-System-Product-Name.178668.2
+lightning_logs/drishti_model/OC/50 epoch/version_2/checkpoints/epoch=49-step=449.ckpt
+lightning_logs/drishti_model/OC/50 epoch/version_2/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/50 epoch/version_3/events.out.tfevents.1650650165.euge-System-Product-Name.187163.0
+lightning_logs/drishti_model/OC/50 epoch/version_3/hparams.yaml
+lightning_logs/drishti_model/OC/50 epoch/version_3/Avg loss_train/events.out.tfevents.1650650178.euge-System-Product-Name.187163.3
+lightning_logs/drishti_model/OC/50 epoch/version_3/Avg loss_valid/events.out.tfevents.1650650165.euge-System-Product-Name.187163.1
+lightning_logs/drishti_model/OC/50 epoch/version_3/Avg_dice_train/events.out.tfevents.1650650178.euge-System-Product-Name.187163.4
+lightning_logs/drishti_model/OC/50 epoch/version_3/Avg_dice_valid/events.out.tfevents.1650650165.euge-System-Product-Name.187163.2
+lightning_logs/drishti_model/OC/50 epoch/version_3/checkpoints/epoch=46-step=422.ckpt
+lightning_logs/drishti_model/OC/50 epoch/version_3/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/50 epoch/version_4/events.out.tfevents.1650650911.euge-System-Product-Name.195637.0
+lightning_logs/drishti_model/OC/50 epoch/version_4/hparams.yaml
+lightning_logs/drishti_model/OC/50 epoch/version_4/Avg loss_train/events.out.tfevents.1650650925.euge-System-Product-Name.195637.3
+lightning_logs/drishti_model/OC/50 epoch/version_4/Avg loss_valid/events.out.tfevents.1650650911.euge-System-Product-Name.195637.1
+lightning_logs/drishti_model/OC/50 epoch/version_4/Avg_dice_train/events.out.tfevents.1650650925.euge-System-Product-Name.195637.4
+lightning_logs/drishti_model/OC/50 epoch/version_4/Avg_dice_valid/events.out.tfevents.1650650911.euge-System-Product-Name.195637.2
+lightning_logs/drishti_model/OC/50 epoch/version_4/checkpoints/epoch=40-step=368.ckpt
+lightning_logs/drishti_model/OC/50 epoch/version_4/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/50 epoch/version_5/events.out.tfevents.1650651682.euge-System-Product-Name.204124.0
+lightning_logs/drishti_model/OC/50 epoch/version_5/hparams.yaml
+lightning_logs/drishti_model/OC/50 epoch/version_5/Avg loss_train/events.out.tfevents.1650651696.euge-System-Product-Name.204124.3
+lightning_logs/drishti_model/OC/50 epoch/version_5/Avg loss_valid/events.out.tfevents.1650651682.euge-System-Product-Name.204124.1
+lightning_logs/drishti_model/OC/50 epoch/version_5/Avg_dice_train/events.out.tfevents.1650651696.euge-System-Product-Name.204124.4
+lightning_logs/drishti_model/OC/50 epoch/version_5/Avg_dice_valid/events.out.tfevents.1650651682.euge-System-Product-Name.204124.2
+lightning_logs/drishti_model/OC/50 epoch/version_5/checkpoints/epoch=49-step=449.ckpt
+lightning_logs/drishti_model/OC/50 epoch/version_5/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/50 epoch/version_8/events.out.tfevents.1650658216.euge-System-Product-Name.227352.0
+lightning_logs/drishti_model/OC/50 epoch/version_8/hparams.yaml
+lightning_logs/drishti_model/OC/50 epoch/version_8/Avg loss_train/events.out.tfevents.1650658230.euge-System-Product-Name.227352.3
+lightning_logs/drishti_model/OC/50 epoch/version_8/Avg loss_valid/events.out.tfevents.1650658216.euge-System-Product-Name.227352.1
+lightning_logs/drishti_model/OC/50 epoch/version_8/Avg_dice_train/events.out.tfevents.1650658230.euge-System-Product-Name.227352.4
+lightning_logs/drishti_model/OC/50 epoch/version_8/Avg_dice_valid/events.out.tfevents.1650658216.euge-System-Product-Name.227352.2
+lightning_logs/drishti_model/OC/50 epoch/version_8/checkpoints/epoch=55-step=503.ckpt
+lightning_logs/drishti_model/OC/50 epoch/version_8/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/50 epoch/version_9/events.out.tfevents.1650659242.euge-System-Product-Name.238580.0
+lightning_logs/drishti_model/OC/50 epoch/version_9/hparams.yaml
+lightning_logs/drishti_model/OC/50 epoch/version_9/Avg loss_train/events.out.tfevents.1650659256.euge-System-Product-Name.238580.3
+lightning_logs/drishti_model/OC/50 epoch/version_9/Avg loss_valid/events.out.tfevents.1650659242.euge-System-Product-Name.238580.1
+lightning_logs/drishti_model/OC/50 epoch/version_9/Avg_dice_train/events.out.tfevents.1650659256.euge-System-Product-Name.238580.4
+lightning_logs/drishti_model/OC/50 epoch/version_9/Avg_dice_valid/events.out.tfevents.1650659242.euge-System-Product-Name.238580.2
+lightning_logs/drishti_model/OC/50 epoch/version_9/checkpoints/epoch=44-step=404.ckpt
+lightning_logs/drishti_model/OC/50 epoch/version_9/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/matrix/version_10/events.out.tfevents.1651010511.alex.474948.0
+lightning_logs/drishti_model/OC/matrix/version_10/hparams.yaml
+lightning_logs/drishti_model/OC/matrix/version_10/Avg loss_train/events.out.tfevents.1651010528.alex.474948.3
+lightning_logs/drishti_model/OC/matrix/version_10/Avg loss_valid/events.out.tfevents.1651010511.alex.474948.1
+lightning_logs/drishti_model/OC/matrix/version_10/Avg_dice_train/events.out.tfevents.1651010528.alex.474948.4
+lightning_logs/drishti_model/OC/matrix/version_10/Avg_dice_valid/events.out.tfevents.1651010511.alex.474948.2
+lightning_logs/drishti_model/OC/matrix/version_10/checkpoints/DRISHTI_augm_f-25_p-10-epoch=68.ckpt
+lightning_logs/drishti_model/OC/matrix/version_10/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/matrix/version_11/events.out.tfevents.1651017633.alex.497145.0
+lightning_logs/drishti_model/OC/matrix/version_11/hparams.yaml
+lightning_logs/drishti_model/OC/matrix/version_11/Avg loss_train/events.out.tfevents.1651017651.alex.497145.3
+lightning_logs/drishti_model/OC/matrix/version_11/Avg loss_valid/events.out.tfevents.1651017633.alex.497145.1
+lightning_logs/drishti_model/OC/matrix/version_11/Avg_dice_train/events.out.tfevents.1651017651.alex.497145.4
+lightning_logs/drishti_model/OC/matrix/version_11/Avg_dice_valid/events.out.tfevents.1651017633.alex.497145.2
+lightning_logs/drishti_model/OC/matrix/version_11/checkpoints/DRISHTI_augm_f-25_p-25-epoch=111.ckpt
+lightning_logs/drishti_model/OC/matrix/version_11/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/matrix/version_12/events.out.tfevents.1651024735.alex.519407.0
+lightning_logs/drishti_model/OC/matrix/version_12/hparams.yaml
+lightning_logs/drishti_model/OC/matrix/version_12/Avg loss_train/events.out.tfevents.1651024753.alex.519407.3
+lightning_logs/drishti_model/OC/matrix/version_12/Avg loss_valid/events.out.tfevents.1651024735.alex.519407.1
+lightning_logs/drishti_model/OC/matrix/version_12/Avg_dice_train/events.out.tfevents.1651024753.alex.519407.4
+lightning_logs/drishti_model/OC/matrix/version_12/Avg_dice_valid/events.out.tfevents.1651024735.alex.519407.2
+lightning_logs/drishti_model/OC/matrix/version_12/checkpoints/DRISHTI_augm_f-25_p-50-epoch=128.ckpt
+lightning_logs/drishti_model/OC/matrix/version_12/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/matrix/version_13/events.out.tfevents.1651032217.alex.541673.0
+lightning_logs/drishti_model/OC/matrix/version_13/hparams.yaml
+lightning_logs/drishti_model/OC/matrix/version_13/Avg loss_train/events.out.tfevents.1651032236.alex.541673.3
+lightning_logs/drishti_model/OC/matrix/version_13/Avg loss_valid/events.out.tfevents.1651032217.alex.541673.1
+lightning_logs/drishti_model/OC/matrix/version_13/Avg_dice_train/events.out.tfevents.1651032236.alex.541673.4
+lightning_logs/drishti_model/OC/matrix/version_13/Avg_dice_valid/events.out.tfevents.1651032217.alex.541673.2
+lightning_logs/drishti_model/OC/matrix/version_13/checkpoints/DRISHTI_augm_f-25_p-75-epoch=127.ckpt
+lightning_logs/drishti_model/OC/matrix/version_13/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/matrix/version_14/events.out.tfevents.1651039356.alex.563891.0
+lightning_logs/drishti_model/OC/matrix/version_14/hparams.yaml
+lightning_logs/drishti_model/OC/matrix/version_14/Avg loss_train/events.out.tfevents.1651039374.alex.563891.3
+lightning_logs/drishti_model/OC/matrix/version_14/Avg loss_valid/events.out.tfevents.1651039356.alex.563891.1
+lightning_logs/drishti_model/OC/matrix/version_14/Avg_dice_train/events.out.tfevents.1651039374.alex.563891.4
+lightning_logs/drishti_model/OC/matrix/version_14/Avg_dice_valid/events.out.tfevents.1651039356.alex.563891.2
+lightning_logs/drishti_model/OC/matrix/version_14/checkpoints/DRISHTI_augm_f-50_p-10-epoch=106.ckpt
+lightning_logs/drishti_model/OC/matrix/version_14/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/matrix/version_15/events.out.tfevents.1651046472.alex.586722.0
+lightning_logs/drishti_model/OC/matrix/version_15/hparams.yaml
+lightning_logs/drishti_model/OC/matrix/version_15/Avg loss_train/events.out.tfevents.1651046490.alex.586722.3
+lightning_logs/drishti_model/OC/matrix/version_15/Avg loss_valid/events.out.tfevents.1651046472.alex.586722.1
+lightning_logs/drishti_model/OC/matrix/version_15/Avg_dice_train/events.out.tfevents.1651046490.alex.586722.4
+lightning_logs/drishti_model/OC/matrix/version_15/Avg_dice_valid/events.out.tfevents.1651046472.alex.586722.2
+lightning_logs/drishti_model/OC/matrix/version_15/checkpoints/DRISHTI_augm_f-50_p-25-epoch=111.ckpt
+lightning_logs/drishti_model/OC/matrix/version_15/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/matrix/version_16/events.out.tfevents.1651053861.alex.608903.0
+lightning_logs/drishti_model/OC/matrix/version_16/hparams.yaml
+lightning_logs/drishti_model/OC/matrix/version_16/Avg loss_train/events.out.tfevents.1651053879.alex.608903.3
+lightning_logs/drishti_model/OC/matrix/version_16/Avg loss_valid/events.out.tfevents.1651053861.alex.608903.1
+lightning_logs/drishti_model/OC/matrix/version_16/Avg_dice_train/events.out.tfevents.1651053879.alex.608903.4
+lightning_logs/drishti_model/OC/matrix/version_16/Avg_dice_valid/events.out.tfevents.1651053861.alex.608903.2
+lightning_logs/drishti_model/OC/matrix/version_16/checkpoints/DRISHTI_augm_f-50_p-50-epoch=113.ckpt
+lightning_logs/drishti_model/OC/matrix/version_16/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/matrix/version_17/events.out.tfevents.1651060982.alex.631834.0
+lightning_logs/drishti_model/OC/matrix/version_17/hparams.yaml
+lightning_logs/drishti_model/OC/matrix/version_17/Avg loss_train/events.out.tfevents.1651061001.alex.631834.3
+lightning_logs/drishti_model/OC/matrix/version_17/Avg loss_valid/events.out.tfevents.1651060982.alex.631834.1
+lightning_logs/drishti_model/OC/matrix/version_17/Avg_dice_train/events.out.tfevents.1651061001.alex.631834.4
+lightning_logs/drishti_model/OC/matrix/version_17/Avg_dice_valid/events.out.tfevents.1651060982.alex.631834.2
+lightning_logs/drishti_model/OC/matrix/version_17/checkpoints/DRISHTI_augm_f-50_p-75-epoch=104.ckpt
+lightning_logs/drishti_model/OC/matrix/version_17/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/matrix/version_18/events.out.tfevents.1651068286.alex.654101.0
+lightning_logs/drishti_model/OC/matrix/version_18/hparams.yaml
+lightning_logs/drishti_model/OC/matrix/version_18/Avg loss_train/events.out.tfevents.1651068304.alex.654101.3
+lightning_logs/drishti_model/OC/matrix/version_18/Avg loss_valid/events.out.tfevents.1651068286.alex.654101.1
+lightning_logs/drishti_model/OC/matrix/version_18/Avg_dice_train/events.out.tfevents.1651068304.alex.654101.4
+lightning_logs/drishti_model/OC/matrix/version_18/Avg_dice_valid/events.out.tfevents.1651068286.alex.654101.2
+lightning_logs/drishti_model/OC/matrix/version_18/checkpoints/DRISHTI_augm_f-75_p-10-epoch=0.ckpt
+lightning_logs/drishti_model/OC/matrix/version_18/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/matrix/version_19/events.out.tfevents.1651068393.alex.654458.0
+lightning_logs/drishti_model/OC/matrix/version_19/Avg loss_valid/events.out.tfevents.1651068393.alex.654458.1
+lightning_logs/drishti_model/OC/matrix/version_19/Avg_dice_valid/events.out.tfevents.1651068393.alex.654458.2
+lightning_logs/drishti_model/OC/matrix/version_20/events.out.tfevents.1651068406.alex.654640.0
+lightning_logs/drishti_model/OC/matrix/version_20/Avg loss_valid/events.out.tfevents.1651068406.alex.654640.1
+lightning_logs/drishti_model/OC/matrix/version_20/Avg_dice_valid/events.out.tfevents.1651068406.alex.654640.2
+lightning_logs/drishti_model/OC/matrix/version_21/events.out.tfevents.1651068416.alex.654818.0
+lightning_logs/drishti_model/OC/matrix/version_21/Avg loss_valid/events.out.tfevents.1651068416.alex.654818.1
+lightning_logs/drishti_model/OC/matrix/version_21/Avg_dice_valid/events.out.tfevents.1651068416.alex.654818.2
+lightning_logs/drishti_model/OC/matrix/version_6/events.out.tfevents.1650981509.alex.385522.0
+lightning_logs/drishti_model/OC/matrix/version_6/hparams.yaml
+lightning_logs/drishti_model/OC/matrix/version_6/Avg loss_train/events.out.tfevents.1650981526.alex.385522.3
+lightning_logs/drishti_model/OC/matrix/version_6/Avg loss_valid/events.out.tfevents.1650981509.alex.385522.1
+lightning_logs/drishti_model/OC/matrix/version_6/Avg_dice_train/events.out.tfevents.1650981526.alex.385522.4
+lightning_logs/drishti_model/OC/matrix/version_6/Avg_dice_valid/events.out.tfevents.1650981509.alex.385522.2
+lightning_logs/drishti_model/OC/matrix/version_6/checkpoints/DRISHTI_augm_f-10_p-10-epoch=127.ckpt
+lightning_logs/drishti_model/OC/matrix/version_6/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/matrix/version_7/events.out.tfevents.1650988627.alex.408137.0
+lightning_logs/drishti_model/OC/matrix/version_7/hparams.yaml
+lightning_logs/drishti_model/OC/matrix/version_7/Avg loss_train/events.out.tfevents.1650988645.alex.408137.3
+lightning_logs/drishti_model/OC/matrix/version_7/Avg loss_valid/events.out.tfevents.1650988627.alex.408137.1
+lightning_logs/drishti_model/OC/matrix/version_7/Avg_dice_train/events.out.tfevents.1650988645.alex.408137.4
+lightning_logs/drishti_model/OC/matrix/version_7/Avg_dice_valid/events.out.tfevents.1650988627.alex.408137.2
+lightning_logs/drishti_model/OC/matrix/version_7/checkpoints/DRISHTI_augm_f-10_p-25-epoch=120.ckpt
+lightning_logs/drishti_model/OC/matrix/version_7/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/matrix/version_8/events.out.tfevents.1650995817.alex.430345.0
+lightning_logs/drishti_model/OC/matrix/version_8/hparams.yaml
+lightning_logs/drishti_model/OC/matrix/version_8/Avg loss_train/events.out.tfevents.1650995836.alex.430345.3
+lightning_logs/drishti_model/OC/matrix/version_8/Avg loss_valid/events.out.tfevents.1650995817.alex.430345.1
+lightning_logs/drishti_model/OC/matrix/version_8/Avg_dice_train/events.out.tfevents.1650995836.alex.430345.4
+lightning_logs/drishti_model/OC/matrix/version_8/Avg_dice_valid/events.out.tfevents.1650995817.alex.430345.2
+lightning_logs/drishti_model/OC/matrix/version_8/checkpoints/DRISHTI_augm_f-10_p-50-epoch=128.ckpt
+lightning_logs/drishti_model/OC/matrix/version_8/checkpoints/last.ckpt
+lightning_logs/drishti_model/OC/matrix/version_9/events.out.tfevents.1651003242.alex.452682.0
+lightning_logs/drishti_model/OC/matrix/version_9/hparams.yaml
+lightning_logs/drishti_model/OC/matrix/version_9/Avg loss_train/events.out.tfevents.1651003261.alex.452682.3
+lightning_logs/drishti_model/OC/matrix/version_9/Avg loss_valid/events.out.tfevents.1651003242.alex.452682.1
+lightning_logs/drishti_model/OC/matrix/version_9/Avg_dice_train/events.out.tfevents.1651003261.alex.452682.4
+lightning_logs/drishti_model/OC/matrix/version_9/Avg_dice_valid/events.out.tfevents.1651003242.alex.452682.2
+lightning_logs/drishti_model/OC/matrix/version_9/checkpoints/DRISHTI_augm_f-10_p-75-epoch=102.ckpt
+lightning_logs/drishti_model/OC/matrix/version_9/checkpoints/last.ckpt
+lightning_logs/drishti_model/lr/version_0/events.out.tfevents.1651089223.alex.714334.0
+lightning_logs/drishti_model/lr/version_0/hparams.yaml
+lightning_logs/drishti_model/lr/version_0/Avg loss_train/events.out.tfevents.1651089240.alex.714334.3
+lightning_logs/drishti_model/lr/version_0/Avg loss_valid/events.out.tfevents.1651089223.alex.714334.1
+lightning_logs/drishti_model/lr/version_0/Avg_dice_train/events.out.tfevents.1651089240.alex.714334.4
+lightning_logs/drishti_model/lr/version_0/Avg_dice_valid/events.out.tfevents.1651089223.alex.714334.2
+lightning_logs/drishti_model/lr/version_0/checkpoints/DRISHTI_lr-1-epoch=44.ckpt
+lightning_logs/drishti_model/lr/version_0/checkpoints/last.ckpt
+lightning_logs/drishti_model/lr/version_1/events.out.tfevents.1651096255.alex.736562.0
+lightning_logs/drishti_model/lr/version_1/hparams.yaml
+lightning_logs/drishti_model/lr/version_1/Avg loss_train/events.out.tfevents.1651096273.alex.736562.3
+lightning_logs/drishti_model/lr/version_1/Avg loss_valid/events.out.tfevents.1651096255.alex.736562.1
+lightning_logs/drishti_model/lr/version_1/Avg_dice_train/events.out.tfevents.1651096273.alex.736562.4
+lightning_logs/drishti_model/lr/version_1/Avg_dice_valid/events.out.tfevents.1651096255.alex.736562.2
+lightning_logs/drishti_model/lr/version_1/checkpoints/DRISHTI_lr-01-epoch=115.ckpt
+lightning_logs/drishti_model/lr/version_1/checkpoints/last.ckpt
+lightning_logs/drishti_model/lr/version_2/events.out.tfevents.1651103393.alex.758828.0
+lightning_logs/drishti_model/lr/version_2/hparams.yaml
+lightning_logs/drishti_model/lr/version_2/Avg loss_train/events.out.tfevents.1651103410.alex.758828.3
+lightning_logs/drishti_model/lr/version_2/Avg loss_valid/events.out.tfevents.1651103393.alex.758828.1
+lightning_logs/drishti_model/lr/version_2/Avg_dice_train/events.out.tfevents.1651103410.alex.758828.4
+lightning_logs/drishti_model/lr/version_2/Avg_dice_valid/events.out.tfevents.1651103393.alex.758828.2
+lightning_logs/drishti_model/lr/version_2/checkpoints/DRISHTI_lr-001-epoch=125.ckpt
+lightning_logs/drishti_model/lr/version_2/checkpoints/last.ckpt
+lightning_logs/drishti_model/lr/version_3/events.out.tfevents.1651110610.alex.781020.0
+lightning_logs/drishti_model/lr/version_3/hparams.yaml
+lightning_logs/drishti_model/lr/version_3/Avg loss_train/events.out.tfevents.1651110628.alex.781020.3
+lightning_logs/drishti_model/lr/version_3/Avg loss_valid/events.out.tfevents.1651110610.alex.781020.1
+lightning_logs/drishti_model/lr/version_3/Avg_dice_train/events.out.tfevents.1651110628.alex.781020.4
+lightning_logs/drishti_model/lr/version_3/Avg_dice_valid/events.out.tfevents.1651110610.alex.781020.2
+lightning_logs/drishti_model/lr/version_3/checkpoints/DRISHTI_lr-0001-epoch=35.ckpt
+lightning_logs/drishti_model/lr/version_3/checkpoints/last.ckpt
+lightning_logs/drishti_model/lr/version_4/events.out.tfevents.1651117561.alex.803261.0
+lightning_logs/drishti_model/lr/version_4/hparams.yaml
+lightning_logs/drishti_model/lr/version_4/Avg loss_train/events.out.tfevents.1651117578.alex.803261.3
+lightning_logs/drishti_model/lr/version_4/Avg loss_valid/events.out.tfevents.1651117561.alex.803261.1
+lightning_logs/drishti_model/lr/version_4/Avg_dice_train/events.out.tfevents.1651117578.alex.803261.4
+lightning_logs/drishti_model/lr/version_4/Avg_dice_valid/events.out.tfevents.1651117561.alex.803261.2
+lightning_logs/drishti_model/lr/version_4/checkpoints/DRISHTI_lr-00001-epoch=128.ckpt
+lightning_logs/drishti_model/lr/version_4/checkpoints/last.ckpt
+lightning_logs/drishti_model/lr/version_5/events.out.tfevents.1651125024.alex.825448.0
+lightning_logs/drishti_model/lr/version_5/hparams.yaml
+lightning_logs/drishti_model/lr/version_5/Avg loss_train/events.out.tfevents.1651125042.alex.825448.3
+lightning_logs/drishti_model/lr/version_5/Avg loss_valid/events.out.tfevents.1651125024.alex.825448.1
+lightning_logs/drishti_model/lr/version_5/Avg_dice_train/events.out.tfevents.1651125042.alex.825448.4
+lightning_logs/drishti_model/lr/version_5/Avg_dice_valid/events.out.tfevents.1651125024.alex.825448.2
+lightning_logs/drishti_model/lr/version_5/checkpoints/DRISHTI_lr-000001-epoch=100.ckpt
+lightning_logs/drishti_model/lr/version_5/checkpoints/last.ckpt
+lightning_logs/drishti_model/matrix/version_10/events.out.tfevents.1651182377.alex.950888.0
+lightning_logs/drishti_model/matrix/version_10/hparams.yaml
+lightning_logs/drishti_model/matrix/version_10/Avg loss_train/events.out.tfevents.1651182396.alex.950888.3
+lightning_logs/drishti_model/matrix/version_10/Avg loss_valid/events.out.tfevents.1651182377.alex.950888.1
+lightning_logs/drishti_model/matrix/version_10/Avg_dice_train/events.out.tfevents.1651182396.alex.950888.4
+lightning_logs/drishti_model/matrix/version_10/Avg_dice_valid/events.out.tfevents.1651182377.alex.950888.2
+lightning_logs/drishti_model/matrix/version_10/checkpoints/DRISHTI_augm_f-25_p-10-epoch=73.ckpt
+lightning_logs/drishti_model/matrix/version_10/checkpoints/last.ckpt
+lightning_logs/drishti_model/matrix/version_11/events.out.tfevents.1651190078.alex.993555.0
+lightning_logs/drishti_model/matrix/version_11/hparams.yaml
+lightning_logs/drishti_model/matrix/version_11/Avg loss_train/events.out.tfevents.1651190096.alex.993555.3
+lightning_logs/drishti_model/matrix/version_11/Avg loss_valid/events.out.tfevents.1651190078.alex.993555.1
+lightning_logs/drishti_model/matrix/version_11/Avg_dice_train/events.out.tfevents.1651190096.alex.993555.4
+lightning_logs/drishti_model/matrix/version_11/Avg_dice_valid/events.out.tfevents.1651190078.alex.993555.2
+lightning_logs/drishti_model/matrix/version_11/checkpoints/DRISHTI_augm_f-25_p-25-epoch=115.ckpt
+lightning_logs/drishti_model/matrix/version_11/checkpoints/last.ckpt
+lightning_logs/drishti_model/matrix/version_12/events.out.tfevents.1651197064.alex.1015706.0
+lightning_logs/drishti_model/matrix/version_12/hparams.yaml
+lightning_logs/drishti_model/matrix/version_12/Avg loss_train/events.out.tfevents.1651197082.alex.1015706.3
+lightning_logs/drishti_model/matrix/version_12/Avg loss_valid/events.out.tfevents.1651197064.alex.1015706.1
+lightning_logs/drishti_model/matrix/version_12/Avg_dice_train/events.out.tfevents.1651197082.alex.1015706.4
+lightning_logs/drishti_model/matrix/version_12/Avg_dice_valid/events.out.tfevents.1651197064.alex.1015706.2
+lightning_logs/drishti_model/matrix/version_12/checkpoints/DRISHTI_augm_f-25_p-50-epoch=115.ckpt
+lightning_logs/drishti_model/matrix/version_12/checkpoints/last.ckpt
+lightning_logs/drishti_model/matrix/version_13/events.out.tfevents.1651204350.alex.1038423.0
+lightning_logs/drishti_model/matrix/version_13/hparams.yaml
+lightning_logs/drishti_model/matrix/version_13/Avg loss_train/events.out.tfevents.1651204368.alex.1038423.3
+lightning_logs/drishti_model/matrix/version_13/Avg loss_valid/events.out.tfevents.1651204350.alex.1038423.1
+lightning_logs/drishti_model/matrix/version_13/Avg_dice_train/events.out.tfevents.1651204368.alex.1038423.4
+lightning_logs/drishti_model/matrix/version_13/Avg_dice_valid/events.out.tfevents.1651204350.alex.1038423.2
+lightning_logs/drishti_model/matrix/version_13/checkpoints/DRISHTI_augm_f-25_p-75-epoch=118.ckpt
+lightning_logs/drishti_model/matrix/version_13/checkpoints/last.ckpt
+lightning_logs/drishti_model/matrix/version_14/events.out.tfevents.1651211453.alex.1060701.0
+lightning_logs/drishti_model/matrix/version_14/hparams.yaml
+lightning_logs/drishti_model/matrix/version_14/Avg loss_train/events.out.tfevents.1651211471.alex.1060701.3
+lightning_logs/drishti_model/matrix/version_14/Avg loss_valid/events.out.tfevents.1651211453.alex.1060701.1
+lightning_logs/drishti_model/matrix/version_14/Avg_dice_train/events.out.tfevents.1651211471.alex.1060701.4
+lightning_logs/drishti_model/matrix/version_14/Avg_dice_valid/events.out.tfevents.1651211453.alex.1060701.2
+lightning_logs/drishti_model/matrix/version_14/checkpoints/DRISHTI_augm_f-50_p-10-epoch=121.ckpt
+lightning_logs/drishti_model/matrix/version_14/checkpoints/last.ckpt
+lightning_logs/drishti_model/matrix/version_15/events.out.tfevents.1651218529.alex.1085713.0
+lightning_logs/drishti_model/matrix/version_15/hparams.yaml
+lightning_logs/drishti_model/matrix/version_15/Avg loss_train/events.out.tfevents.1651218548.alex.1085713.3
+lightning_logs/drishti_model/matrix/version_15/Avg loss_valid/events.out.tfevents.1651218529.alex.1085713.1
+lightning_logs/drishti_model/matrix/version_15/Avg_dice_train/events.out.tfevents.1651218548.alex.1085713.4
+lightning_logs/drishti_model/matrix/version_15/Avg_dice_valid/events.out.tfevents.1651218529.alex.1085713.2
+lightning_logs/drishti_model/matrix/version_15/checkpoints/DRISHTI_augm_f-50_p-25-epoch=128.ckpt
+lightning_logs/drishti_model/matrix/version_15/checkpoints/last.ckpt
+lightning_logs/drishti_model/matrix/version_16/events.out.tfevents.1651225674.alex.1107928.0
+lightning_logs/drishti_model/matrix/version_16/hparams.yaml
+lightning_logs/drishti_model/matrix/version_16/Avg loss_train/events.out.tfevents.1651225693.alex.1107928.3
+lightning_logs/drishti_model/matrix/version_16/Avg loss_valid/events.out.tfevents.1651225674.alex.1107928.1
+lightning_logs/drishti_model/matrix/version_16/Avg_dice_train/events.out.tfevents.1651225693.alex.1107928.4
+lightning_logs/drishti_model/matrix/version_16/Avg_dice_valid/events.out.tfevents.1651225674.alex.1107928.2
+lightning_logs/drishti_model/matrix/version_16/checkpoints/DRISHTI_augm_f-50_p-50-epoch=117.ckpt
+lightning_logs/drishti_model/matrix/version_16/checkpoints/last.ckpt
+lightning_logs/drishti_model/matrix/version_17/events.out.tfevents.1651232758.alex.1130075.0
+lightning_logs/drishti_model/matrix/version_17/hparams.yaml
+lightning_logs/drishti_model/matrix/version_17/Avg loss_train/events.out.tfevents.1651232778.alex.1130075.3
+lightning_logs/drishti_model/matrix/version_17/Avg loss_valid/events.out.tfevents.1651232758.alex.1130075.1
+lightning_logs/drishti_model/matrix/version_17/Avg_dice_train/events.out.tfevents.1651232778.alex.1130075.4
+lightning_logs/drishti_model/matrix/version_17/Avg_dice_valid/events.out.tfevents.1651232758.alex.1130075.2
+lightning_logs/drishti_model/matrix/version_17/checkpoints/DRISHTI_augm_f-50_p-75-epoch=112.ckpt
+lightning_logs/drishti_model/matrix/version_17/checkpoints/last.ckpt
+lightning_logs/drishti_model/matrix/version_18/events.out.tfevents.1651239973.alex.1152323.0
+lightning_logs/drishti_model/matrix/version_18/hparams.yaml
+lightning_logs/drishti_model/matrix/version_18/Avg loss_train/events.out.tfevents.1651239991.alex.1152323.3
+lightning_logs/drishti_model/matrix/version_18/Avg loss_valid/events.out.tfevents.1651239973.alex.1152323.1
+lightning_logs/drishti_model/matrix/version_18/Avg_dice_train/events.out.tfevents.1651239991.alex.1152323.4
+lightning_logs/drishti_model/matrix/version_18/Avg_dice_valid/events.out.tfevents.1651239973.alex.1152323.2
+lightning_logs/drishti_model/matrix/version_18/checkpoints/DRISHTI_augm_f-75_p-10-epoch=76.ckpt
+lightning_logs/drishti_model/matrix/version_18/checkpoints/last.ckpt
+lightning_logs/drishti_model/matrix/version_19/events.out.tfevents.1651247050.alex.1174514.0
+lightning_logs/drishti_model/matrix/version_19/hparams.yaml
+lightning_logs/drishti_model/matrix/version_19/Avg loss_train/events.out.tfevents.1651247068.alex.1174514.3
+lightning_logs/drishti_model/matrix/version_19/Avg loss_valid/events.out.tfevents.1651247050.alex.1174514.1
+lightning_logs/drishti_model/matrix/version_19/Avg_dice_train/events.out.tfevents.1651247068.alex.1174514.4
+lightning_logs/drishti_model/matrix/version_19/Avg_dice_valid/events.out.tfevents.1651247050.alex.1174514.2
+lightning_logs/drishti_model/matrix/version_19/checkpoints/DRISHTI_augm_f-75_p-25-epoch=109.ckpt
+lightning_logs/drishti_model/matrix/version_19/checkpoints/last.ckpt
+lightning_logs/drishti_model/matrix/version_20/events.out.tfevents.1651254251.alex.1196750.0
+lightning_logs/drishti_model/matrix/version_20/hparams.yaml
+lightning_logs/drishti_model/matrix/version_20/Avg loss_train/events.out.tfevents.1651254270.alex.1196750.3
+lightning_logs/drishti_model/matrix/version_20/Avg loss_valid/events.out.tfevents.1651254251.alex.1196750.1
+lightning_logs/drishti_model/matrix/version_20/Avg_dice_train/events.out.tfevents.1651254270.alex.1196750.4
+lightning_logs/drishti_model/matrix/version_20/Avg_dice_valid/events.out.tfevents.1651254251.alex.1196750.2
+lightning_logs/drishti_model/matrix/version_20/checkpoints/DRISHTI_augm_f-75_p-50-epoch=119.ckpt
+lightning_logs/drishti_model/matrix/version_20/checkpoints/last.ckpt
+lightning_logs/drishti_model/matrix/version_21/events.out.tfevents.1651261494.alex.1222695.0
+lightning_logs/drishti_model/matrix/version_21/hparams.yaml
+lightning_logs/drishti_model/matrix/version_21/Avg loss_train/events.out.tfevents.1651261518.alex.1222695.3
+lightning_logs/drishti_model/matrix/version_21/Avg loss_valid/events.out.tfevents.1651261494.alex.1222695.1
+lightning_logs/drishti_model/matrix/version_21/Avg_dice_train/events.out.tfevents.1651261518.alex.1222695.4
+lightning_logs/drishti_model/matrix/version_21/Avg_dice_valid/events.out.tfevents.1651261494.alex.1222695.2
+lightning_logs/drishti_model/matrix/version_21/checkpoints/DRISHTI_augm_f-75_p-75-epoch=117.ckpt
+lightning_logs/drishti_model/matrix/version_21/checkpoints/last.ckpt
+lightning_logs/drishti_model/matrix/version_6/events.out.tfevents.1651153097.alex.853540.0
+lightning_logs/drishti_model/matrix/version_6/hparams.yaml
+lightning_logs/drishti_model/matrix/version_6/Avg loss_train/events.out.tfevents.1651153115.alex.853540.3
+lightning_logs/drishti_model/matrix/version_6/Avg loss_valid/events.out.tfevents.1651153097.alex.853540.1
+lightning_logs/drishti_model/matrix/version_6/Avg_dice_train/events.out.tfevents.1651153115.alex.853540.4
+lightning_logs/drishti_model/matrix/version_6/Avg_dice_valid/events.out.tfevents.1651153097.alex.853540.2
+lightning_logs/drishti_model/matrix/version_6/checkpoints/DRISHTI_augm_f-10_p-10-epoch=122.ckpt
+lightning_logs/drishti_model/matrix/version_6/checkpoints/last.ckpt
+lightning_logs/drishti_model/matrix/version_7/events.out.tfevents.1651160084.alex.875846.0
+lightning_logs/drishti_model/matrix/version_7/hparams.yaml
+lightning_logs/drishti_model/matrix/version_7/Avg loss_train/events.out.tfevents.1651160102.alex.875846.3
+lightning_logs/drishti_model/matrix/version_7/Avg loss_valid/events.out.tfevents.1651160084.alex.875846.1
+lightning_logs/drishti_model/matrix/version_7/Avg_dice_train/events.out.tfevents.1651160102.alex.875846.4
+lightning_logs/drishti_model/matrix/version_7/Avg_dice_valid/events.out.tfevents.1651160084.alex.875846.2
+lightning_logs/drishti_model/matrix/version_7/checkpoints/DRISHTI_augm_f-10_p-25-epoch=108.ckpt
+lightning_logs/drishti_model/matrix/version_7/checkpoints/last.ckpt
+lightning_logs/drishti_model/matrix/version_8/events.out.tfevents.1651167302.alex.898040.0
+lightning_logs/drishti_model/matrix/version_8/hparams.yaml
+lightning_logs/drishti_model/matrix/version_8/Avg loss_train/events.out.tfevents.1651167320.alex.898040.3
+lightning_logs/drishti_model/matrix/version_8/Avg loss_valid/events.out.tfevents.1651167302.alex.898040.1
+lightning_logs/drishti_model/matrix/version_8/Avg_dice_train/events.out.tfevents.1651167320.alex.898040.4
+lightning_logs/drishti_model/matrix/version_8/Avg_dice_valid/events.out.tfevents.1651167302.alex.898040.2
+lightning_logs/drishti_model/matrix/version_8/checkpoints/DRISHTI_augm_f-10_p-50-epoch=124.ckpt
+lightning_logs/drishti_model/matrix/version_8/checkpoints/last.ckpt
+lightning_logs/drishti_model/matrix/version_9/events.out.tfevents.1651174833.alex.920262.0
+lightning_logs/drishti_model/matrix/version_9/hparams.yaml
+lightning_logs/drishti_model/matrix/version_9/Avg loss_train/events.out.tfevents.1651174852.alex.920262.3
+lightning_logs/drishti_model/matrix/version_9/Avg loss_valid/events.out.tfevents.1651174833.alex.920262.1
+lightning_logs/drishti_model/matrix/version_9/Avg_dice_train/events.out.tfevents.1651174852.alex.920262.4
+lightning_logs/drishti_model/matrix/version_9/Avg_dice_valid/events.out.tfevents.1651174833.alex.920262.2
+lightning_logs/drishti_model/matrix/version_9/checkpoints/DRISHTI_augm_f-10_p-75-epoch=123.ckpt
+lightning_logs/drishti_model/matrix/version_9/checkpoints/last.ckpt
+lightning_logs/version_0/events.out.tfevents.1651149447.euge-System-Product-Name.425762.0
+lightning_logs/version_0/Avg loss_valid/events.out.tfevents.1651149447.euge-System-Product-Name.425762.1
+lightning_logs/version_0/Avg_dice_valid/events.out.tfevents.1651149447.euge-System-Product-Name.425762.2
+lightning_logs/version_1/events.out.tfevents.1651149504.euge-System-Product-Name.425893.0
+lightning_logs/version_1/hparams.yaml
+lightning_logs/version_1/Avg loss_valid/events.out.tfevents.1651149504.euge-System-Product-Name.425893.1
+lightning_logs/version_1/Avg_dice_valid/events.out.tfevents.1651149504.euge-System-Product-Name.425893.2
+lightning_logs/version_10/events.out.tfevents.1651150055.euge-System-Product-Name.427163.0
+lightning_logs/version_10/hparams.yaml
+lightning_logs/version_10/Avg loss_valid/events.out.tfevents.1651150055.euge-System-Product-Name.427163.1
+lightning_logs/version_10/Avg_dice_valid/events.out.tfevents.1651150055.euge-System-Product-Name.427163.2
+lightning_logs/version_11/events.out.tfevents.1651150182.euge-System-Product-Name.427288.0
+lightning_logs/version_11/hparams.yaml
+lightning_logs/version_11/Avg loss_valid/events.out.tfevents.1651150182.euge-System-Product-Name.427288.1
+lightning_logs/version_11/Avg_dice_valid/events.out.tfevents.1651150182.euge-System-Product-Name.427288.2
+lightning_logs/version_12/events.out.tfevents.1651150542.euge-System-Product-Name.427565.0
+lightning_logs/version_12/hparams.yaml
+lightning_logs/version_12/Avg loss_valid/events.out.tfevents.1651150542.euge-System-Product-Name.427565.1
+lightning_logs/version_12/Avg_dice_valid/events.out.tfevents.1651150542.euge-System-Product-Name.427565.2
+lightning_logs/version_13/events.out.tfevents.1651150579.euge-System-Product-Name.427666.0
+lightning_logs/version_13/hparams.yaml
+lightning_logs/version_13/Avg loss_valid/events.out.tfevents.1651150579.euge-System-Product-Name.427666.1
+lightning_logs/version_13/Avg_dice_valid/events.out.tfevents.1651150579.euge-System-Product-Name.427666.2
+lightning_logs/version_14/events.out.tfevents.1651508917.euge-System-Product-Name.565870.0
+lightning_logs/version_14/hparams.yaml
+lightning_logs/version_14/Avg loss_valid/events.out.tfevents.1651508917.euge-System-Product-Name.565870.1
+lightning_logs/version_14/Avg_dice_valid/events.out.tfevents.1651508917.euge-System-Product-Name.565870.2
+lightning_logs/version_15/events.out.tfevents.1651508928.euge-System-Product-Name.565966.0
+lightning_logs/version_15/hparams.yaml
+lightning_logs/version_15/Avg loss_valid/events.out.tfevents.1651508928.euge-System-Product-Name.565966.1
+lightning_logs/version_15/Avg_dice_valid/events.out.tfevents.1651508928.euge-System-Product-Name.565966.2
+lightning_logs/version_16/events.out.tfevents.1651508937.euge-System-Product-Name.566058.0
+lightning_logs/version_16/hparams.yaml
+lightning_logs/version_16/Avg loss_valid/events.out.tfevents.1651508937.euge-System-Product-Name.566058.1
+lightning_logs/version_16/Avg_dice_valid/events.out.tfevents.1651508937.euge-System-Product-Name.566058.2
+lightning_logs/version_17/events.out.tfevents.1651508947.euge-System-Product-Name.566146.0
+lightning_logs/version_17/hparams.yaml
+lightning_logs/version_17/Avg loss_valid/events.out.tfevents.1651508947.euge-System-Product-Name.566146.1
+lightning_logs/version_17/Avg_dice_valid/events.out.tfevents.1651508947.euge-System-Product-Name.566146.2
+lightning_logs/version_18/events.out.tfevents.1651508956.euge-System-Product-Name.566261.0
+lightning_logs/version_18/hparams.yaml
+lightning_logs/version_18/Avg loss_valid/events.out.tfevents.1651508956.euge-System-Product-Name.566261.1
+lightning_logs/version_18/Avg_dice_valid/events.out.tfevents.1651508956.euge-System-Product-Name.566261.2
+lightning_logs/version_19/events.out.tfevents.1651508966.euge-System-Product-Name.566351.0
+lightning_logs/version_19/hparams.yaml
+lightning_logs/version_19/Avg loss_valid/events.out.tfevents.1651508966.euge-System-Product-Name.566351.1
+lightning_logs/version_19/Avg_dice_valid/events.out.tfevents.1651508966.euge-System-Product-Name.566351.2
+lightning_logs/version_2/events.out.tfevents.1651149680.euge-System-Product-Name.426103.0
+lightning_logs/version_2/hparams.yaml
+lightning_logs/version_2/Avg loss_valid/events.out.tfevents.1651149680.euge-System-Product-Name.426103.1
+lightning_logs/version_2/Avg_dice_valid/events.out.tfevents.1651149680.euge-System-Product-Name.426103.2
+lightning_logs/version_20/events.out.tfevents.1651508975.euge-System-Product-Name.566438.0
+lightning_logs/version_20/hparams.yaml
+lightning_logs/version_20/Avg loss_valid/events.out.tfevents.1651508975.euge-System-Product-Name.566438.1
+lightning_logs/version_20/Avg_dice_valid/events.out.tfevents.1651508975.euge-System-Product-Name.566438.2
+lightning_logs/version_21/events.out.tfevents.1651508984.euge-System-Product-Name.566530.0
+lightning_logs/version_21/hparams.yaml
+lightning_logs/version_21/Avg loss_valid/events.out.tfevents.1651508984.euge-System-Product-Name.566530.1
+lightning_logs/version_21/Avg_dice_valid/events.out.tfevents.1651508984.euge-System-Product-Name.566530.2
+lightning_logs/version_22/events.out.tfevents.1651508994.euge-System-Product-Name.566620.0
+lightning_logs/version_22/hparams.yaml
+lightning_logs/version_22/Avg loss_valid/events.out.tfevents.1651508994.euge-System-Product-Name.566620.1
+lightning_logs/version_22/Avg_dice_valid/events.out.tfevents.1651508994.euge-System-Product-Name.566620.2
+lightning_logs/version_23/events.out.tfevents.1651509003.euge-System-Product-Name.566709.0
+lightning_logs/version_23/hparams.yaml
+lightning_logs/version_23/Avg loss_valid/events.out.tfevents.1651509003.euge-System-Product-Name.566709.1
+lightning_logs/version_23/Avg_dice_valid/events.out.tfevents.1651509003.euge-System-Product-Name.566709.2
+lightning_logs/version_24/events.out.tfevents.1651509012.euge-System-Product-Name.566798.0
+lightning_logs/version_24/hparams.yaml
+lightning_logs/version_24/Avg loss_valid/events.out.tfevents.1651509012.euge-System-Product-Name.566798.1
+lightning_logs/version_24/Avg_dice_valid/events.out.tfevents.1651509012.euge-System-Product-Name.566798.2
+lightning_logs/version_25/events.out.tfevents.1651509022.euge-System-Product-Name.566889.0
+lightning_logs/version_25/hparams.yaml
+lightning_logs/version_25/Avg loss_valid/events.out.tfevents.1651509022.euge-System-Product-Name.566889.1
+lightning_logs/version_25/Avg_dice_valid/events.out.tfevents.1651509022.euge-System-Product-Name.566889.2
+lightning_logs/version_26/events.out.tfevents.1651509031.euge-System-Product-Name.566981.0
+lightning_logs/version_26/hparams.yaml
+lightning_logs/version_26/Avg loss_valid/events.out.tfevents.1651509031.euge-System-Product-Name.566981.1
+lightning_logs/version_26/Avg_dice_valid/events.out.tfevents.1651509031.euge-System-Product-Name.566981.2
+lightning_logs/version_27/events.out.tfevents.1651509040.euge-System-Product-Name.567073.0
+lightning_logs/version_27/hparams.yaml
+lightning_logs/version_27/Avg loss_valid/events.out.tfevents.1651509040.euge-System-Product-Name.567073.1
+lightning_logs/version_27/Avg_dice_valid/events.out.tfevents.1651509040.euge-System-Product-Name.567073.2
+lightning_logs/version_28/events.out.tfevents.1651509050.euge-System-Product-Name.567163.0
+lightning_logs/version_28/hparams.yaml
+lightning_logs/version_28/Avg loss_valid/events.out.tfevents.1651509050.euge-System-Product-Name.567163.1
+lightning_logs/version_28/Avg_dice_valid/events.out.tfevents.1651509050.euge-System-Product-Name.567163.2
+lightning_logs/version_29/events.out.tfevents.1651509059.euge-System-Product-Name.567252.0
+lightning_logs/version_29/hparams.yaml
+lightning_logs/version_29/Avg loss_valid/events.out.tfevents.1651509059.euge-System-Product-Name.567252.1
+lightning_logs/version_29/Avg_dice_valid/events.out.tfevents.1651509059.euge-System-Product-Name.567252.2
+lightning_logs/version_3/events.out.tfevents.1651149716.euge-System-Product-Name.426231.0
+lightning_logs/version_3/hparams.yaml
+lightning_logs/version_3/Avg loss_valid/events.out.tfevents.1651149716.euge-System-Product-Name.426231.1
+lightning_logs/version_3/Avg_dice_valid/events.out.tfevents.1651149716.euge-System-Product-Name.426231.2
+lightning_logs/version_30/events.out.tfevents.1651682877.euge-System-Product-Name.656780.0
+lightning_logs/version_30/hparams.yaml
+lightning_logs/version_30/Avg loss_valid/events.out.tfevents.1651682877.euge-System-Product-Name.656780.1
+lightning_logs/version_30/Avg_dice_valid/events.out.tfevents.1651682877.euge-System-Product-Name.656780.2
+lightning_logs/version_31/events.out.tfevents.1651686316.euge-System-Product-Name.659084.0
+lightning_logs/version_31/hparams.yaml
+lightning_logs/version_32/events.out.tfevents.1651686523.euge-System-Product-Name.659321.0
+lightning_logs/version_32/hparams.yaml
+lightning_logs/version_33/events.out.tfevents.1651686629.euge-System-Product-Name.659508.0
+lightning_logs/version_33/hparams.yaml
+lightning_logs/version_34/events.out.tfevents.1651686746.euge-System-Product-Name.659756.0
+lightning_logs/version_34/hparams.yaml
+lightning_logs/version_35/events.out.tfevents.1651686956.euge-System-Product-Name.660149.0
+lightning_logs/version_35/hparams.yaml
+lightning_logs/version_35/Avg_dice_test/events.out.tfevents.1651686956.euge-System-Product-Name.660149.1
+lightning_logs/version_36/events.out.tfevents.1651688073.euge-System-Product-Name.661327.0
+lightning_logs/version_36/hparams.yaml
+lightning_logs/version_37/events.out.tfevents.1651688851.euge-System-Product-Name.661804.0
+lightning_logs/version_37/hparams.yaml
+lightning_logs/version_38/events.out.tfevents.1651752803.euge-System-Product-Name.695754.0
+lightning_logs/version_38/hparams.yaml
+lightning_logs/version_39/events.out.tfevents.1651753625.euge-System-Product-Name.696405.0
+lightning_logs/version_39/hparams.yaml
+lightning_logs/version_4/events.out.tfevents.1651149766.euge-System-Product-Name.426387.0
+lightning_logs/version_4/hparams.yaml
+lightning_logs/version_4/Avg loss_valid/events.out.tfevents.1651149766.euge-System-Product-Name.426387.1
+lightning_logs/version_4/Avg_dice_valid/events.out.tfevents.1651149766.euge-System-Product-Name.426387.2
+lightning_logs/version_40/events.out.tfevents.1651753762.euge-System-Product-Name.696528.0
+lightning_logs/version_40/hparams.yaml
+lightning_logs/version_41/events.out.tfevents.1651756961.euge-System-Product-Name.698432.0
+lightning_logs/version_41/hparams.yaml
+lightning_logs/version_42/events.out.tfevents.1651757081.euge-System-Product-Name.698613.0
+lightning_logs/version_42/hparams.yaml
+lightning_logs/version_43/events.out.tfevents.1651757342.euge-System-Product-Name.699042.0
+lightning_logs/version_43/hparams.yaml
+lightning_logs/version_44/events.out.tfevents.1651757536.euge-System-Product-Name.699248.0
+lightning_logs/version_44/hparams.yaml
+lightning_logs/version_45/events.out.tfevents.1651757615.euge-System-Product-Name.699405.0
+lightning_logs/version_45/hparams.yaml
+lightning_logs/version_46/events.out.tfevents.1651757747.euge-System-Product-Name.699680.0
+lightning_logs/version_46/hparams.yaml
+lightning_logs/version_47/events.out.tfevents.1651757932.euge-System-Product-Name.699872.0
+lightning_logs/version_47/hparams.yaml
+lightning_logs/version_48/events.out.tfevents.1651758018.euge-System-Product-Name.700040.0
+lightning_logs/version_48/hparams.yaml
+lightning_logs/version_49/events.out.tfevents.1651758644.euge-System-Product-Name.701486.0
+lightning_logs/version_49/hparams.yaml
+lightning_logs/version_5/events.out.tfevents.1651149826.euge-System-Product-Name.426525.0
+lightning_logs/version_5/hparams.yaml
+lightning_logs/version_5/Avg loss_valid/events.out.tfevents.1651149826.euge-System-Product-Name.426525.1
+lightning_logs/version_5/Avg_dice_valid/events.out.tfevents.1651149826.euge-System-Product-Name.426525.2
+lightning_logs/version_50/events.out.tfevents.1651758784.euge-System-Product-Name.701679.0
+lightning_logs/version_50/hparams.yaml
+lightning_logs/version_51/events.out.tfevents.1651776622.euge-System-Product-Name.3824.0
+lightning_logs/version_51/hparams.yaml
+lightning_logs/version_52/events.out.tfevents.1651776783.euge-System-Product-Name.4008.0
+lightning_logs/version_52/hparams.yaml
+lightning_logs/version_6/events.out.tfevents.1651149852.euge-System-Product-Name.426632.0
+lightning_logs/version_6/hparams.yaml
+lightning_logs/version_6/Avg loss_valid/events.out.tfevents.1651149852.euge-System-Product-Name.426632.1
+lightning_logs/version_6/Avg_dice_valid/events.out.tfevents.1651149852.euge-System-Product-Name.426632.2
+lightning_logs/version_7/events.out.tfevents.1651149875.euge-System-Product-Name.426740.0
+lightning_logs/version_7/hparams.yaml
+lightning_logs/version_7/Avg loss_valid/events.out.tfevents.1651149875.euge-System-Product-Name.426740.1
+lightning_logs/version_7/Avg_dice_valid/events.out.tfevents.1651149875.euge-System-Product-Name.426740.2
+lightning_logs/version_8/events.out.tfevents.1651149988.euge-System-Product-Name.426914.0
+lightning_logs/version_8/hparams.yaml
+lightning_logs/version_8/Avg loss_valid/events.out.tfevents.1651149988.euge-System-Product-Name.426914.1
+lightning_logs/version_8/Avg_dice_valid/events.out.tfevents.1651149988.euge-System-Product-Name.426914.2
+lightning_logs/version_9/events.out.tfevents.1651150021.euge-System-Product-Name.427020.0
+lightning_logs/version_9/hparams.yaml
+lightning_logs/version_9/Avg loss_valid/events.out.tfevents.1651150021.euge-System-Product-Name.427020.1
+lightning_logs/version_9/Avg_dice_valid/events.out.tfevents.1651150021.euge-System-Product-Name.427020.2

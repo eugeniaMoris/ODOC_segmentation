@@ -83,11 +83,19 @@ def main():
         img,n_img = get_images(imgs_paths[path])
         mask, n_mask = get_mask(OD_anot[path])
 
-        new_img, new_mask = crop_fov(img, mask)
+        if (n_img + '.png') in test:
+            iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/Test/' +  n_img + '.png',img)
+            iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '/Test/' + n_mask + '.png',mask)
+        else:
+            new_img, new_mask = crop_fov(img, mask)
 
-        iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/' +  n_img + '.png',new_img)
-        iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '/' + n_mask + '.png',new_mask)
+            iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/' +  n_img + '.png',new_img)
+            iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '/' + n_mask + '.png',new_mask)
 
+    last_test =[]
+    for t in test:
+        last_test.insert(len(last_test),'Test/'+ t)
+    test = last_test
     data_preprocesing.save_split_file('/mnt/Almacenamiento/ODOC_segmentation/split', 'ODOC_segmentation', dataset, train, validation, test)
 
     return dataset, train, test

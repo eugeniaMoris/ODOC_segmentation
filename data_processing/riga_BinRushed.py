@@ -89,6 +89,9 @@ def get_mask(file_name, final_name, img, sdataset):
     
     iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '-BinRushed' + '/' + final_name,OD_add)
     iio.imwrite(proyect_path + dst_data_path + 'OC/' + dataset + '-BinRushed' + '/' + final_name,OC_add)
+
+    iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '-BinRushed' + '/' +  final_name,img) #guardo
+
     
 
     return
@@ -106,7 +109,6 @@ def get_images(paths, names, sdataset):
         
         img = iio.imread(paths[p_i]) #obtengo imagen
         #procesar
-        iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '-BinRushed' + '/' +  names[p_i],img) #guardo
 
         get_mask(old_name, names[p_i], img, sdataset)
 

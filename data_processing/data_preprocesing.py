@@ -23,6 +23,8 @@ import matplotlib.pyplot as plt
 #import cv2
 import imageio as iio
 from PIL import Image
+from skimage.transform import resize
+from utils import crop_fov_limits
 
 
 def show(imgs):
@@ -198,12 +200,12 @@ class DataModuleClass(pl.LightningDataModule):
         img_paths = []
         OD_paths = []
 
-        for path in sorted(glob.glob(self.data_path + '/images/' + self.dataset + '/*.png')):
+        for path in sorted(glob.glob(self.data_path + '/images/' + self.dataset + '/*/*.png')):
             img_paths.insert(len(img_paths),path)
         self.img_paths = img_paths
 
         try: #EN CASO DE NO POSEER MASCARAS PARA EL DATASET 
-            for path in sorted(glob.glob(self.data_path + '/OD1/' + self.dataset + '/*.png')):
+            for path in sorted(glob.glob(self.data_path + '/OD1/' + self.dataset + '/*/*.png')):
                 OD_paths.insert(len(OD_paths),path)
         except:
             print('NO MASK FOR THIS DATASET')
@@ -250,9 +252,20 @@ class DataModuleClass(pl.LightningDataModule):
 
         return DataLoader(self.pred_data, batch_size=self.batch_size, num_workers=self.num_workes)
 
+    def get_train_dataloader(self, batch_size):
+        return DataLoader(self.train_data, batch_size= batch_size, num_workers=self.num_workes)
+
+    def get_valid_dataloader(self, batch_size):
+        return DataLoader(self.valid_data, batch_size= batch_size, num_workers=self.num_workes)
+    
+    def get_test_dataloader(self, batch_size):
+        return DataLoader(self.test_data, batch_size= batch_size, num_workers=self.num_workes)
+    
+    def get_pred_dataloader(self, batch_size):
+        return DataLoader(self.pred_data, batch_size= batch_size, num_workers=self.num_workes)
 
 class Dataset_proc(Dataset):
-    def __init__(self,img_path, dataset, made_norm=True, OD_path= None, split= [], augmentacion=None,probabilities=None, scale=1):
+    def __init__(self,img_path, dataset, made_norm=True, OD_path= None, split= [], augmentacion=None,probabilities=None,rescale='normal', scale=1):
         '''
         ---------------------------------
         input
@@ -263,6 +276,7 @@ class Dataset_proc(Dataset):
         split: nombre base de las imagenes pertenecientes al dataset
         augmentacion: la augmentacion a aplicarse sobre los datos
         probabilities: nos indica las probabilidades de que se aplica cada augmentacion
+        rescale: normal/test, para saber que tipo de reescalado se le deben realizar a las imagenes
         ---------------------------------
         '''
 
@@ -274,6 +288,7 @@ class Dataset_proc(Dataset):
         self.made_norm = made_norm
         self.transform = augmentacion
         self.probabilities = probabilities
+        self.rescale= rescale
 
         #ARREGLO DE TRANSFORMACIONES 
         #ARREGLO DE PROBABILIDADES
@@ -283,7 +298,9 @@ class Dataset_proc(Dataset):
             #OBTENGO LOS PATHS THE LAS IMAGENES QUE PERTENECEN AL GRUPO QUE QUIERO
             for i in range(len(img_path)): 
                 base_name = ntpath.basename(img_path[i])
-                if base_name in split: 
+                #print('BASE NAME: ', base_name)
+                if (base_name in split)or (('Test/'+base_name) in split): 
+                    #print('PATHS:', img_path[i])
                     paths.insert(len(paths),img_path[i])
                     masks.insert(len(masks),OD_path[i])
 
@@ -347,18 +364,20 @@ class Dataset_proc(Dataset):
                 OD_mask = transform(OD_mask)
 
 
+        if self.rescale == 'normal':
+            #RE-ESCALO LAS IMAGENES A 512X512 
+            img = self.scale_img(img, 512, 512)
 
-        #RE-ESCALO LAS IMAGENES A 512X512 
-        img = self.scale_img(img, 512, 512)
+            if mask != []:
+                OD_new = self.scale_img(OD_mask, 512, 512)
 
-        if mask != []:
-            OD_new = self.scale_img(OD_mask, 512, 512)
-
-            OD_new = OD_new[0,:,:]
-            OD_new = OD_new.long()
+                OD_new = OD_new[0,:,:]
+                OD_new = OD_new.long()
+            else:
+                img = (img)
+                OD_new = []
         else:
-            img = (img)
-            OD_new = []
+            img, OD_mask = self.rescale_test(img, OD_mask)
 
         if self.made_norm:
             #NORMALIZO LA IMAGEN, 
@@ -366,7 +385,7 @@ class Dataset_proc(Dataset):
             #posteriormente la resizeo a un valor mas chico de 512S,512
 
             img = img.float()
-            shape = img.size()
+            shape = img.size() #Guardo los tamaños originales
 
             mean_r = torch.mean(img[0,:,:])
             mean_g = torch.mean(img[1,:,:])
@@ -391,6 +410,38 @@ class Dataset_proc(Dataset):
 
         scaledImg = F.resize(image, (width,height), interpolation=transforms.InterpolationMode.NEAREST)
         return scaledImg
+    
+    def rescale_test(fundus_img, mask, target_radio=255):
+        '''
+        Para los datos de test buscamo reducir la imagen de manera tal que el radio del disco en la imagen de test se asimile al tamano del disco en la imagen de train
+        fundu
+        inputs: -----------------------------
+        fundus_img: la imagen de entrada
+        mask: mascara correspondiente a la imagen dada
+        target_radio: tamano en el que esperamos que este el radio del disco de la imagen aproximadamente
+        '''
+        print('ENTRO: ')
+        lim_x_inf,lim_x_sup, lim_y_inf,lim_y_sup, radio = crop_fov_limits(fundus_img)
+            
+        
+        width, height,_ = fundus_img.shape    
+        scale = target_radio / radio
+
+        new_width = int(scale*width)
+        new_height = int(scale*height)
+  
+        scaledImg = resize(fundus_img, (new_width,new_height))
+        
+        final_size = max(new_width,new_height)
+        square_Img = resize(scaledImg,(final_size,final_size))
+        if mask != []:
+            y_rescale = resize(mask, (new_width,new_height))
+            square_mask = resize(y_rescale,(final_size,final_size))
+        else:
+            square_mask = None
+        
+            
+        return square_Img,square_mask
 
 
 

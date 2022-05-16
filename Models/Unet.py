@@ -1,6 +1,7 @@
 #from random import random
 #from typing import Final
 #from warnings import filters
+from email.mime import base
 from unicodedata import name
 import numpy as np
 from sklearn.preprocessing import scale
@@ -18,6 +19,7 @@ from sklearn.metrics import f1_score,accuracy_score
 import imageio as iio
 from PIL import Image
 import torchvision.transforms as transforms
+import ntpath
 
 class UnetConvBlock(nn.Module):
 
@@ -113,10 +115,49 @@ class UnetUpsampling(nn.Module):
         rescaled_input = self.up(prev_layer)
 
         offset = rescaled_input.size()[2] - from_skip_connection.size()[2]
-        padding= 2 * [offset // 2, offset // 2]
-        from_skip_connection = F.pad(from_skip_connection,padding)
+        #padding= 2 * [offset // 2, offset // 2]
+        #from_skip_connection = F.pad(from_skip_connection,padding)
 
-        return self.conv(torch.cat([from_skip_connection,rescaled_input],1))
+        concatenated_map = self.concatenate_skip_connection_and_low_res_maps(from_skip_connection=from_skip_connection,rescaled_input=rescaled_input)
+        return self.conv(concatenated_map)
+
+    def concatenate_skip_connection_and_low_res_maps(self,from_skip_connection, rescaled_input, order='direct'):
+        '''
+            Los valores que obtenemos de la skip connection difieren de los obtenidos de la convolucion anterior
+            Siempre manteniendo la dimension de la skip coneption como prioridad
+            Si la entrada del skip concetion es menos, entonces le sacamos al otro valor los pixeles necesarios para igualarlos.
+            Si la entrada de la convolucion anterior es menor al del skip connection entonces le agregagos con padding los pixels necesarios para igualar'''
+
+        if rescaled_input.size()[2] > from_skip_connection.size()[2]:
+            rescaled_input = rescaled_input[:,:,0:from_skip_connection.size()[2],:]
+        if rescaled_input.size()[3] > from_skip_connection.size()[3]:
+            rescaled_input = rescaled_input[:,:,:,0:from_skip_connection.size()[3]]
+
+        # verify the differences between the two tensors and apply padding
+        offset_2 = rescaled_input.size()[2] - from_skip_connection.size()[2]
+        offset_3 = rescaled_input.size()[3] - from_skip_connection.size()[3]
+
+        # if the offsets are not odd, then correct to get the right padding
+        if (offset_2 % 2) == 0:
+            offset_2 = offset_2 // 2
+        if (offset_3 % 2) == 0:
+            offset_3 = offset_3 // 2
+        # initialize the padding
+        padding = [offset_3, offset_3, offset_2, offset_2]
+        # if it's negative, it means that we have to pad the rescaled input instead of the skip connection
+        if (offset_2 < 0) or (offset_3 < 0):
+            padding = list(np.array(padding) * -1)
+            rescaled_input = F.pad(rescaled_input, padding)
+            rescaled_input = rescaled_input[:, :, :from_skip_connection.size()[2], :from_skip_connection.size()[3]]
+        else:
+            from_skip_connection = F.pad(from_skip_connection, padding)    
+            from_skip_connection = from_skip_connection[:, :, :rescaled_input.size()[2], :rescaled_input.size()[3]]
+
+        # concatenate
+        if order == 'inverse':
+            return torch.cat([rescaled_input, from_skip_connection], 1)
+        else:
+            return torch.cat([from_skip_connection, rescaled_input], 1)
 
 class Unet(pl.LightningModule):
     def __init__(self, config, loss, model_name):
@@ -282,7 +323,7 @@ class Unet(pl.LightningModule):
 
         y_hat= self.forward(x)
 
-        #CALCULATE DICE
+        #CALCULATE LOSS
         loss = self.loss(y_hat,y)
         
         #CALCULATE DICE
@@ -310,6 +351,8 @@ class Unet(pl.LightningModule):
         self.logger.experiment.add_scalars("Avg loss",{'valid':avg_loss}, self.current_epoch)
         self.logger.experiment.add_scalars("Avg_dice",{'valid' : avg_dice}, self.current_epoch)
 
+        
+
         #TAKE THE FIRST VALIDATION BATCH SAVED AND PREDICT THE FIRST SAMPLE
         # x, y, names, shapes = self.valid_sample
         # pred = self.forward(x)
@@ -332,6 +375,36 @@ class Unet(pl.LightningModule):
         self.log('avg_val_loss', avg_loss)
      
         return {'avg_val_loss': avg_loss, 'avg_val_dice': avg_dice}
+
+    def test_step(self, batch, batch_idx):
+        x,y, names, shapes = batch
+        print('NAMES: ', names)
+        y_hat = self.forward(x)
+
+        #CALCULATE LOSS
+        loss = self.loss(y_hat,y)
+        #pred = self.softmax(y_hat)
+        
+        pred_arg = torch.argmax(y_hat, dim=1) #BINARY IMAGE OF THE SEGMENTATION
+
+        #CALCULATE DICE
+        test_dice = self.dice_metric(y,pred_arg)
+        test_dice= torch.tensor(test_dice)
+
+        print('TEST DICE: ', test_dice)
+        self.log("test_LOSS", loss, prog_bar=True)
+        self.log("test_DICE", test_dice, prog_bar=True)
+
+        base_name = ntpath.basename(names[0])
+        print('BASE NAME: ', base_name)
+        if self.current_epoch % 100 == 0:
+        
+            self.save_pred_img(y,pred_arg, base_name)
+
+        return {'test_Dice':test_dice, 'test_Loss':loss}
+
+
+
 
     def predict_step(self, batch, batch_idx):
         '''
@@ -379,6 +452,22 @@ class Unet(pl.LightningModule):
 
 
         return
+
+    def save_pred_img(self, true, pred, name):
+        final_name = 'pred_' + name #NAME OF THE FILE
+        dst_path = '/mnt/Almacenamiento/ODOC_segmentation/predicted/'
+
+        probability= (pred * 255).cpu()
+        probability = np.clip(probability, 0, 255)
+
+        tp_image = self.generate_img(pred,true)
+        tp_image = tp_image[:,0,:,:]
+        tp_image = np.transpose(tp_image, (1,2,0))
+        print('tp_image SHAPE: ', tp_image.shape)
+        print('save in ', dst_path + self.name + '/' +name)
+        iio.imsave(dst_path + self.name + '/' +name, probability[0,:,:])
+        iio.imsave(dst_path + self.name +  '/tp_' + name, tp_image)
+
 
     def configure_optimizers(self):
         '''
