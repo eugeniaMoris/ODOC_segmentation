@@ -3,6 +3,8 @@ from math import degrees
 import os
 from argparse import ArgumentParser
 from configparser import ConfigParser
+from traceback import print_tb
+from turtle import st
 from urllib.request import HTTPPasswordMgr
 #from posixpath import split
 import torch.nn as nn
@@ -21,7 +23,9 @@ from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 #import tensorboard
 
 from data_processing.data_preprocesing import DataModuleClass
+from data_processing.dataModuleDC import DataModuleClassDC
 import matplotlib.pyplot as plt
+import ntpath
 
 def get_augmentation(config):
     transform = [Hflip(), Vflip(), GaussianBlur(),ColorJitter(), RandomAffine(degrees=(0,180),translate=[1,1],scale=(.8,1.2)),ToTensor()]
@@ -95,7 +99,10 @@ def main(config,hparams):
         verbose=True,
     )
 
-    split_file = hparams.split + '/ODOC_segmentation_' + hparams.dataset + '.ini'
+    if hparams.dataset == 'multi':
+        split_file = hparams.split
+    else:
+        split_file = hparams.split + '/ODOC_segmentation_' + hparams.dataset + '.ini'
     config_split = ConfigParser()
     config_split.read(split_file)
 
@@ -104,27 +111,49 @@ def main(config,hparams):
     transforms, probabilities = get_augmentation(config)
     #probabilities = [0.5, 0.5, 0.5,0.5,0.5,1]
     
-    dataMod = DataModuleClass(data_path= hparams.data_path,
-            split_file= config_split,
-            dataset= hparams.dataset, aumentation=transforms,
-            pred_data=config['training']['predic_data'],
-            norm=bool(config['training']['norm']),
-            probabilities=probabilities,
-            batch_size=int(config['training']['batch_size']))
+    if hparams.etapa == 0:
+        dataMod = DataModuleClass(data_path= hparams.data_path,
+                split_file= config_split,
+                dataset= hparams.dataset, aumentation=transforms,
+                pred_data=config['training']['predic_data'],
+                norm=bool(config['training']['norm']),
+                probabilities=probabilities,
+                batch_size=int(config['training']['batch_size']))
+    elif hparams.etapa == 1:
+        dataMod = DataModuleClassDC(data_path= hparams.data_path,
+                split_file= config_split,
+                dataset= hparams.dataset, aumentation=transforms,
+                pred_data=config['training']['predic_data'],
+                norm=bool(config['training']['norm']),
+                probabilities=probabilities,
+                batch_size=int(config['training']['batch_size']))
+
 
     seed_everything(42, workers=True)
 
     #CALLBACKS USED
-    folder,name = (hparams.config).split('/')
-    conf_name,_= name.split('.') 
-    early_stop_callback = EarlyStopping(monitor='dice', patience=int(config['training']['patience']), verbose=True, mode='max') #Early stopping
-    callback= ModelCheckpoint(monitor='dice', mode='max', #GUARDA EL MEJOR MODELO
-            save_last=True, # GUARDA EL ULTIMO MODELO
-            filename= conf_name + '-{epoch}',
-            save_weights_only=False) #GUARDA SOLAMENTE LOS PESOS DEL MODELO
+    base_name = ntpath.basename(hparams.config)
+    conf_name,_= base_name.split('.') 
 
+    if hparams.etapa == 1:
+        print('ENTRO A CALLBACKS')
+        early_stop_callback = EarlyStopping(monitor='val_dice_prom', patience=int(config['training']['patience']), verbose=True, mode='max') #Early stopping
+        callback= ModelCheckpoint(monitor='val_dice_prom', mode='max', #GUARDA EL MEJOR MODELO
+                save_last=True, # GUARDA EL ULTIMO MODELO
+                filename= conf_name + '-{epoch}',
+                save_weights_only=False) #GUARDA SOLAMENTE LOS PESOS DEL MODELO
+    else:
+        early_stop_callback = EarlyStopping(monitor='dice', patience=int(config['training']['patience']), verbose=True, mode='max') #Early stopping
+        callback= ModelCheckpoint(monitor='dice', mode='max', #GUARDA EL MEJOR MODELO
+                save_last=True, # GUARDA EL ULTIMO MODELO
+                filename= conf_name + '-{epoch}',
+                save_weights_only=False) #GUARDA SOLAMENTE LOS PESOS DEL MODELO
 
-    logger = TensorBoardLogger('lightning_logs', name=hparams.dataset) #for the tensor board
+    if hparams.name == None:
+        name = hparams.dataset + str(hparams.etapa)
+    else: 
+        name = hparams.name
+    logger = TensorBoardLogger('lightning_logs', name=name) #for the tensor board
 
     #generate the trainer
     if hparams.resume != None:
@@ -133,11 +162,11 @@ def main(config,hparams):
         resume_path = None
 
     trainer = Trainer(
-        callbacks=[callback, early_stop_callback], #add callbacks
+        callbacks=[callback,early_stop_callback], #add callbacks
         auto_lr_find=False,
         resume_from_checkpoint = resume_path,
         auto_scale_batch_size= False,
-        max_epochs=int(config['training']['epochs']), 
+        max_epochs=2,#int(config['training']['epochs']), 
         accelerator="gpu",
         gpus=1,
         logger=logger, #logger for the tensorboard
@@ -159,6 +188,8 @@ if __name__ == '__main__':
     parser.add_argument('--dataset',required=True, type=str)
     parser.add_argument('--log_dir', default='lightning_logs')
     parser.add_argument('--resume', default=None, help='give the checkpoint if we want to continue a training')
+    parser.add_argument('--etapa', help='etapa 0 para la deteccion del disco, etapa 1 para la deteccion de disco y copa', type= int)
+    parser.add_argument('--name', default=None, type=str, help='nombre donde queremso que se guarde el experimento')
     hparams = parser.parse_args()
 
     #READ CONFIG FILE

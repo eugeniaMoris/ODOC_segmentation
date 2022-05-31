@@ -282,22 +282,56 @@ class Unet(pl.LightningModule):
         loss = self.loss(y_hat,y) 
 
         y_arg = torch.argmax(y_hat,dim=1)
-        dice = self.dice_metric(y,y_arg)
-        dice= torch.tensor(dice)
 
-        #SAVE METRICS IN THE TENSORBOARD
-        #self.logger.experiment.add_scalars("Loss", {'train_loss' : loss}, self.global_step)
-        #self.logger.experiment.add_scalars("Dice", {"train_dice": dice}, self.global_step) 
+        if self.n_classes == 3:
 
-        
-        
-        #IN CASE WE WANT TO SAVE ACC
-        #y_arg = torch.argmax(y_hat,dim=1)
-        #acc = self.acc_metric(y,y_arg)
-        #acc= torch.tensor(acc)
-        #self.logger.experiment.add_scalars("Acc", {' train acc' : acc}, self.global_step)
+            C_pred = y_arg.detach().clone()
+            C_pred[C_pred == 1] = 0
+            C_pred[C_pred == 2] = 1
 
-        return {'loss':loss, 'dice':dice}
+            y_c = y.detach().clone()
+            y_c[y_c == 1]=0 
+            y_c[y_c == 2]=1 
+
+
+            D_pred = y_arg.detach().clone()
+            D_pred[D_pred == 2] = 1
+            y_d = y.detach().clone()
+            y_d[y_d == 2] = 1
+
+            dice_C = self.dice_metric(y,C_pred)
+            dice_D = self.dice_metric(y,D_pred)
+
+            dice_C= torch.tensor(dice_C)
+            dice_D= torch.tensor(dice_D)
+
+            dice_prom = (dice_C + dice_D)/2
+
+            # print('values of argpred: ', torch.unique(y_arg))
+            # print('values of Y: ', torch.unique(y))
+
+            # print('values of the Yd: ', torch.unique(y_d))
+            # print('values of the Yc: ', torch.unique(y_c))
+            # print('values of the Pred d: ', torch.unique(D_pred))
+            # print('values of the Pred c: ', torch.unique(C_pred))
+
+            #SAVE METRICS IN THE TENSORBOARD
+            #self.logger.experiment.add_scalars("Loss", {'train_loss' : loss}, self.global_step)
+            #self.logger.experiment.add_scalars("Dice_OC", {"train_dice_OC": dice_C}, self.global_step)
+            #self.logger.experiment.add_scalars("Dice_OD", {"train_dice_OD": dice_D}, self.global_step) 
+
+
+            return{'loss': loss, 'dice_OC': dice_C, 'dice_OD' : dice_D, 'dice_prom' : dice_prom}
+        else:
+            
+            dice = self.dice_metric(y,y_arg)
+            dice= torch.tensor(dice)
+
+            #SAVE METRICS IN THE TENSORBOARD
+            self.logger.experiment.add_scalars("Loss", {'train_loss' : loss}, self.global_step)
+            self.logger.experiment.add_scalars("Dice", {"train_dice": dice}, self.global_step) 
+
+            return {'loss':loss, 'dice':dice}
 
     def training_epoch_end(self, outputs):
         '''
@@ -305,21 +339,31 @@ class Unet(pl.LightningModule):
         outputs: values saved in the return of the training_step'''
 
         avg_loss = torch.stack([x['loss'] for x in outputs]).mean()
-        avg_dice = torch.stack([x['dice'] for x in outputs]).mean()
         self.logger.experiment.add_scalars("Avg loss",{'train':avg_loss}, self.current_epoch) #graph in tensorboard
-        self.logger.experiment.add_scalars("Avg_dice",{'train' : avg_dice}, self.current_epoch)
+
+        if self.n_classes == 3:
+            avg_dice_c = torch.stack([x['dice_OC'] for x in outputs]).mean()
+            avg_dice_d = torch.stack([x['dice_OD'] for x in outputs]).mean()
+            self.logger.experiment.add_scalars("Avg_dice_OC",{'train' : avg_dice_c}, self.current_epoch)
+            self.logger.experiment.add_scalars("Avg_dice_OD",{'train' : avg_dice_d}, self.current_epoch)
+
+        else:
+            avg_dice = torch.stack([x['dice'] for x in outputs]).mean()
+            self.logger.experiment.add_scalars("Avg_dice",{'train' : avg_dice}, self.current_epoch)
 
     def validation_step(self, batch, batch_nb):
         '''
         Operates on a single batch of data from the validation set. In this step you'd might generate 
         examples or calculate anything of interest like Dice.
         '''
-
+        print("ENTRO A VALIDACION!")
         x, y, names, shapes= batch
+        print('DENTRO DE UNET: ', x.shape, y.shape, names, shapes)
+
 
         #save the first validation batch for a future prediction
-        if(self.current_epoch==0):
-            self.valid_sample = x,y, names, shapes
+        # if(self.current_epoch==0):
+        #     self.valid_sample = x,y, names, shapes
 
         y_hat= self.forward(x)
 
@@ -328,16 +372,55 @@ class Unet(pl.LightningModule):
         
         #CALCULATE DICE
         y_arg = torch.argmax(y_hat,dim=1)
-        val_dice = self.dice_metric(y,y_arg)
-        val_dice= torch.tensor(val_dice)
+        #print('NUMERO DE CLASES: ', self.n_classes)
+        if self.n_classes == 3:
+            print('ENTRO 3 clases')
+            
+            C_pred = y_arg.detach().clone()
+            C_pred[C_pred == 1] = 0
+            C_pred[C_pred == 2] = 1
 
-        #self.logger.experiment.add_scalars("Loss", {'Val loss' : loss}, self.global_step)
-        #self.logger.experiment.add_scalars("Dice", {'Valid_dice': dice}, self.global_step) 
+            y_c = y.detach().clone()
+            y_c[y_c == 1]=0 
+            y_c[y_c == 2]=1 
 
-        #SAVE THE LOG FOR THE CALLBACK FOR EARLY STOPPING AND FOR SAVE THE BEST MODEL IN FUNCTION OF THE DICE IN VALIDATION
-        self.log('dice', val_dice) 
+            D_pred = y_arg.detach().clone()
+            D_pred[D_pred == 2] = 1
+            y_d = y.detach().clone()
+            y_d[y_d == 2] = 1
 
-        return {'val_loss': loss, 'val_dice': val_dice}
+            print('values of argpred: ', torch.unique(y_arg))
+            print('values of Y: ', torch.unique(y))
+
+            # print('values of the Yd: ', torch.unique(y_d))
+            # print('values of the Yc: ', torch.unique(y_c))
+            # print('values of the Pred d: ', torch.unique(D_pred))
+            # print('values of the Pred c: ', torch.unique(C_pred))
+
+
+
+            dice_C = self.dice_metric(y_c,C_pred)
+            dice_D = self.dice_metric(y_d,D_pred)
+            
+            dice_C= torch.tensor(dice_C)
+            dice_D= torch.tensor(dice_D)
+
+            dice_prom = (dice_C + dice_D)/2 
+            self.log('val_dice_prom', dice_prom) 
+            return {'val_loss' : loss, 'val_dice_OC': dice_C, 'val_dice_OD' : dice_D, 'val_dice_prom' : dice_prom}
+
+        else:
+
+            val_dice = self.dice_metric(y,y_arg)
+            val_dice= torch.tensor(val_dice)
+
+            #self.logger.experiment.add_scalars("Loss", {'Val loss' : loss}, self.global_step)
+            #self.logger.experiment.add_scalars("Dice", {'Valid_dice': val_dice}, self.global_step) 
+
+            #SAVE THE LOG FOR THE CALLBACK FOR EARLY STOPPING AND FOR SAVE THE BEST MODEL IN FUNCTION OF THE DICE IN VALIDATION
+            self.log('dice', val_dice) 
+
+            return {'val_loss': loss, 'val_dice': val_dice}
 
     def validation_epoch_end(self, outputs):
 
@@ -345,36 +428,37 @@ class Unet(pl.LightningModule):
 
         
         avg_loss = torch.stack([x['val_loss'] for x in outputs]).mean()
-        avg_dice = torch.stack([x['val_dice'] for x in outputs]).mean()
-        
-        #SAVE THE VALUE IN TENSORBOARD
         self.logger.experiment.add_scalars("Avg loss",{'valid':avg_loss}, self.current_epoch)
-        self.logger.experiment.add_scalars("Avg_dice",{'valid' : avg_dice}, self.current_epoch)
+        #print('OUTPUTS: ', outputs)
+        if self.n_classes == 3:
+            avg_dice_c = torch.stack([x['val_dice_OC'] for x in outputs]).mean()
+            avg_dice_d = torch.stack([x['val_dice_OD'] for x in outputs]).mean()
+            self.logger.experiment.add_scalars("Avg_dice_OC",{'valid' : avg_dice_c}, self.current_epoch)
+            self.logger.experiment.add_scalars("Avg_dice_OD",{'valid' : avg_dice_d}, self.current_epoch)
+            #self.validation_sample()
+
+            self.log('avg_val_loss', avg_loss)
+            self.log('avg_val_dice_OC', avg_dice_c)
+            self.log('avg_val_dice_OD', avg_dice_d)
+
+        
+            return {'avg_val_loss': avg_loss, 'avg_val_dice_OC': avg_dice_c, 'avg_val_dice_OD': avg_dice_d }
+        else:
+                
+            avg_dice = torch.stack([x['val_dice'] for x in outputs]).mean()
+            
+            #SAVE THE VALUE IN TENSORBOARD
+            self.logger.experiment.add_scalars("Avg_dice",{'valid' : avg_dice}, self.current_epoch)
 
         
 
-        #TAKE THE FIRST VALIDATION BATCH SAVED AND PREDICT THE FIRST SAMPLE
-        # x, y, names, shapes = self.valid_sample
-        # pred = self.forward(x)
 
-        # #IN THE PREDICTION WITHOUT LOSS CALCULATION WE NEED TO ADD THE SOFTMAX LAYER
-        # pred = self.softmax(pred) #WE HAD THE PROBABILITIES 
-        # pred_arg = torch.argmax(pred, dim=1) #BINARY IMAGE OF THE SEGMENTATION
 
-        # #WE GENERATE THE IMAGE OF THE SEGMENTATION WITH THE tp, fp AND fn
-        # img = self.generate_img(pred_arg[0,:,:], y[0,:,:])
-
-        # #SAVE THE IMAGES IN TENSORBOARD
-        # self.logger.experiment.add_image("Img" + names[0], x[0,:,:,:] , dataformats="CHW")
-        # self.logger.experiment.add_image("ground truth", y[0,:,:], dataformats="HW")
-        # self.logger.experiment.add_image("predict", pred[0,1,:,:], dataformats="HW")
-        # self.logger.experiment.add_image("predict_arg", pred_arg[0,:,:], dataformats="HW")
-        # self.logger.experiment.add_image("prediction", img, dataformats="CHW")
-
-        #IN CASE WE WANT TO SEE DE VALIDATION LOSS FOR EARLY STOPPING
-        self.log('avg_val_loss', avg_loss)
-     
-        return {'avg_val_loss': avg_loss, 'avg_val_dice': avg_dice}
+            #IN CASE WE WANT TO SEE DE VALIDATION LOSS FOR EARLY STOPPING
+            self.log('avg_val_loss', avg_loss)
+            self.log('avg_val_dice', avg_dice)
+        
+            return {'avg_val_loss': avg_loss, 'avg_val_dice': avg_dice}
 
     def test_step(self, batch, batch_idx):
         x,y, names, shapes = batch
@@ -402,8 +486,6 @@ class Unet(pl.LightningModule):
             self.save_pred_img(y,pred_arg, base_name)
 
         return {'test_Dice':test_dice, 'test_Loss':loss}
-
-
 
 
     def predict_step(self, batch, batch_idx):
@@ -452,6 +534,47 @@ class Unet(pl.LightningModule):
 
 
         return
+
+    def validation_sample(self):
+        # TAKE THE FIRST VALIDATION BATCH SAVED AND PREDICT THE FIRST SAMPLE
+        x, y, names, shapes = self.valid_sample
+        print('dentro de unet: ', x.shape, y.shape, names, shapes)
+        pred = self.forward(x)
+        print('PREDICTION: ', pred.shape)
+
+        #IN THE PREDICTION WITHOUT LOSS CALCULATION WE NEED TO ADD THE SOFTMAX LAYER
+        pred = self.softmax(pred) #WE HAD THE PROBABILITIES 
+        pred_arg = torch.argmax(pred, dim=1) #BINARY IMAGE OF THE SEGMENTATION
+
+        if self.n_classes == 3:
+            pred_OC = pred_arg.detach().clone()
+            pred_OC[pred_OC == 1] = 0
+            y_c = y.detach().clone()
+            y_c[y_c == 1]=0 
+            y_c[y_c == 2]=1 
+
+
+            pred_OD = pred_arg.detach().clone()
+            pred_OD[pred_OD == 2] = 1
+            y_d = y.detach().clone()
+            y_d[y_d == 2] = 1
+
+            img_OC = self.generate_img(pred_OC[0,:,:], y_c[0,:,:])
+            img_OD = self.generate_img(pred_OD[0,:,:], y_d[0,:,:])
+            
+            self.logger.experiment.add_image("Img" + names[0], x[0,:,:,:] , dataformats="CHW")
+            self.logger.experiment.add_image("ground truth", y[0,:,:], dataformats="HW")
+            self.logger.experiment.add_image("OC detection", img_OC, dataformats="CHW")
+            self.logger.experiment.add_image("OD detection", img_OD, dataformats="CHW")
+
+        else:
+            #WE GENERATE THE IMAGE OF THE SEGMENTATION WITH THE tp, fp AND fn
+            img = self.generate_img(pred_arg[0,:,:], y[0,:,:])
+
+            #SAVE THE IMAGES IN TENSORBOARD
+            self.logger.experiment.add_image("Img" + names[0], x[0,:,:,:] , dataformats="CHW")
+            self.logger.experiment.add_image("ground truth", y[0,:,:], dataformats="HW")
+            self.logger.experiment.add_image("OD detection", img, dataformats="CHW")
 
     def save_pred_img(self, true, pred, name):
         final_name = 'pred_' + name #NAME OF THE FILE
@@ -534,7 +657,12 @@ class Unet(pl.LightningModule):
 
         gt = gt.cpu()
         pred = pred.cpu()
-        return f1_score(gt.flatten(), pred.flatten())
+        if self.n_classes == 2:
+            return f1_score(gt.flatten(), pred.flatten())
+        else:
+            return f1_score(gt.flatten(), pred.flatten(), average='macro')
+        
+
 
     def acc_metric(self,gt, pred):
         '''

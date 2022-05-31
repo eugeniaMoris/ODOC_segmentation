@@ -13,6 +13,7 @@ from scipy import ndimage
 from skimage.morphology import disk, erosion
 from skimage.util import compare_images
 from skimage import filters
+from utils import crop_fov_limits
 
 
 
@@ -68,12 +69,18 @@ def get_mask(file_name, final_name, img):
     OD_add = np.zeros(od_imgs[0].shape)
     OC_add = np.zeros(oc_imgs[0].shape)
 
+    lim_x_inf,lim_x_sup, lim_y_inf,lim_y_sup, r = crop_fov_limits(img)
+
     for idx in range(len(od_imgs)):
         OD_add = np.add(OD_add,od_imgs[idx])
-        iio.imwrite(proyect_path + dst_data_path + 'OD_extra/' + dataset + '-MESSIDOR' + '/' + str(idx+1) + '_' + final_name,od_imgs[idx])
+        img_od_avg= od_imgs[idx]
+        img_od_avg= img_od_avg[lim_x_inf:lim_x_sup, lim_y_inf:lim_y_sup]
+        iio.imwrite(proyect_path + dst_data_path + 'OD_extra/' + dataset + '-MESSIDOR' + '/' + str(idx+1) + '_' + final_name,img_od_avg)
 
         OC_add = np.add(OC_add,oc_imgs[idx])
-        iio.imwrite(proyect_path + dst_data_path + 'OC_extra/' + dataset + '-MESSIDOR' + '/' + str(idx+1) + '_' + final_name,oc_imgs[idx])
+        img_oc_avg = oc_imgs[idx]
+        img_oc_avg = img_oc_avg[lim_x_inf:lim_x_sup, lim_y_inf:lim_y_sup]
+        iio.imwrite(proyect_path + dst_data_path + 'OC_extra/' + dataset + '-MESSIDOR' + '/' + str(idx+1) + '_' + final_name,img_oc_avg)
 
 
     OD_add[OD_add < 3] = 0
@@ -82,8 +89,9 @@ def get_mask(file_name, final_name, img):
     OC_add[OC_add < 3] = 0
     OC_add[OC_add >= 3] = 1
     
-    iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '-MESSIDOR' + '/' + final_name,OD_add)
-    iio.imwrite(proyect_path + dst_data_path + 'OC/' + dataset + '-MESSIDOR' + '/' + final_name,OC_add)
+    iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '-MESSIDOR' + '/' + final_name,OD_add[lim_x_inf:lim_x_sup, lim_y_inf:lim_y_sup])
+    iio.imwrite(proyect_path + dst_data_path + 'OC/' + dataset + '-MESSIDOR' + '/' + final_name,OC_add[lim_x_inf:lim_x_sup, lim_y_inf:lim_y_sup])
+    iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '-MESSIDOR' + '/' +  final_name,img[lim_x_inf:lim_x_sup, lim_y_inf:lim_y_sup,:]) #guardo
     
 
     return
@@ -100,7 +108,6 @@ def get_images(paths, names):
         
         img = iio.imread(paths[p_i]) #obtengo imagen
         #procesar
-        iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '-MESSIDOR' + '/' +  names[p_i],img) #guardo
 
         get_mask(old_name, names[p_i], img)
 

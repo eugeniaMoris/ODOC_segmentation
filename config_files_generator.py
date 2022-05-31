@@ -6,7 +6,7 @@ fuerza = [10, 25, 50, 75]
 probabilidad= [0.10, 0.25, 0.50, 0.75]
 
 original = ConfigParser()
-original.read( 'DRISHTI_configuration.ini')
+original.read( 'config_files/DC_DRISHTI_lr-01.ini')
 
 for f in fuerza:
     for p in probabilidad:
@@ -29,7 +29,7 @@ for f in fuerza:
         scale_max = 1.0 + f/100
         new_config['affine']['scale'] = str(scale_min) + ','+str(scale_max)
 
-        with open('DRISHTI_augm_f-' + str(f) + '_p-' + str(int(p*100)) + '.ini', 'w') as configfile:
+        with open('DC_DRISHTI_augm_f-' + str(f) + '_p-' + str(int(p*100)) + '.ini', 'w') as configfile:
             new_config.write(configfile)
 
 

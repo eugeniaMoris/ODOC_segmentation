@@ -24,8 +24,19 @@ import matplotlib.pyplot as plt
 import imageio as iio
 from PIL import Image
 from skimage.transform import resize
-from utils import crop_fov_limits
+from .utils import crop_fov_limits
+from skimage import filters, measure
 
+def getpaths(data_path,tr_names):
+    names = []
+    path = []
+    OD_path = []
+    for p in tr_names:
+        new_p = data_path + '/images/' + p
+        new_od_p = data_path + '/OD1/' + p
+        path.append(new_p)
+        OD_path.append(new_od_p)
+    return path,OD_path
 
 def show(imgs):
 
@@ -186,53 +197,76 @@ class DataModuleClass(pl.LightningDataModule):
             val_names = np.array((self.split_file['split']['validation']).split(','))
             test_names = np.array((self.split_file['split']['test']).split(','))
             
-            
-            if len(val_names) < 2:
+            list_val = val_names.tolist()
+            if len(val_names) == 0:
                 #EN CASO DE NO TENER VALORES PARA VALIDACION SE SEPARA EL 10% DE LOS
                 #VALORES DE ENTRENAMIENTO PARA VALIDAR
+                print('ENTRO POR NO TENER DATOS DE VALIDACION')
 
                 n_val = int(len(tr_names) * 0.1)
                 n_train = len(tr_names) - n_val
                 val_names = tr_names[n_train:]
                 tr_names = tr_names[:n_train]
 
-        #OBTENGO LOS PATHS THE IMAGENES Y MASCARAS
-        img_paths = []
-        OD_paths = []
+        if self.dataset ==  'multi':
+            img_paths = []
+            OD_paths = []
+            paths_tr,od_tr = getpaths(self.data_path,tr_names)
+            paths_v,od_v = getpaths(self.data_path,val_names)
+            paths_test,od_test = getpaths(self.data_path,test_names)
+            #puede mejorarse para que siempre sea asi pero mas adelante se hara
 
-        for path in sorted(glob.glob(self.data_path + '/images/' + self.dataset + '/*/*.png')):
-            img_paths.insert(len(img_paths),path)
-        self.img_paths = img_paths
+            self.train_data = Dataset_proc(paths_tr, OD_path= od_tr, split= tr_names, dataset = self.dataset, made_norm=self.made_norm, augmentacion=self.transform, probabilities= self.probabilities,multi_data=True)
 
-        try: #EN CASO DE NO POSEER MASCARAS PARA EL DATASET 
-            for path in sorted(glob.glob(self.data_path + '/OD1/' + self.dataset + '/*/*.png')):
-                OD_paths.insert(len(OD_paths),path)
-        except:
-            print('NO MASK FOR THIS DATASET')
+            self.valid_data = Dataset_proc(paths_v, OD_path= od_v, split= val_names, dataset = self.dataset, made_norm=self.made_norm, augmentacion=None,multi_data=True)
+            
+            self.test_data = Dataset_proc(paths_test, OD_path= od_test, split= test_names, dataset = self.dataset, made_norm=self.made_norm, augmentacion=None,multi_data=True)
+
+        else:
+            #OBTENGO LOS PATHS THE IMAGENES Y MASCARAS
+            print('ENTRO ACA')
+            print('VALOR DEL DATASET: ', self.dataset)
+            img_paths = []
+            OD_paths = []
+
+            for path in sorted(glob.glob(self.data_path + '/images/' + self.dataset + '/*.png')):
+                img_paths.insert(len(img_paths),path)
+            for path in sorted(glob.glob(self.data_path + '/images/' + self.dataset + '/*/*.png')):
+                img_paths.insert(len(img_paths),path)
+            self.img_paths = img_paths
+
+            try: #EN CASO DE NO POSEER MASCARAS PARA EL DATASET 
+                for path in sorted(glob.glob(self.data_path + '/OD1/' + self.dataset + '/*.png')):
+                    OD_paths.insert(len(OD_paths),path)
+                for path in sorted(glob.glob(self.data_path + '/OD1/' + self.dataset + '/*/*.png')):
+                    OD_paths.insert(len(OD_paths),path)
+            except:
+                print('NO MASK FOR THIS DATASET')
+            
                 
 
-        if self.split_file != None:
-
-            #CREO QLE DATASET PARA LOS VALORES DE ENTRENAMIENTO VALIDACION Y TEST
-            self.train_data = Dataset_proc(img_paths,OD_path= OD_paths, split= tr_names, dataset = self.dataset, made_norm=self.made_norm, augmentacion=self.transform, probabilities= self.probabilities)
-            self.valid_data = Dataset_proc(img_paths,OD_path= OD_paths,  split= val_names, dataset= self.dataset, made_norm=self.made_norm, augmentacion=None) #EN VALICACION TAMBIRN?
-            self.test_data = Dataset_proc(img_paths,OD_path= OD_paths, split= test_names, dataset= self.dataset, made_norm=self.made_norm, augmentacion=None)
-        
-            if (self.pred == 'train'):
-                self.pred_data = Dataset_proc(img_paths, OD_path= OD_paths, split= tr_names, dataset = self.dataset, made_norm=self.made_norm, augmentacion=None)
-
-            if (self.pred == 'valid'):
-                self.pred_data = Dataset_proc(img_paths, OD_path= OD_paths, split= val_names, dataset = self.dataset, made_norm=self.made_norm, augmentacion=None)
+            if self.split_file != None:
+                print('DATOS: train ', len(tr_names), ' validation: ', len(val_names), ' test: ', len(test_names))
+                #CREO QLE DATASET PARA LOS VALORES DE ENTRENAMIENTO VALIDACION Y TEST
+                self.train_data = Dataset_proc(img_paths,OD_path= OD_paths, split= tr_names, dataset = self.dataset, made_norm=self.made_norm, augmentacion=self.transform, probabilities= self.probabilities)
+                self.valid_data = Dataset_proc(img_paths,OD_path= OD_paths,  split= val_names, dataset= self.dataset, made_norm=self.made_norm, augmentacion=None) #EN VALICACION TAMBIRN?
+                self.test_data = Dataset_proc(img_paths,OD_path= OD_paths, split= test_names, dataset= self.dataset, made_norm=self.made_norm, augmentacion=None)
             
-            if (self.pred == 'test'):
-                self.pred_data = Dataset_proc(img_paths, OD_path= OD_paths, split= test_names, dataset = self.dataset, made_norm=self.made_norm, augmentacion=None)
-        
-            if (self.pred == 'total'):
+                if (self.pred == 'train'):
+                    self.pred_data = Dataset_proc(img_paths, OD_path= OD_paths, split= tr_names, dataset = self.dataset, made_norm=self.made_norm, augmentacion=None)
+
+                if (self.pred == 'valid'):
+                    self.pred_data = Dataset_proc(img_paths, OD_path= OD_paths, split= val_names, dataset = self.dataset, made_norm=self.made_norm, augmentacion=None)
+                
+                if (self.pred == 'test'):
+                    self.pred_data = Dataset_proc(img_paths, OD_path= OD_paths, split= test_names, dataset = self.dataset, made_norm=self.made_norm, augmentacion=None)
+            
+                if (self.pred == 'total'):
+                    self.pred_data = Dataset_proc(self.img_paths, self.dataset, made_norm=self.made_norm, augmentacion=None)
+            else:
+                print('Como no hay split file, se realiza el predict data con el total de las imagenes')
                 self.pred_data = Dataset_proc(self.img_paths, self.dataset, made_norm=self.made_norm, augmentacion=None)
-        else:
-            print('Como no hay split file, se realiza el predict data con el total de las imagenes')
-            self.pred_data = Dataset_proc(self.img_paths, self.dataset, made_norm=self.made_norm, augmentacion=None)
-        
+            
 
     def train_dataloader(self):
         '''return Dataloader for Training data here'''
@@ -265,7 +299,7 @@ class DataModuleClass(pl.LightningDataModule):
         return DataLoader(self.pred_data, batch_size= batch_size, num_workers=self.num_workes)
 
 class Dataset_proc(Dataset):
-    def __init__(self,img_path, dataset, made_norm=True, OD_path= None, split= [], augmentacion=None,probabilities=None,rescale='normal', scale=1):
+    def __init__(self,img_path, dataset, made_norm=True, OD_path= None, split= [], augmentacion=None,probabilities=None,rescale='normal', scale=1,multi_data=False):
         '''
         ---------------------------------
         input
@@ -294,7 +328,7 @@ class Dataset_proc(Dataset):
         #ARREGLO DE PROBABILIDADES
         #SI RANDOM ES MEJOR A PROBABILIDAD SE AGREGA LA TRANSFORMACION AL COMPOSE
 
-        if len(split) > 2:
+        if multi_data == False:
             #OBTENGO LOS PATHS THE LAS IMAGENES QUE PERTENECEN AL GRUPO QUE QUIERO
             for i in range(len(img_path)): 
                 base_name = ntpath.basename(img_path[i])
@@ -310,14 +344,11 @@ class Dataset_proc(Dataset):
             self.names = split
 
             self.augmentation = augmentacion
-        elif len(split) <= 2:
-            for i in range(len(img_path)): 
-                base_name = ntpath.basename(img_path[i])
-                all_names.insert(len(all_names),base_name)
+        else:
 
             self.paths = img_path
-            self.masks = []
-            self.names = all_names  #SE PUEDEN CONSEGUIR SI SE QUIERE
+            self.masks = OD_path
+            self.names = split  #SE PUEDEN CONSEGUIR SI SE QUIERE
 
     
     def __len__(self):
@@ -330,15 +361,12 @@ class Dataset_proc(Dataset):
 
         #LEO LA IMAGEN Y LA MASCARA, DEVUELVE 
         # EN FORMATO TENSOR
-
+        #print('index:' , index)
         img = Image.open(self.paths[index])
-
         mask= self.masks
         shape = img.size
         
-        if mask != []:
-
-            OD_mask = Image.open(self.masks[index])
+        OD_mask = Image.open(self.masks[index])
             
         
 
@@ -356,7 +384,7 @@ class Dataset_proc(Dataset):
                 rand = torch.rand(1)
                 if float(rand) < probabilities[i]:
                     tr = all_transforms[i]
-                    img, OD_mask = tr((img,OD_mask))
+                    img, OD_mask = tr(img,OD_mask)
         else:
             transform = transforms.ToTensor() # YA DEJA LA IMAGEN ENTRE CERO Y UNO
             img = transform(img)
@@ -385,7 +413,7 @@ class Dataset_proc(Dataset):
             #posteriormente la resizeo a un valor mas chico de 512S,512
 
             img = img.float()
-            shape = img.size() #Guardo los tamaños originales
+            #shape = img.size() #Guardo los tamaños originales
 
             mean_r = torch.mean(img[0,:,:])
             mean_g = torch.mean(img[1,:,:])
@@ -396,9 +424,6 @@ class Dataset_proc(Dataset):
             std_b = torch.std(img[2,:,:])+1e-6
 
             img = F.normalize(img, [mean_r, mean_g, mean_b], [std_r,std_g, std_b]) #normalizo la imagen
-
-            
-
 
     
         return img.float(), OD_new, self.names[index], shape
@@ -442,6 +467,8 @@ class Dataset_proc(Dataset):
         
             
         return square_Img,square_mask
+
+
 
 
 

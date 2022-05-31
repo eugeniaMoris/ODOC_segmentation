@@ -9,69 +9,91 @@ import numpy as np
 
 
 class ToTensor():
-    def __call__(self, sample):
-        inputs, targets = sample
+    def __call__(self, img, mask1, mask2=None):
+        print('TO TENSOR')
         transform = transforms.ToTensor()
-        return transform(inputs), transform(targets)
+
+        if mask2:
+            print('SHAPE IMG IN TRANSFORM: ', transform(img).shape)
+            return transform(img), transform(mask1), transform(mask2)
+        print('SDASKMAL')
+        return transform(img), transform(mask1)
 
 class MulTransform:
   def __init__(self,factor):
     self.factor = factor
 
-  def __call__(self,sample):
-    inputs, target = sample
-    inputs *= self.factor
-    return inputs, target
+  def __call__(self,img, mask1, mask2=None):
+    print('MULTRANSFORM')
+
+    img *= self.factor
+    if mask2:
+        return img, mask1, mask2
+    return img, mask1, mask2
 
 class Hflip():     
     def __init__(self,probability= 0.5):
         self.probability= probability
 
-    def __call__(self,sample):
-
-        #print('SE APLICO HFLIP')
-        inputs, target = sample
+    def __call__(self,img, mask1, mask2=None):
+        '''
+        aplica el flip horizontal tanto a la imagen como a las mascaras, dada una probabilidad
+        '''
+        print('HFLIP')
 
         rand = torch.rand(1)
         if rand > self.probability:
-            new_inputs = F.hflip(inputs)
-            new_target = F.hflip(target) 
-            return new_inputs, new_target
+            img = F.hflip(img)
+            mask1 = F.hflip(mask1)
+            if mask2:
+                mask2 = F.hflip(mask2) 
+
+        if mask2:
+            return img, mask1,mask2
         else:
-            return inputs, target
+            return img, mask1
+
 
 class Vflip():
     def __init__(self, probability= 0.5):
         self.probability = probability
     
-    def __call__(self, sample):
+    def __call__(self, img, mask1, mask2= None):
+        '''
+        aplica el flip vertical tanto a la imagen como a las mascaras, dada una probabilidad
+        '''
+        print('HFLIP')
 
-        #print('SE APLICO VFLIP')
-        inputs, target = sample
         rand = torch.rand(1)
 
         if int(rand) > self.probability:
-            new_inputs = F.vflip(inputs)
-            new_target = F.vflip(target)
-            return new_inputs, new_target
-        else: 
-            return inputs, target
+            img = F.vflip(img)
+            mask1 = F.vflip(mask1)
+            if mask2:
+                mask2 = F.vflip(mask2)
+
+        if mask2:
+            return img, mask1,mask2
+        else:
+            return img, mask1
         
 
 class GaussianBlur:
     def __init__(self, sigma=1):
         self.sigma= sigma
 
-    def __call__(self, sample):
-        #print('SE APLICO GAUSSIAN BLUR')
-        inputs, target = sample
+    def __call__(self, img, mask1, mask2= None):
+        print('GAUSSIAN')
 
         k= 2 * int(3*self.sigma) + 1
 
         blurrer = transforms.GaussianBlur(kernel_size=(k,k),sigma= self.sigma)
-        new_input = blurrer(inputs)
-        #new_input = new_input.clip(0,1)
-        return new_input, target
+        new_input = blurrer(img)
+
+        if mask2:
+            return new_input, mask1, mask2
+        else:
+            return new_input, mask1
 
 class ColorJitter():
     def __init__(self, brightness=(0.0,0.1), contrast=(0.0,0.1), saturation=(0.0,0.1), hue=0):
@@ -83,9 +105,8 @@ class ColorJitter():
         self.hue = float(hue)
         
 
-    def __call__(self, sample):
-        #print('SE APLICO COLOR JITTERING')
-        inputs, target = sample
+    def __call__(self, img, mask1, mask2= None):
+        print('COLLOR')
         
         hue = np.clip(self.hue,-0.5,0.5)
         jitter = transforms.ColorJitter(brightness=float(self.brightness),
@@ -94,10 +115,12 @@ class ColorJitter():
         #toma un valor randon entre los dos dados
         #jitter = transforms.ColorJitter()
 
-        new_input = jitter(inputs)
+        new_input = jitter(img)
         #new_input = new_input.clip(0,1)
-
-        return new_input, target
+        if mask2:
+            return new_input, mask1, mask2
+        else:
+            return new_input, mask1
 
 
 
@@ -107,21 +130,25 @@ class RandomAffine():
         self.translate= translate
         self.scale= scale
 
-    def __call__(self, sample):
+    def __call__(self, img, mask1, mask2=None):
+        print('AFFINE')
+
         #print('SE APLICO RANDOM AFFINE')
-        inputs, target = sample
         dmin,dmax = self.degrees
-        tmin, tmax = self.translate
         smin, smax = self.scale
         rand_degrees = (dmax-dmin)*torch.rand(1) + dmin
         rand_scale = (smax-smin)*torch.rand(1) + smin
 
-        new_input= F.affine(inputs, angle=float(rand_degrees), translate=self.translate,
+        img= F.affine(img, angle=float(rand_degrees), translate=self.translate,
                             scale=rand_scale, shear=0)
-        new_target = F.affine(target, angle=float(rand_degrees), translate=self.translate, 
+        mask1 = F.affine(mask1, angle=float(rand_degrees), translate=self.translate, 
                             scale=rand_scale, shear=0)
-        #new_input = new_input.clip(0,1)
-        return new_input, new_target
+        if mask2:
+            mask2 = F.affine(mask2, angle=float(rand_degrees), translate=self.translate, 
+                            scale=rand_scale, shear=0)
+            return img, mask1, mask2
+        else:
+            return img, mask1
 
 
         

@@ -34,8 +34,9 @@ def get_mask(path):
     mask1[mask1 == 255] = 0 # OD
     mask1[mask1 == 128] = 255 # OD
 
-    mask2[mask2 == 0] = 255 # OC
+    mask2[mask2 == 0] = 1 # OC
     mask2[mask2 == 255] = 0 # OC
+    mask2[mask2 == 1] = 255
 
 
     #iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '/' + names[p_i],mask1)

@@ -13,6 +13,7 @@ from scipy import ndimage
 from skimage.morphology import disk, erosion
 from skimage.util import compare_images
 from skimage import filters
+from utils import crop_fov_limits
 
 
 
@@ -32,8 +33,10 @@ def generate_mask(path, img):
     mask_arr = np.array(mask[:,:,0],dtype=np.uint8)
     
     resta = compare_images(img, mask, method='diff') #usamos este metodo las las imagenes .jpg
-    resta = filters.sobel(resta)
+    print(resta.shape, type(resta))
     resta = np.array(resta[:,:,0])
+
+    resta = filters.sobel(resta)
     resta[resta > 0.1] = 1
     resta[resta < 0.1] = 0
 
@@ -73,12 +76,18 @@ def get_mask(file_name, final_name, img, sdataset):
     OD_add = np.zeros(od_imgs[0].shape)
     OC_add = np.zeros(oc_imgs[0].shape)
 
+    lim_x_inf,lim_x_sup, lim_y_inf,lim_y_sup, r = crop_fov_limits(img)
+
     for idx in range(len(od_imgs)):
         OD_add = np.add(OD_add,od_imgs[idx])
-        iio.imwrite(proyect_path + dst_data_path + 'OD_extra/' + dataset + '-BinRushed' + '/' + str(idx+1) + '_' + final_name,od_imgs[idx])
+        img_od_avg= od_imgs[idx]
+        img_od_avg= img_od_avg[lim_x_inf:lim_x_sup, lim_y_inf:lim_y_sup]
+        iio.imwrite(proyect_path + dst_data_path + 'OD_extra/' + dataset + '-BinRushed' + '/' + str(idx+1) + '_' + final_name,img_od_avg)
 
         OC_add = np.add(OC_add,oc_imgs[idx])
-        iio.imwrite(proyect_path + dst_data_path + 'OC_extra/' + dataset + '-BinRushed' + '/' + str(idx+1) + '_' + final_name,oc_imgs[idx])
+        img_oc_avg = oc_imgs[idx]
+        img_oc_avg = img_oc_avg[lim_x_inf:lim_x_sup, lim_y_inf:lim_y_sup]
+        iio.imwrite(proyect_path + dst_data_path + 'OC_extra/' + dataset + '-BinRushed' + '/' + str(idx+1) + '_' + final_name,img_oc_avg)
 
 
     OD_add[OD_add < 3] = 0
@@ -86,11 +95,13 @@ def get_mask(file_name, final_name, img, sdataset):
 
     OC_add[OC_add < 3] = 0
     OC_add[OC_add >= 3] = 1
-    
-    iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '-BinRushed' + '/' + final_name,OD_add)
-    iio.imwrite(proyect_path + dst_data_path + 'OC/' + dataset + '-BinRushed' + '/' + final_name,OC_add)
 
-    iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '-BinRushed' + '/' +  final_name,img) #guardo
+
+    
+    iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '-BinRushed' + '/' + final_name,OD_add[lim_x_inf:lim_x_sup, lim_y_inf:lim_y_sup])
+    iio.imwrite(proyect_path + dst_data_path + 'OC/' + dataset + '-BinRushed' + '/' + final_name,OC_add[lim_x_inf:lim_x_sup, lim_y_inf:lim_y_sup])
+
+    iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '-BinRushed' + '/' +  final_name,img[lim_x_inf:lim_x_sup, lim_y_inf:lim_y_sup,:]) #guardo
 
     
 
