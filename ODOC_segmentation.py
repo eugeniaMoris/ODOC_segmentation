@@ -18,7 +18,10 @@ from pytorch_lightning import Trainer, seed_everything
 from sklearn.metrics import f1_score,accuracy_score
 from data_processing.utils import get_OCOD_crop
 import torchvision.transforms as transforms
+from skimage import filters, measure
 import matplotlib.pyplot as plt
+from scipy import ndimage
+
 
 from PIL import Image
 
@@ -33,7 +36,7 @@ class ODOC_segmentation(pl.LightningModule):
     Modulo encargado de la segmentacion de imagen de fondo de ojos con la utilizacion de dos modelo
     Primero la imagen pasa por un modelo que dectecta OD
     Esa imagen despues es recortada y pasa por un segundo modelo que clasifica el disco y la copa'''
-    def __init__(self, data_path, dataset, config, loss, model1, model2,path_save, save_test= False):
+    def __init__(self, data_path, dataset,data_test, config, loss, model1, model2,path_save, save_test= False):
         super(ODOC_segmentation,self).__init__()
         self.loss = loss
         self.model_OD = model1
@@ -47,6 +50,7 @@ class ODOC_segmentation(pl.LightningModule):
             self.delta = float(config['training']['delta'])
         self.data_path= data_path
         self.dataset = dataset
+        self.data_test = data_test
         self.path_save = path_save
         self.save_test = save_test
 
@@ -66,10 +70,11 @@ class ODOC_segmentation(pl.LightningModule):
         outOD = self.model_OD.forward(x_pr) #out shape [1,2,512,512]
         #print('SHAPE OF THE OUTPUT : ', outOD.shape)
 
-        outOD = torch.argmax(outOD,dim=1)
+        #outOD = torch.argmax(outOD,dim=1)
+        outOD = self.softmax(outOD)
         #print('VALUES OF THE OUTPUT : ', torch.unique(outOD))
 
-        c0, c1, c2, c3, sub_x = stage2_preprocessing(inputs.cpu(),outOD.cpu(),self.delta)
+        c0, c1, c2, c3, sub_x, b_out = stage2_preprocessing(inputs.cpu(),outOD.cpu(),self.delta)
         #SUB IMG [1,3,512,512]
 
         #print('CUT IMAGE SHAPE',sub_x.shape)
@@ -95,7 +100,7 @@ class ODOC_segmentation(pl.LightningModule):
 
         # plt.show()
 
-        return y_hat, outOD
+        return y_hat, b_out
 
 
         #AGREGO LA DIMENSION BATCH SIZE
@@ -107,6 +112,7 @@ class ODOC_segmentation(pl.LightningModule):
 
         tr = transforms.ToTensor()
         x, y, name, shape = batch #x shape [1,H,W,C]
+        print('NAME: ', name[0])
         
 
         y_hat, intermediate_OD = self.forward(x, shape, name,'test')
@@ -133,17 +139,29 @@ class ODOC_segmentation(pl.LightningModule):
         y_c[y_c == 1]=0 
         y_c[y_c == 2]=1 
 
+        y_otsu = np.array(y_hat[1,:,:])
+        thresh = filters.threshold_otsu(y_otsu) #USAMOS OTSU PARA LA GENERACION DE IMAGENES
+        binary = y_otsu > thresh
+        D_pred = ndimage.binary_fill_holes(binary).astype(int)
 
-        D_pred = y_arg.detach().clone()
-        D_pred[D_pred == 2] = 1
+
+        # plt.imshow(D_pred)
+    
+        # plt.show()
+        
+        # D_pred = y_arg.detach().clone() #OTSU
+        # D_pred[D_pred == 2] = 1
+
         y_d = y.detach().clone()
         y_d[y_d == 2] = 1
 
         dice_C = self.dice_metric(y_c[0,:,:],C_pred)
         dice_D = self.dice_metric(y_d[0,:,:],D_pred)
+        dice_Dint = self.dice_metric(y_d,intermediate_OD)
 
         dice_C= torch.tensor(dice_C)
         dice_D= torch.tensor(dice_D)
+        dice_Dint = torch.tensor(dice_Dint)
 
         dice_prom = (dice_C + dice_D)/2
 
@@ -157,14 +175,17 @@ class ODOC_segmentation(pl.LightningModule):
             #GUARDO LOS RESULTADOS DE VALIDACION EN UN ARCHIVO .TXT
             with open(result_file, "a+") as file_object:
                 file_object.write(name[0] + ' Dice OC: ' + str(dice_C.item()) +
-                     'Dice OD: ' + str(dice_D.item()) + ' Dice AVG: ' + str(dice_prom.item()) + '\n')
+                     'Dice OD: ' + str(dice_D.item()) + ' Dice AVG: ' + str(dice_prom.item()) + 
+                     ' Dice OD intermedio: '+ str(dice_Dint.item()) + '\n')
                 file_object.close()
 
         self.log('DICE OC', dice_C)
         self.log('DICE OD', dice_D)
         self.log('DICE AVG', dice_prom)
+        self.log('DICE int', dice_Dint)
+
         
-        return{'dice_OC':dice_C, 'dice_OD':dice_D, 'dice_prom':dice_prom}
+        return{'dice_OC':dice_C, 'dice_OD':dice_D, 'dice_prom':dice_prom, 'dice_ODint': dice_Dint}
         
 
     def predict_step(self, batch, batch_idx, dataloader_idx):
@@ -198,7 +219,7 @@ class ODOC_segmentation(pl.LightningModule):
         
 
     def save_predictions(self, name, OD_pred, OC_pred, Intermediate_pred):
-        dst_path = '/mnt/Almacenamiento/ODOC_segmentation/predicted/'+self.dataset
+        dst_path = '/mnt/Almacenamiento/ODOC_segmentation/predicted/ModelM/'+self.data_test
 
         name = name.replace('Test/','')
         #print('NAME, ', name)
@@ -211,12 +232,19 @@ class ODOC_segmentation(pl.LightningModule):
         #D_pred = torch.transpose(OD_pred, (1,2,0))
         #C_pred = torch.transpose(OC_pred, (1,2,0))
         #Intermediate_pred = torch.transpose(Intermediate_pred, (1,2,0))
-        OD_pred = OD_pred.cpu()
+        #OD_pred = OD_pred.cpu()
         OC_pred = OC_pred.cpu()
-        Intermediate_pred = Intermediate_pred.cpu()
+        Intermediate_pred = Intermediate_pred
+
+
+        OD_pred = np.array(OD_pred*255,dtype=np.uint8)
+        OC_pred = np.array(OC_pred*255,dtype=np.uint8)
+        Intermediate_pred = np.array(Intermediate_pred*255,dtype=np.uint8)
+        #print(Intermediate_pred.shape)
+
         iio.imsave(dst_path + name_OD, OD_pred)
         iio.imsave(dst_path + name_OC, OC_pred)
-        iio.imsave(dst_path + name_OD_int, Intermediate_pred[0,:,:])
+        iio.imsave(dst_path + name_OD_int, Intermediate_pred)
 
     def configure_optimizers(self):
         '''
@@ -230,7 +258,8 @@ class ODOC_segmentation(pl.LightningModule):
         '''
 
         gt = gt.cpu()
-        pred = pred.cpu()
+        if torch.is_tensor(pred):
+            pred = pred.cpu()
         
         return f1_score(gt.flatten(), pred.flatten(), average='macro')
         
@@ -259,7 +288,7 @@ def main(config_m1, config_m2, hparams):
 
     #DATASET
     if hparams.split:
-        split_file = hparams.split + '/ODOC_segmentation_' + hparams.dataset + '.ini'
+        split_file = hparams.split + '/ODOC_segmentation_' + hparams.dataset_test + '.ini'
         config_split = ConfigParser()
         config_split.read(split_file)
     else: 
@@ -269,12 +298,12 @@ def main(config_m1, config_m2, hparams):
     #this data module retorn the image anda the mask, in case their exist without transforms
     dataMod = TestDataModule(data_path= hparams.data_path,
                 split_file= config_split,
-                dataset= hparams.dataset,
+                dataset= hparams.dataset_test,
                 batch_size=1)
 
     
     #SEGMENTADOR
-    segmentator = ODOC_segmentation(hparams.data_path, hparams.dataset, config_m1, loss, model1, model2,hparams.result_path,save_test=True)
+    segmentator = ODOC_segmentation(hparams.data_path, hparams.dataset,hparams.dataset_test, config_m1, loss, model1, model2,hparams.result_path,save_test=True)
 
 
     trainer = Trainer(
@@ -300,6 +329,7 @@ if __name__ == '__main__':
     parser.add_argument('--config_m1',type=str, help='full path and file name of config file', default='/mnt/Almacenamiento/ODOC_segmentation/codigo/DRISHTI_configuration.ini')
     parser.add_argument('--config_m2',type=str, help='full path and file name of config file', default='/mnt/Almacenamiento/ODOC_segmentation/codigo/DRISHTI_configuration.ini')
     parser.add_argument('--dataset',required=True, type=str)
+    parser.add_argument('--dataset_test',required=True,type=str)
     parser.add_argument('--log_dir', default='lightning_logs')
     parser.add_argument('--model1_path',type= str)
     parser.add_argument('--model2_path',type= str)

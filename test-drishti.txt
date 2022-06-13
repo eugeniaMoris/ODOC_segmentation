@@ -1,8 +1,0 @@
-DRISHTI_augm_f-75_p-25 [{}]
-DRISHTI_augm_f-75_p-25 [{}]
-DRISHTI_augm_f-75_p-25 [{}]
-DRISHTI_augm_f-75_p-25 [{}]
-DRISHTI_augm_f-75_p-25 [{}]
-DRISHTI_augm_f-75_p-25 [{}]
-DRISHTI_augm_f-75_p-25 [{'test_dice': 0.9408242223977775}]
-DRISHTI_augm_f-75_p-25 [{'test_LOSS': 0.008847516030073166, 'test_DICE': 0.9408242223977775}]

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+python ODOC_segmentation.py --dataset DRISHTI --dataset_test DRISHTI --config_m1 config_files/DRISHTI_augm_f-75_p-25.ini --config_m2 config_files/DC_DRISHTI_augm_f-75_p-10.ini --model1_path /mnt/Almacenamiento/ODOC_segmentation/lightning_logs/drishti_model/matrix/version_19/checkpoints/DRISHTI_augm_f-75_p-25-epoch\=109.ckpt --model2_path /mnt/Almacenamiento/ODOC_segmentation/lightning_logs/drishti_etapa2/version_12/checkpoints/DC_DRISHTI_augm_f-75_p-10-epoch\=107.ckpt --result_path DRISHTI_SEGMENTATION.txt
+
+python ODOC_segmentation.py --dataset DRISHTI --dataset_test REFUGE --config_m1 config_files/DRISHTI_augm_f-75_p-25.ini --config_m2 config_files/DC_DRISHTI_augm_f-75_p-10.ini --model1_path /mnt/Almacenamiento/ODOC_segmentation/lightning_logs/drishti_model/matrix/version_19/checkpoints/DRISHTI_augm_f-75_p-25-epoch\=109.ckpt --model2_path /mnt/Almacenamiento/ODOC_segmentation/lightning_logs/drishti_etapa2/version_12/checkpoints/DC_DRISHTI_augm_f-75_p-10-epoch\=107.ckpt --result_path REFUGE_SEGMENTATION.txt
+
+python ODOC_segmentation.py --dataset DRISHTI --dataset_test ORIGA --config_m1 config_files/DRISHTI_augm_f-75_p-25.ini --config_m2 config_files/DC_DRISHTI_augm_f-75_p-10.ini --model1_path /mnt/Almacenamiento/ODOC_segmentation/lightning_logs/drishti_model/matrix/version_19/checkpoints/DRISHTI_augm_f-75_p-25-epoch\=109.ckpt --model2_path /mnt/Almacenamiento/ODOC_segmentation/lightning_logs/drishti_etapa2/version_12/checkpoints/DC_DRISHTI_augm_f-75_p-10-epoch\=107.ckpt --result_path ORIGA_SEGMENTATION.txt
+
+python ODOC_segmentation.py --dataset DRISHTI --dataset_test RIM_ONE_R3 --config_m1 config_files/DRISHTI_augm_f-75_p-25.ini --config_m2 config_files/DC_DRISHTI_augm_f-75_p-10.ini --model1_path /mnt/Almacenamiento/ODOC_segmentation/lightning_logs/drishti_model/matrix/version_19/checkpoints/DRISHTI_augm_f-75_p-25-epoch\=109.ckpt --model2_path /mnt/Almacenamiento/ODOC_segmentation/lightning_logs/drishti_etapa2/version_12/checkpoints/DC_DRISHTI_augm_f-75_p-10-epoch\=107.ckpt --result_path RIM_ONE_R3_SEGMENTATION.txt
+
+
+#multidataset
+python ODOC_segmentation.py --dataset multi --dataset_test DRISHTI --config_m1 config_files/multi/step1_multi__augm_f-25_p-25.ini --config_m2 config_files/multi/Step2_multi_augm_f-50_p-50.ini --model1_path /mnt/Almacenamiento/ODOC_segmentation/lightning_logs/multimodel/version_5/checkpoints/step1_multi__augm_f-25_p-25-epoch=125.ckpt --model2_path /mnt/Almacenamiento/ODOC_segmentation/lightning_logs/multimodel_step2/version_9/checkpoints/Step2_multi_augm_f-50_p-50-epoch=98.ckpt --result_path DRISHTI_SEGMENTATION_ModelM.txt

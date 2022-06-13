@@ -1,3 +1,4 @@
+from ast import Return
 import re
 from PIL import Image
 import numpy as np
@@ -13,7 +14,7 @@ from skimage.transform import resize
 from sklearn import preprocessing
 	
 import matplotlib.patches as mpatches
-#import cv2
+import cv2
 
 def detect_xyr(img):
     """
@@ -190,7 +191,7 @@ def rescale_test(fundus_img, mask, target_radio=255):
     mask: mascara correspondiente a la imagen dada
     target_radio: tamano en el que esperamos que este el radio del disco de la imagen aproximadamente
     '''
-    print('ENTRO: ')
+    #print('ENTRO: ')
     lim_x_inf,lim_x_sup, lim_y_inf,lim_y_sup, radio = crop_fov_limits(fundus_img)
         
     
@@ -231,15 +232,17 @@ def get_OCOD_crop(mask,delta, descentro= False):
     '''
 
     #mask = mask[0,:,:]
-    #print('VALUES OF THE OUTPUT WITH ARGMAX: ', torch.unique(mask))
-
-    blobs_labels = measure.label(mask, background=0)
+    #print('VALUES OF THE OUTPUT WITH ARGMAX: ', np.unique(mask))
+    thresh = filters.threshold_otsu(mask) #USAMOS OTSU PARA LA GENERACION DE IMAGENES
+    binary = mask > thresh
+    
+    blobs_labels = measure.label(binary, background=0)
     
     region = measure.regionprops(blobs_labels)
 
     
 
-    biggest_region = region[0]
+    biggest_region = -1
     biggest_area = -1
     for r in region:
         #print(r.area)
@@ -247,6 +250,16 @@ def get_OCOD_crop(mask,delta, descentro= False):
             biggest_area = r.area
             biggest_region = r
         #print('biggest area: ', biggest_region)
+    if biggest_area == -1:
+       
+        print('NO CLASIFICATION ON THE FIRST STEP')
+        #UTILIZAR OTSU PARA SEGMENTACION BINARIA 
+        
+        plt.imshow(binary)
+        #plt.imshow(th2)
+
+        plt.show()
+        #return 0, 0, 512, 512, (255,255)
 
 
     
@@ -338,7 +351,7 @@ def get_OCOD_crop(mask,delta, descentro= False):
     if c1 < 0:
         c1 = 0
     #print(int(c0),int(c1),int(c2),int(c3))
-    return int(c0),int(c1),int(c2),int(c3), (x,y)
+    return int(c0),int(c1),int(c2),int(c3), (x,y), binary
 
 def stage1_preprocessing(img, norm = True):
     tr = transforms.ToTensor()
@@ -378,22 +391,34 @@ def normalization(img):
 def stage2_preprocessing(img,ODpred, delta):
     tr = transforms.ToTensor()
     b, h, w, c= img.shape #[batch, height, weight, channel]
-    img = normalization(np.array(img[0,:,:,:],dtype=float)) #[h,w,c]
 
-    out = np.array(ODpred) #[ classes, 512, 512]
-    out = resize(out[0,:,:],(h,w),preserve_range=True)
+    
+
+    out = ODpred[0,1,:,:] #me quedo con la probabilidad de que sea disco [1,2,512,512]
+    out = np.array(out) #[ 512, 512]
+    #print('SHAPE: ', out.shape)
+    
+    
+    out = resize(out,(h,w),preserve_range=True)#[h,w]
     #print('SHAPE OUT: ', out.shape)
     
-    c0, c1, c2, c3, centro = get_OCOD_crop(mask= out, delta= delta, descentro= False)
+    arg = out>=0.5
+    #print('SHAPES OF THE  MASK: ', out.shape)
+    
+    #print('SHAPES OF THE BINARY MASK: ', arg.shape)
+
+    
+    c0, c1, c2, c3, centro, b_out = get_OCOD_crop(mask= out, delta= delta, descentro= False)
     
     # plt.imshow(out[c0:c2,c1:c3])
     # plt.show()
     
+    img = normalization(np.array(img[0,:,:,:],dtype=float)) #[h,w,c]
     cut_img = img[c0:c2,c1:c3,:]
     #cut_img = resize(cut_img,(512,512),preserve_range=True) #VUELVO LA IMAGEN A 512X512
     cut_img = tr(cut_img) #LA DEVUELVO COMO TENSOR
     cut_img = torch.unsqueeze(cut_img, 0) #adding the batch dimension
-    return c0,c1,c2,c3, cut_img   
+    return c0,c1,c2,c3, cut_img, b_out   
 
 
 

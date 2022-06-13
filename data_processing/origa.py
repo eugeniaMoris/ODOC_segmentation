@@ -55,22 +55,22 @@ def main():
     imgs_paths = []
 
     #img for train
-    for tr_img in glob.glob(proyect_path + or_data_path + dataset + '/images/*.jpg'):
+    for tr_img in sorted(glob.glob(proyect_path + or_data_path + dataset + '/images/*.jpg')):
         imgs_paths.insert(len(imgs_paths), tr_img)
 
     #img for test
-    for t_img in glob.glob(proyect_path + or_data_path + dataset + '/manual marking/*.mat'):
+    for t_img in sorted(glob.glob(proyect_path + or_data_path + dataset + '/manual marking/*.mat')):
         anot.insert(len(anot), t_img)
 
     for i in range(len(imgs_paths)):
         img,name = get_images(imgs_paths[i])
         OD, OC = get_mask(anot[i])
 
-        n_img, new_OD, new_OC = crop_fov_2(img, OD, OC)
+        #n_img, new_OD, new_OC = crop_fov_2(img, OD, OC)
 
-        iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/' +  name + '.png',n_img)
-        iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '/' + name + '.png', new_OD)
-        iio.imwrite(proyect_path + dst_data_path + 'OC/' + dataset + '/' + name + '.png', new_OC)
+        iio.imwrite(proyect_path+dst_data_path+'images/' + dataset + '/' +  name + '.png',img)
+        iio.imwrite(proyect_path + dst_data_path + 'OD1/' + dataset + '/' + name + '.png', OD)
+        iio.imwrite(proyect_path + dst_data_path + 'OC/' + dataset + '/' + name + '.png', OC)
 
     return dataset
 

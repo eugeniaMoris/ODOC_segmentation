@@ -227,7 +227,7 @@ class Dataset_DC(Dataset):
             self.OC_masks = OC_path
             self.names = split  #SE PUEDEN CONSEGUIR SI SE QUIERE
 
-            print('len OD_paths: ', len(self.OD_masks), ' len OC_paths: ', len(OC_masks), ' len img_paths ', len(img_path))
+            #print('len OD_paths: ', len(self.OD_masks), ' len OC_paths: ', len(OC_masks), ' len img_paths ', len(img_path))
 
     
     def __len__(self):
@@ -245,17 +245,18 @@ class Dataset_DC(Dataset):
         img = Image.open(self.paths[index])
 
         shape = img.size
-        print( 'íNDEX', index, self.names[index])
+        #print( 'íNDEX', index, self.names[index])
 
         OD_mask = Image.open(self.OD_masks[index])
-        print("PATH: ", self.paths[index])
+        #print("PATH: ", self.paths[index])
         OC_mask = Image.open(self.OC_masks[index])
             
         
 
         #APLICO LAS AUGMENTACIONES EN CASO DE HABER
         if self.transform:
-            print('ENTRO A TRANSFORMATION')
+            #
+            # print('ENTRO A TRANSFORMATION')
 
             #DARLE UNA PROBABILIDAD DE QUE NO TOME TODAS LAS TRANSFOMRACIONES
             #PREGUNTAR QUE SI NO HAY PROBABILIDADES SE APLICA TODOS
@@ -306,10 +307,13 @@ class Dataset_DC(Dataset):
         #obtengo la zona donde se ubica el disco de la imagen para recortar al borde mas un delta
         #la imagen devuelta es cuadrada teniendo en cuenta el lado mas largo si es mas alto o mas corto
         #print('ENTRO A RECORTE')
-        c0, c1, c2, c3, center = get_OCOD_crop(mask= OD_mask[0,:,:], delta= 0.1, descentro=True)
+        np_mask = OD_mask.cpu
+        np_mask = np.array(OD_mask[0,:,:])
+        c0, c1, c2, c3, center = get_OCOD_crop(mask= np_mask, delta= 0.1, descentro=True)
         img = img[:,c0:c2,c1:c3]
-        print('IMG SHAPE: ',img.shape)
+        #print('IMG SHAPE: ',img.shape)
 
+        print('IMAGEN: ', self.names[index])
         #RE-ESCALO LAS IMAGENES A 512X512 
         img = self.scale_img(img, 512, 512)
         OD_mask = OD_mask[:,c0:c2+1,c1:c3+1]
@@ -333,7 +337,7 @@ class Dataset_DC(Dataset):
         ''' 
         retorna la imagen re escalada
         '''
-        print('IMG SHAPE IN SCALE IMG: ', image.shape)
+        #print('IMG SHAPE IN SCALE IMG: ', image.shape)
         scaledImg = F.resize(image, (width,height), interpolation=transforms.InterpolationMode.NEAREST)
         return scaledImg
 

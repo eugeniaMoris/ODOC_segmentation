@@ -10,13 +10,13 @@ import numpy as np
 
 class ToTensor():
     def __call__(self, img, mask1, mask2=None):
-        print('TO TENSOR')
+        #print('TO TENSOR')
         transform = transforms.ToTensor()
 
         if mask2:
-            print('SHAPE IMG IN TRANSFORM: ', transform(img).shape)
+            #print('SHAPE IMG IN TRANSFORM: ', transform(img).shape)
             return transform(img), transform(mask1), transform(mask2)
-        print('SDASKMAL')
+        #print('SDASKMAL')
         return transform(img), transform(mask1)
 
 class MulTransform:
@@ -24,7 +24,7 @@ class MulTransform:
     self.factor = factor
 
   def __call__(self,img, mask1, mask2=None):
-    print('MULTRANSFORM')
+    #print('MULTRANSFORM')
 
     img *= self.factor
     if mask2:
@@ -39,7 +39,7 @@ class Hflip():
         '''
         aplica el flip horizontal tanto a la imagen como a las mascaras, dada una probabilidad
         '''
-        print('HFLIP')
+        #print('HFLIP')
 
         rand = torch.rand(1)
         if rand > self.probability:
@@ -62,7 +62,7 @@ class Vflip():
         '''
         aplica el flip vertical tanto a la imagen como a las mascaras, dada una probabilidad
         '''
-        print('HFLIP')
+        #print('HFLIP')
 
         rand = torch.rand(1)
 
@@ -83,7 +83,7 @@ class GaussianBlur:
         self.sigma= sigma
 
     def __call__(self, img, mask1, mask2= None):
-        print('GAUSSIAN')
+        #print('GAUSSIAN')
 
         k= 2 * int(3*self.sigma) + 1
 
@@ -106,7 +106,7 @@ class ColorJitter():
         
 
     def __call__(self, img, mask1, mask2= None):
-        print('COLLOR')
+        #print('COLLOR')
         
         hue = np.clip(self.hue,-0.5,0.5)
         jitter = transforms.ColorJitter(brightness=float(self.brightness),
@@ -131,7 +131,7 @@ class RandomAffine():
         self.scale= scale
 
     def __call__(self, img, mask1, mask2=None):
-        print('AFFINE')
+        #print('AFFINE')
 
         #print('SE APLICO RANDOM AFFINE')
         dmin,dmax = self.degrees

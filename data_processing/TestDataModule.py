@@ -22,33 +22,47 @@ class TestDataModule(pl.LightningDataModule):
         img_paths = []
         OD_paths = []
         OC_paths = []
+        names = []
 
         for path in sorted(glob.glob(self.data_path + '/images/' + self.dataset + '/*.png')):
             img_paths.insert(len(img_paths),path)
-        for path in sorted(glob.glob(self.data_path + '/images/' + self.dataset + '/*/*.png')):
-            img_paths.insert(len(img_paths),path)
+            n = ntpath.basename(path)
+            names.append(n)
+        try:
+            for path in sorted(glob.glob(self.data_path + '/images/' + self.dataset + '/*/*.png')):
+                img_paths.insert(len(img_paths),path)
+                n = ntpath.basename(path)
+                names.append(n)
+        except:
+            print('NO TEST FOLDER')
         self.img_paths = img_paths
-
-        try: #EN CASO DE NO POSEER MASCARAS PARA EL DATASET 
-            for path in sorted(glob.glob(self.data_path + '/OD1/' + self.dataset + '/*.png')):
+        for path in sorted(glob.glob(self.data_path + '/OD1/' + self.dataset + '/*.png')):
                 OD_paths.insert(len(OD_paths),path)
+        for path in sorted(glob.glob(self.data_path + '/OC/' + self.dataset + '/*.png')):
+                OC_paths.insert(len(OC_paths),path)
+        try: #EN CASO DE NO POSEER MASCARAS PARA EL DATASET 
+            
             for path in sorted(glob.glob(self.data_path + '/OD1/' + self.dataset + '/*/*.png')):
                 OD_paths.insert(len(OD_paths),path)
-            for path in sorted(glob.glob(self.data_path + '/OC/' + self.dataset + '/*.png')):
-                OC_paths.insert(len(OC_paths),path)
+            
             for path in sorted(glob.glob(self.data_path + '/OC/' + self.dataset + '/*/*.png')):
                 OC_paths.insert(len(OC_paths),path)
         except:
             print('NO MASK FOR THIS DATASET')
+
+
+
+
+
                       
 
 
         if stage == 'test' and self.split_file:
             test_names = np.array((self.split_file['split']['test']).split(','))
-            self.test_data = TestDataset(img_paths,OD_path= OD_paths, OC_path=OC_paths, split_names= test_names)
+            self.test_data = TestDataset(img_paths,OD_path= OD_paths, OC_path=OC_paths, split_names= test_names,stage='test')
         elif self.split_file is None:
             print(' No split_file were found, we will predict all the images')
-            self.pred_data = TestDataset(self.img_paths)
+            self.test_data = TestDataset(img_paths,OD_path= OD_paths, OC_path=OC_paths,split_names=names)
 
         if stage == "predict":
             self.pred_data = TestDataset(self.img_paths)
@@ -65,7 +79,7 @@ class TestDataModule(pl.LightningDataModule):
 
 class TestDataset(Dataset):
 
-    def __init__(self, img_paths, OD_path = None, OC_path = None, split_names= None):
+    def __init__(self, img_paths, OD_path = None, OC_path = None, split_names= None,stage='test'):
         
         if split_names.shape != 0:
             paths = []
@@ -76,7 +90,7 @@ class TestDataset(Dataset):
             for i in range(len(img_paths)): 
                 base_name = ntpath.basename(img_paths[i])
                 #print('BASE NAME: ', base_name)
-                if (base_name in split_names)or (('Test/'+base_name) in split_names): 
+                if (base_name in split_names) or (('Test/'+base_name) in split_names): 
                     #print('PATHS:', img_path[i])
                     paths.insert(len(paths),img_paths[i])
 
@@ -84,6 +98,9 @@ class TestDataset(Dataset):
                         OD_masks.append(OD_path[i])
                     if OC_path:
                         OC_masks.append(OC_path[i])
+            # print(paths[:3])
+            # print(OD_masks[:3])
+            # print(OC_masks[:3])
         else:
             paths = img_paths
             if OD_path:
@@ -105,6 +122,8 @@ class TestDataset(Dataset):
         else:
             self.OC_masks = None
         self.names= names
+        #print(self.names)
+
 
     def __len__(self):
         return len(self.paths)
@@ -123,6 +142,7 @@ class TestDataset(Dataset):
             OC_mask = np.array(Image.open(self.OC_masks[index]))
             OC_mask[OC_mask == 255] = 1
 
+        #print(self.paths[index], self.OD_masks[index], self.OC_masks[index])
         mask = np.array(OD_mask)
         mask = mask  + np.array(OC_mask)
 

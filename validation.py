@@ -35,8 +35,11 @@ def main(config, hparams):
     con_name = ntpath.basename(hparams.config)
     name = con_name.split('.')
     model = Unet(config, loss, model_name=hparams.dataset)
-
-    split_file = hparams.split + '/ODOC_segmentation_' + hparams.dataset + '.ini'
+    
+    if hparams.dataset == 'multi':
+        split_file = hparams.split
+    else:
+        split_file = hparams.split + '/ODOC_segmentation_' + hparams.dataset + '.ini'
     config_split = ConfigParser()
     config_split.read(split_file)
 
@@ -52,7 +55,7 @@ def main(config, hparams):
                 pred_data=config['training']['predic_data'],
                 norm=bool(config['training']['norm']),
                 probabilities=probabilities,
-                batch_size=int(config['training']['batch_size']))
+                batch_size=1)
     else:
         print('entro aca')
         dataMod = DataModuleClassDC(data_path= hparams.data_path,

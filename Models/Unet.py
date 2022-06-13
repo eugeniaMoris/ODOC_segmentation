@@ -356,9 +356,9 @@ class Unet(pl.LightningModule):
         Operates on a single batch of data from the validation set. In this step you'd might generate 
         examples or calculate anything of interest like Dice.
         '''
-        print("ENTRO A VALIDACION!")
+        #print("ENTRO A VALIDACION!")
         x, y, names, shapes= batch
-        print('DENTRO DE UNET: ', x.shape, y.shape, names, shapes)
+        #print('DENTRO DE UNET: ', x.shape, y.shape, names, shapes)
 
 
         #save the first validation batch for a future prediction
@@ -374,7 +374,7 @@ class Unet(pl.LightningModule):
         y_arg = torch.argmax(y_hat,dim=1)
         #print('NUMERO DE CLASES: ', self.n_classes)
         if self.n_classes == 3:
-            print('ENTRO 3 clases')
+            #print('ENTRO 3 clases')
             
             C_pred = y_arg.detach().clone()
             C_pred[C_pred == 1] = 0
@@ -389,8 +389,8 @@ class Unet(pl.LightningModule):
             y_d = y.detach().clone()
             y_d[y_d == 2] = 1
 
-            print('values of argpred: ', torch.unique(y_arg))
-            print('values of Y: ', torch.unique(y))
+            #print('values of argpred: ', torch.unique(y_arg))
+            #print('values of Y: ', torch.unique(y))
 
             # print('values of the Yd: ', torch.unique(y_d))
             # print('values of the Yc: ', torch.unique(y_c))
@@ -431,8 +431,8 @@ class Unet(pl.LightningModule):
         self.logger.experiment.add_scalars("Avg loss",{'valid':avg_loss}, self.current_epoch)
         #print('OUTPUTS: ', outputs)
         if self.n_classes == 3:
-            avg_dice_c = torch.stack([x['val_dice_OC'] for x in outputs]).mean()
-            avg_dice_d = torch.stack([x['val_dice_OD'] for x in outputs]).mean()
+            avg_dice_c = torch.stack([x['val_dice_OC'] for x in outputs]).nanmean()
+            avg_dice_d = torch.stack([x['val_dice_OD'] for x in outputs]).nanmean()
             self.logger.experiment.add_scalars("Avg_dice_OC",{'valid' : avg_dice_c}, self.current_epoch)
             self.logger.experiment.add_scalars("Avg_dice_OD",{'valid' : avg_dice_d}, self.current_epoch)
             #self.validation_sample()
@@ -462,7 +462,7 @@ class Unet(pl.LightningModule):
 
     def test_step(self, batch, batch_idx):
         x,y, names, shapes = batch
-        print('NAMES: ', names)
+        #print('NAMES: ', names)
         y_hat = self.forward(x)
 
         #CALCULATE LOSS
@@ -475,12 +475,12 @@ class Unet(pl.LightningModule):
         test_dice = self.dice_metric(y,pred_arg)
         test_dice= torch.tensor(test_dice)
 
-        print('TEST DICE: ', test_dice)
+        #print('TEST DICE: ', test_dice)
         self.log("test_LOSS", loss, prog_bar=True)
         self.log("test_DICE", test_dice, prog_bar=True)
 
         base_name = ntpath.basename(names[0])
-        print('BASE NAME: ', base_name)
+        #print('BASE NAME: ', base_name)
         if self.current_epoch % 100 == 0:
         
             self.save_pred_img(y,pred_arg, base_name)
@@ -538,9 +538,9 @@ class Unet(pl.LightningModule):
     def validation_sample(self):
         # TAKE THE FIRST VALIDATION BATCH SAVED AND PREDICT THE FIRST SAMPLE
         x, y, names, shapes = self.valid_sample
-        print('dentro de unet: ', x.shape, y.shape, names, shapes)
+        #print('dentro de unet: ', x.shape, y.shape, names, shapes)
         pred = self.forward(x)
-        print('PREDICTION: ', pred.shape)
+        #print('PREDICTION: ', pred.shape)
 
         #IN THE PREDICTION WITHOUT LOSS CALCULATION WE NEED TO ADD THE SOFTMAX LAYER
         pred = self.softmax(pred) #WE HAD THE PROBABILITIES 
@@ -586,8 +586,8 @@ class Unet(pl.LightningModule):
         tp_image = self.generate_img(pred,true)
         tp_image = tp_image[:,0,:,:]
         tp_image = np.transpose(tp_image, (1,2,0))
-        print('tp_image SHAPE: ', tp_image.shape)
-        print('save in ', dst_path + self.name + '/' +name)
+        #print('tp_image SHAPE: ', tp_image.shape)
+        #print('save in ', dst_path + self.name + '/' +name)
         iio.imsave(dst_path + self.name + '/' +name, probability[0,:,:])
         iio.imsave(dst_path + self.name +  '/tp_' + name, tp_image)
 
@@ -656,11 +656,14 @@ class Unet(pl.LightningModule):
         '''
 
         gt = gt.cpu()
-        pred = pred.cpu()
-        if self.n_classes == 2:
-            return f1_score(gt.flatten(), pred.flatten())
+        if len(np.unique(gt))==1:
+            return np.nan
         else:
-            return f1_score(gt.flatten(), pred.flatten(), average='macro')
+            pred = pred.cpu()
+            if self.n_classes == 2:
+                return f1_score(gt.flatten(), pred.flatten())
+            else:
+                return f1_score(gt.flatten(), pred.flatten(), average='macro')
         
 
 
