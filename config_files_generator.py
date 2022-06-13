@@ -2,7 +2,9 @@ from configparser import ConfigParser
 import numpy as np
 import copy
 
+#fuerza = [10, 25, 50, 75]
 fuerza = [10, 25, 50, 75]
+
 probabilidad= [0.10, 0.25, 0.50, 0.75]
 
 original = ConfigParser()
@@ -24,7 +26,7 @@ for f in fuerza:
         new_config['color']['hue'] = str(f/100)
 
         new_config['affine']['degrees']= '-' + str(f) + ',' + str(f)
-        new_config['affine']['translate']= str(int(f/10)) + ',' + str(int(f/10))
+        new_config['affine']['translate']= str(0) + ',' + str(0)
         scale_min = 1.0 - f/100
         scale_max = 1.0 + f/100
         new_config['affine']['scale'] = str(scale_min) + ','+str(scale_max)
