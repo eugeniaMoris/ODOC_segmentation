@@ -1262,3 +1262,762 @@ REFUGE_AUGM_S2.txt
 segmentation_metrics_modelD-ORIGA.txt
 segmentation_metrics_modelD-REFUGE.txt
 segmentation_metrics_modelD-RIMONE-R3.txt
+config_files/DRISHTI_f-10_p-10_400.ini
+config_files/DRISHTI_f-10_p-10.ini
+config_files/DRISHTI_f-10_p-25_400.ini
+config_files/DRISHTI_f-10_p-25.ini
+config_files/DRISHTI_f-10_p-50_400.ini
+config_files/DRISHTI_f-10_p-50.ini
+config_files/DRISHTI_f-25_p-10_400.ini
+config_files/DRISHTI_f-25_p-10.ini
+config_files/DRISHTI_f-25_p-25_400.ini
+config_files/DRISHTI_f-25_p-25.ini
+config_files/DRISHTI_f-25_p-50_400.ini
+config_files/DRISHTI_f-25_p-50.ini
+config_files/DRISHTI_f-50_p-10_400.ini
+config_files/DRISHTI_f-50_p-10.ini
+config_files/DRISHTI_f-50_p-25_400.ini
+config_files/DRISHTI_f-50_p-25.ini
+config_files/DRISHTI_f-50_p-50_400.ini
+config_files/DRISHTI_f-50_p-50.ini
+config_files/DRISHTI_STEP2_f-10_p-10.ini
+config_files/DRISHTI_STEP2_f-10_p-25.ini
+config_files/DRISHTI_STEP2_f-10_p-50.ini
+config_files/DRISHTI_STEP2_f-25_p-10.ini
+config_files/DRISHTI_STEP2_f-25_p-25.ini
+config_files/DRISHTI_STEP2_f-25_p-50.ini
+config_files/DRISHTI_STEP2_f-50_p-10.ini
+config_files/DRISHTI_STEP2_f-50_p-25.ini
+config_files/DRISHTI_STEP2_f-50_p-50.ini
+config_files/MULTID_f-10_p-10.ini
+config_files/MULTID_f-10_p-25.ini
+config_files/MULTID_f-10_p-50.ini
+config_files/MULTID_f-25_p-10.ini
+config_files/MULTID_f-25_p-25.ini
+config_files/MULTID_f-25_p-50.ini
+config_files/MULTID_f-50_p-10.ini
+config_files/MULTID_f-50_p-25.ini
+config_files/MULTID_f-50_p-50.ini
+config_files/MULTID_STEP2_f-10_p-10.ini
+config_files/MULTID_STEP2_f-10_p-25.ini
+config_files/MULTID_STEP2_f-10_p-50.ini
+config_files/MULTID_STEP2_f-25_p-10.ini
+config_files/MULTID_STEP2_f-25_p-25.ini
+config_files/MULTID_STEP2_f-25_p-50.ini
+config_files/MULTID_STEP2_f-50_p-10.ini
+config_files/MULTID_STEP2_f-50_p-25.ini
+config_files/MULTID_STEP2_f-50_p-50.ini
+config_files/REFUGE_f-10_p-10.ini
+config_files/REFUGE_f-10_p-25.ini
+config_files/REFUGE_f-10_p-50.ini
+config_files/REFUGE_f-25_p-10.ini
+config_files/REFUGE_f-25_p-25.ini
+config_files/REFUGE_f-25_p-50.ini
+config_files/REFUGE_f-50_p-10.ini
+config_files/REFUGE_f-50_p-25.ini
+config_files/REFUGE_f-50_p-50.ini
+config_files/REFUGE_STEP2_f-10_p-10.ini
+config_files/REFUGE_STEP2_f-10_p-25.ini
+config_files/REFUGE_STEP2_f-10_p-50.ini
+config_files/REFUGE_STEP2_f-25_p-10.ini
+config_files/REFUGE_STEP2_f-25_p-25.ini
+config_files/REFUGE_STEP2_f-25_p-50.ini
+config_files/REFUGE_STEP2_f-50_p-10.ini
+config_files/REFUGE_STEP2_f-50_p-25.ini
+config_files/REFUGE_STEP2_f-50_p-50.ini
+config_files/old/DC_DRISHTI_augm_f-10_p-25.ini
+config_files/old/DC_DRISHTI_augm_f-10_p-50.ini
+config_files/old/DC_DRISHTI_augm_f-10_p-75.ini
+config_files/old/DC_DRISHTI_augm_f-25_p-10.ini
+config_files/old/DC_DRISHTI_augm_f-25_p-25.ini
+config_files/old/DC_DRISHTI_augm_f-25_p-50.ini
+config_files/old/DC_DRISHTI_augm_f-25_p-75.ini
+config_files/old/DC_DRISHTI_augm_f-50_p-10.ini
+config_files/old/DC_DRISHTI_augm_f-50_p-25.ini
+config_files/old/DC_DRISHTI_augm_f-50_p-50.ini
+config_files/old/DC_DRISHTI_augm_f-50_p-75.ini
+config_files/old/DC_DRISHTI_augm_f-75_p-10.ini
+config_files/old/DC_DRISHTI_augm_f-75_p-25.ini
+config_files/old/DC_DRISHTI_augm_f-75_p-50.ini
+config_files/old/DC_DRISHTI_augm_f-75_p-75.ini
+config_files/old/DC_DRISHTI_lr-01.ini
+config_files/old/DRISHTI_augm_f-10_p-10.ini
+config_files/old/DRISHTI_augm_f-10_p-25.ini
+config_files/old/DRISHTI_augm_f-10_p-50.ini
+config_files/old/DRISHTI_augm_f-10_p-75.ini
+config_files/old/DRISHTI_augm_f-25_p-10.ini
+config_files/old/DRISHTI_augm_f-25_p-25.ini
+config_files/old/DRISHTI_augm_f-25_p-50.ini
+config_files/old/DRISHTI_augm_f-25_p-75.ini
+config_files/old/DRISHTI_augm_f-50_p-10.ini
+config_files/old/DRISHTI_augm_f-50_p-25.ini
+config_files/old/DRISHTI_augm_f-50_p-50.ini
+config_files/old/DRISHTI_augm_f-50_p-75.ini
+config_files/old/DRISHTI_augm_f-75_p-10.ini
+config_files/old/DRISHTI_augm_f-75_p-25.ini
+config_files/old/DRISHTI_augm_f-75_p-50.ini
+config_files/old/DRISHTI_augm_f-75_p-75.ini
+config_files/old/DRISHTI_lr-000001.ini
+config_files/old/DRISHTI_lr-00001.ini
+config_files/old/DRISHTI_lr-0001.ini
+config_files/old/DRISHTI_lr-001.ini
+config_files/old/DRISHTI_lr-01.ini
+config_files/old/DRISHTI_lr-1.ini
+config_files/old/IDRID/DC_IDRID_augm_f-10_p-10.ini
+config_files/old/IDRID/DC_IDRID_augm_f-10_p-25.ini
+config_files/old/IDRID/DC_IDRID_augm_f-10_p-50.ini
+config_files/old/IDRID/DC_IDRID_augm_f-10_p-75.ini
+config_files/old/IDRID/DC_IDRID_augm_f-25_p-10.ini
+config_files/old/IDRID/DC_IDRID_augm_f-25_p-25.ini
+config_files/old/IDRID/DC_IDRID_augm_f-25_p-50.ini
+config_files/old/IDRID/DC_IDRID_augm_f-25_p-75.ini
+config_files/old/IDRID/DC_IDRID_augm_f-50_p-10.ini
+config_files/old/IDRID/DC_IDRID_augm_f-50_p-25.ini
+config_files/old/IDRID/DC_IDRID_augm_f-50_p-50.ini
+config_files/old/IDRID/DC_IDRID_augm_f-50_p-75.ini
+config_files/old/IDRID/DC_IDRID_augm_f-75_p-10.ini
+config_files/old/IDRID/DC_IDRID_augm_f-75_p-25.ini
+config_files/old/IDRID/DC_IDRID_augm_f-75_p-50.ini
+config_files/old/IDRID/DC_IDRID_augm_f-75_p-75.ini
+config_files/old/REFUGE/DC_REFUGE_augm_f-10_p-10.ini
+config_files/old/REFUGE/DC_REFUGE_augm_f-10_p-25.ini
+config_files/old/REFUGE/DC_REFUGE_augm_f-10_p-50.ini
+config_files/old/REFUGE/DC_REFUGE_augm_f-10_p-75.ini
+config_files/old/REFUGE/DC_REFUGE_augm_f-25_p-10.ini
+config_files/old/REFUGE/DC_REFUGE_augm_f-25_p-25.ini
+config_files/old/REFUGE/DC_REFUGE_augm_f-25_p-50.ini
+config_files/old/REFUGE/DC_REFUGE_augm_f-25_p-75.ini
+config_files/old/REFUGE/DC_REFUGE_augm_f-50_p-10.ini
+config_files/old/REFUGE/DC_REFUGE_augm_f-50_p-25.ini
+config_files/old/REFUGE/DC_REFUGE_augm_f-50_p-50.ini
+config_files/old/REFUGE/DC_REFUGE_augm_f-50_p-75.ini
+config_files/old/REFUGE/DC_REFUGE_augm_f-75_p-10.ini
+config_files/old/REFUGE/DC_REFUGE_augm_f-75_p-25.ini
+config_files/old/REFUGE/DC_REFUGE_augm_f-75_p-50.ini
+config_files/old/REFUGE/DC_REFUGE_augm_f-75_p-75.ini
+config_files/old/multi/step1_multi__augm_f-10_p-10.ini
+config_files/old/multi/step1_multi__augm_f-10_p-25.ini
+config_files/old/multi/step1_multi__augm_f-10_p-50.ini
+config_files/old/multi/step1_multi__augm_f-10_p-75.ini
+config_files/old/multi/step1_multi__augm_f-25_p-10.ini
+config_files/old/multi/step1_multi__augm_f-25_p-25.ini
+config_files/old/multi/step1_multi__augm_f-25_p-50.ini
+config_files/old/multi/step1_multi__augm_f-25_p-75.ini
+config_files/old/multi/step1_multi__augm_f-50_p-10.ini
+config_files/old/multi/step1_multi__augm_f-50_p-25.ini
+config_files/old/multi/step1_multi__augm_f-50_p-50.ini
+config_files/old/multi/step1_multi__augm_f-50_p-75.ini
+config_files/old/multi/step1_multi__augm_f-75_p-10.ini
+config_files/old/multi/step1_multi__augm_f-75_p-25.ini
+config_files/old/multi/step1_multi__augm_f-75_p-50.ini
+config_files/old/multi/step1_multi__augm_f-75_p-75.ini
+config_files/old/multi/Step2_multi_augm_f-10_p-10.ini
+config_files/old/multi/Step2_multi_augm_f-10_p-25.ini
+config_files/old/multi/Step2_multi_augm_f-10_p-50.ini
+config_files/old/multi/Step2_multi_augm_f-10_p-75.ini
+config_files/old/multi/Step2_multi_augm_f-25_p-10.ini
+config_files/old/multi/Step2_multi_augm_f-25_p-25.ini
+config_files/old/multi/Step2_multi_augm_f-25_p-50.ini
+config_files/old/multi/Step2_multi_augm_f-25_p-75.ini
+config_files/old/multi/Step2_multi_augm_f-50_p-10.ini
+config_files/old/multi/Step2_multi_augm_f-50_p-25.ini
+config_files/old/multi/Step2_multi_augm_f-50_p-50.ini
+config_files/old/multi/Step2_multi_augm_f-50_p-75.ini
+config_files/old/multi/Step2_multi_augm_f-75_p-10.ini
+config_files/old/multi/Step2_multi_augm_f-75_p-25.ini
+config_files/old/multi/Step2_multi_augm_f-75_p-50.ini
+config_files/old/multi/Step2_multi_augm_f-75_p-75.ini
+.gitignore
+lightning_logs/DRISHTI_STEP1/version_0/events.out.tfevents.1655237934.euge-System-Product-Name.410544.0
+lightning_logs/DRISHTI_STEP1/version_0/hparams.yaml
+lightning_logs/DRISHTI_STEP1/version_0/Avg loss_train/events.out.tfevents.1655237946.euge-System-Product-Name.410544.4
+lightning_logs/DRISHTI_STEP1/version_0/Avg loss_valid/events.out.tfevents.1655237934.euge-System-Product-Name.410544.1
+lightning_logs/DRISHTI_STEP1/version_0/Avg_dice_valid/events.out.tfevents.1655237934.euge-System-Product-Name.410544.2
+lightning_logs/DRISHTI_STEP1/version_0/Loss_train_loss/events.out.tfevents.1655237939.euge-System-Product-Name.410544.3
+lightning_logs/DRISHTI_STEP1/version_1/events.out.tfevents.1655240060.euge-System-Product-Name.431593.0
+lightning_logs/DRISHTI_STEP1/version_1/hparams.yaml
+lightning_logs/DRISHTI_STEP1/version_1/Avg loss_train/events.out.tfevents.1655240072.euge-System-Product-Name.431593.4
+lightning_logs/DRISHTI_STEP1/version_1/Avg loss_valid/events.out.tfevents.1655240060.euge-System-Product-Name.431593.1
+lightning_logs/DRISHTI_STEP1/version_1/Avg_dice_valid/events.out.tfevents.1655240060.euge-System-Product-Name.431593.2
+lightning_logs/DRISHTI_STEP1/version_1/Loss_train_loss/events.out.tfevents.1655240064.euge-System-Product-Name.431593.3
+lightning_logs/DRISHTI_STEP1/version_2/events.out.tfevents.1655242297.euge-System-Product-Name.452616.0
+lightning_logs/DRISHTI_STEP1/version_2/hparams.yaml
+lightning_logs/DRISHTI_STEP1/version_2/Avg loss_train/events.out.tfevents.1655242309.euge-System-Product-Name.452616.4
+lightning_logs/DRISHTI_STEP1/version_2/Avg loss_valid/events.out.tfevents.1655242297.euge-System-Product-Name.452616.1
+lightning_logs/DRISHTI_STEP1/version_2/Avg_dice_valid/events.out.tfevents.1655242297.euge-System-Product-Name.452616.2
+lightning_logs/DRISHTI_STEP1/version_2/Loss_train_loss/events.out.tfevents.1655242301.euge-System-Product-Name.452616.3
+lightning_logs/DRISHTI_STEP1/version_3/events.out.tfevents.1655244687.euge-System-Product-Name.473663.0
+lightning_logs/DRISHTI_STEP1/version_3/hparams.yaml
+lightning_logs/DRISHTI_STEP1/version_3/Avg loss_train/events.out.tfevents.1655244699.euge-System-Product-Name.473663.4
+lightning_logs/DRISHTI_STEP1/version_3/Avg loss_valid/events.out.tfevents.1655244687.euge-System-Product-Name.473663.1
+lightning_logs/DRISHTI_STEP1/version_3/Avg_dice_valid/events.out.tfevents.1655244687.euge-System-Product-Name.473663.2
+lightning_logs/DRISHTI_STEP1/version_3/Loss_train_loss/events.out.tfevents.1655244692.euge-System-Product-Name.473663.3
+lightning_logs/DRISHTI_STEP1/version_4/events.out.tfevents.1655246804.euge-System-Product-Name.494701.0
+lightning_logs/DRISHTI_STEP1/version_4/hparams.yaml
+lightning_logs/DRISHTI_STEP1/version_4/Avg loss_train/events.out.tfevents.1655246815.euge-System-Product-Name.494701.4
+lightning_logs/DRISHTI_STEP1/version_4/Avg loss_valid/events.out.tfevents.1655246804.euge-System-Product-Name.494701.1
+lightning_logs/DRISHTI_STEP1/version_4/Avg_dice_valid/events.out.tfevents.1655246804.euge-System-Product-Name.494701.2
+lightning_logs/DRISHTI_STEP1/version_4/Loss_train_loss/events.out.tfevents.1655246808.euge-System-Product-Name.494701.3
+lightning_logs/DRISHTI_STEP1/version_5/events.out.tfevents.1655249045.euge-System-Product-Name.515823.0
+lightning_logs/DRISHTI_STEP1/version_5/hparams.yaml
+lightning_logs/DRISHTI_STEP1/version_5/Avg loss_train/events.out.tfevents.1655249058.euge-System-Product-Name.515823.4
+lightning_logs/DRISHTI_STEP1/version_5/Avg loss_valid/events.out.tfevents.1655249045.euge-System-Product-Name.515823.1
+lightning_logs/DRISHTI_STEP1/version_5/Avg_dice_valid/events.out.tfevents.1655249045.euge-System-Product-Name.515823.2
+lightning_logs/DRISHTI_STEP1/version_5/Loss_train_loss/events.out.tfevents.1655249050.euge-System-Product-Name.515823.3
+lightning_logs/DRISHTI_STEP1/version_6/events.out.tfevents.1655251468.euge-System-Product-Name.537620.0
+lightning_logs/DRISHTI_STEP1/version_6/hparams.yaml
+lightning_logs/DRISHTI_STEP1/version_6/Avg loss_train/events.out.tfevents.1655251479.euge-System-Product-Name.537620.4
+lightning_logs/DRISHTI_STEP1/version_6/Avg loss_valid/events.out.tfevents.1655251468.euge-System-Product-Name.537620.1
+lightning_logs/DRISHTI_STEP1/version_6/Avg_dice_valid/events.out.tfevents.1655251468.euge-System-Product-Name.537620.2
+lightning_logs/DRISHTI_STEP1/version_6/Loss_train_loss/events.out.tfevents.1655251471.euge-System-Product-Name.537620.3
+lightning_logs/DRISHTI_STEP1/version_7/events.out.tfevents.1655253618.euge-System-Product-Name.558655.0
+lightning_logs/DRISHTI_STEP1/version_7/hparams.yaml
+lightning_logs/DRISHTI_STEP1/version_7/Avg loss_train/events.out.tfevents.1655253630.euge-System-Product-Name.558655.4
+lightning_logs/DRISHTI_STEP1/version_7/Avg loss_valid/events.out.tfevents.1655253618.euge-System-Product-Name.558655.1
+lightning_logs/DRISHTI_STEP1/version_7/Avg_dice_valid/events.out.tfevents.1655253618.euge-System-Product-Name.558655.2
+lightning_logs/DRISHTI_STEP1/version_7/Loss_train_loss/events.out.tfevents.1655253623.euge-System-Product-Name.558655.3
+lightning_logs/DRISHTI_STEP1/version_8/events.out.tfevents.1655255903.euge-System-Product-Name.579648.0
+lightning_logs/DRISHTI_STEP1/version_8/Avg loss_train/events.out.tfevents.1655255916.euge-System-Product-Name.579648.4
+lightning_logs/DRISHTI_STEP1/version_8/Avg loss_valid/events.out.tfevents.1655255903.euge-System-Product-Name.579648.1
+lightning_logs/DRISHTI_STEP1/version_8/Avg_dice_valid/events.out.tfevents.1655255903.euge-System-Product-Name.579648.2
+lightning_logs/DRISHTI_STEP1/version_8/Loss_train_loss/events.out.tfevents.1655255908.euge-System-Product-Name.579648.3
+lightning_logs/DRISHTI_STEP1_400/version_0/events.out.tfevents.1655301300.euge-System-Product-Name.8690.0
+lightning_logs/DRISHTI_STEP1_400/version_0/hparams.yaml
+lightning_logs/DRISHTI_STEP1_400/version_0/Avg loss_train/events.out.tfevents.1655301311.euge-System-Product-Name.8690.4
+lightning_logs/DRISHTI_STEP1_400/version_0/Avg loss_valid/events.out.tfevents.1655301300.euge-System-Product-Name.8690.1
+lightning_logs/DRISHTI_STEP1_400/version_0/Avg_dice_valid/events.out.tfevents.1655301300.euge-System-Product-Name.8690.2
+lightning_logs/DRISHTI_STEP1_400/version_0/Loss_train_loss/events.out.tfevents.1655301304.euge-System-Product-Name.8690.3
+lightning_logs/DRISHTI_STEP1_400/version_0/checkpoints/DRISHTI_f-10_p-10_400-epoch=299.ckpt
+lightning_logs/DRISHTI_STEP1_400/version_0/checkpoints/last.ckpt
+lightning_logs/DRISHTI_STEP1_400/version_1/events.out.tfevents.1655304052.euge-System-Product-Name.30887.0
+lightning_logs/DRISHTI_STEP1_400/version_1/hparams.yaml
+lightning_logs/DRISHTI_STEP1_400/version_1/Avg loss_train/events.out.tfevents.1655304063.euge-System-Product-Name.30887.4
+lightning_logs/DRISHTI_STEP1_400/version_1/Avg loss_valid/events.out.tfevents.1655304052.euge-System-Product-Name.30887.1
+lightning_logs/DRISHTI_STEP1_400/version_1/Avg_dice_valid/events.out.tfevents.1655304052.euge-System-Product-Name.30887.2
+lightning_logs/DRISHTI_STEP1_400/version_1/Loss_train_loss/events.out.tfevents.1655304056.euge-System-Product-Name.30887.3
+lightning_logs/DRISHTI_STEP1_400/version_1/checkpoints/DRISHTI_f-10_p-25_400-epoch=304.ckpt
+lightning_logs/DRISHTI_STEP1_400/version_1/checkpoints/last.ckpt
+lightning_logs/DRISHTI_STEP1_400/version_2/events.out.tfevents.1655312635.euge-System-Product-Name.57642.0
+lightning_logs/DRISHTI_STEP1_400/version_2/hparams.yaml
+lightning_logs/DRISHTI_STEP1_400/version_2/Avg loss_train/events.out.tfevents.1655312647.euge-System-Product-Name.57642.4
+lightning_logs/DRISHTI_STEP1_400/version_2/Avg loss_valid/events.out.tfevents.1655312635.euge-System-Product-Name.57642.1
+lightning_logs/DRISHTI_STEP1_400/version_2/Avg_dice_valid/events.out.tfevents.1655312635.euge-System-Product-Name.57642.2
+lightning_logs/DRISHTI_STEP1_400/version_2/Loss_train_loss/events.out.tfevents.1655312639.euge-System-Product-Name.57642.3
+lightning_logs/DRISHTI_STEP1_400/version_2/checkpoints/DRISHTI_f-10_p-50_400-epoch=364.ckpt
+lightning_logs/DRISHTI_STEP1_400/version_2/checkpoints/last.ckpt
+lightning_logs/DRISHTI_STEP1_400/version_3/events.out.tfevents.1655315082.euge-System-Product-Name.82039.0
+lightning_logs/DRISHTI_STEP1_400/version_3/hparams.yaml
+lightning_logs/DRISHTI_STEP1_400/version_3/Avg loss_train/events.out.tfevents.1655315093.euge-System-Product-Name.82039.4
+lightning_logs/DRISHTI_STEP1_400/version_3/Avg loss_valid/events.out.tfevents.1655315082.euge-System-Product-Name.82039.1
+lightning_logs/DRISHTI_STEP1_400/version_3/Avg_dice_valid/events.out.tfevents.1655315082.euge-System-Product-Name.82039.2
+lightning_logs/DRISHTI_STEP1_400/version_3/Loss_train_loss/events.out.tfevents.1655315085.euge-System-Product-Name.82039.3
+lightning_logs/DRISHTI_STEP1_400/version_3/checkpoints/DRISHTI_f-25_p-10_400-epoch=264.ckpt
+lightning_logs/DRISHTI_STEP1_400/version_3/checkpoints/last.ckpt
+lightning_logs/DRISHTI_STEP1_400/version_4/events.out.tfevents.1655317204.euge-System-Product-Name.105071.0
+lightning_logs/DRISHTI_STEP1_400/version_4/hparams.yaml
+lightning_logs/DRISHTI_STEP1_400/version_4/Avg loss_train/events.out.tfevents.1655317215.euge-System-Product-Name.105071.4
+lightning_logs/DRISHTI_STEP1_400/version_4/Avg loss_valid/events.out.tfevents.1655317204.euge-System-Product-Name.105071.1
+lightning_logs/DRISHTI_STEP1_400/version_4/Avg_dice_valid/events.out.tfevents.1655317204.euge-System-Product-Name.105071.2
+lightning_logs/DRISHTI_STEP1_400/version_4/Loss_train_loss/events.out.tfevents.1655317208.euge-System-Product-Name.105071.3
+lightning_logs/DRISHTI_STEP1_400/version_4/checkpoints/DRISHTI_f-25_p-25_400-epoch=359.ckpt
+lightning_logs/DRISHTI_STEP1_400/version_4/checkpoints/last.ckpt
+lightning_logs/DRISHTI_STEP1_400/version_5/events.out.tfevents.1655319400.euge-System-Product-Name.126469.0
+lightning_logs/DRISHTI_STEP1_400/version_5/hparams.yaml
+lightning_logs/DRISHTI_STEP1_400/version_5/Avg loss_train/events.out.tfevents.1655319410.euge-System-Product-Name.126469.4
+lightning_logs/DRISHTI_STEP1_400/version_5/Avg loss_valid/events.out.tfevents.1655319400.euge-System-Product-Name.126469.1
+lightning_logs/DRISHTI_STEP1_400/version_5/Avg_dice_valid/events.out.tfevents.1655319400.euge-System-Product-Name.126469.2
+lightning_logs/DRISHTI_STEP1_400/version_5/Loss_train_loss/events.out.tfevents.1655319403.euge-System-Product-Name.126469.3
+lightning_logs/DRISHTI_STEP1_400/version_5/checkpoints/DRISHTI_f-25_p-50_400-epoch=369.ckpt
+lightning_logs/DRISHTI_STEP1_400/version_5/checkpoints/last.ckpt
+lightning_logs/DRISHTI_STEP1_400/version_6/events.out.tfevents.1655321755.euge-System-Product-Name.148354.0
+lightning_logs/DRISHTI_STEP1_400/version_6/hparams.yaml
+lightning_logs/DRISHTI_STEP1_400/version_6/Avg loss_train/events.out.tfevents.1655321765.euge-System-Product-Name.148354.4
+lightning_logs/DRISHTI_STEP1_400/version_6/Avg loss_valid/events.out.tfevents.1655321755.euge-System-Product-Name.148354.1
+lightning_logs/DRISHTI_STEP1_400/version_6/Avg_dice_valid/events.out.tfevents.1655321755.euge-System-Product-Name.148354.2
+lightning_logs/DRISHTI_STEP1_400/version_6/Loss_train_loss/events.out.tfevents.1655321758.euge-System-Product-Name.148354.3
+lightning_logs/DRISHTI_STEP1_400/version_6/checkpoints/DRISHTI_f-50_p-10_400-epoch=254.ckpt
+lightning_logs/DRISHTI_STEP1_400/version_6/checkpoints/last.ckpt
+lightning_logs/DRISHTI_STEP1_400/version_7/events.out.tfevents.1655323905.euge-System-Product-Name.171943.0
+lightning_logs/DRISHTI_STEP1_400/version_7/hparams.yaml
+lightning_logs/DRISHTI_STEP1_400/version_7/Avg loss_train/events.out.tfevents.1655323916.euge-System-Product-Name.171943.4
+lightning_logs/DRISHTI_STEP1_400/version_7/Avg loss_valid/events.out.tfevents.1655323905.euge-System-Product-Name.171943.1
+lightning_logs/DRISHTI_STEP1_400/version_7/Avg_dice_valid/events.out.tfevents.1655323905.euge-System-Product-Name.171943.2
+lightning_logs/DRISHTI_STEP1_400/version_7/Loss_train_loss/events.out.tfevents.1655323908.euge-System-Product-Name.171943.3
+lightning_logs/DRISHTI_STEP1_400/version_7/checkpoints/DRISHTI_f-50_p-25_400-epoch=259.ckpt
+lightning_logs/DRISHTI_STEP1_400/version_7/checkpoints/last.ckpt
+lightning_logs/DRISHTI_STEP1_400/version_8/events.out.tfevents.1655326152.euge-System-Product-Name.193610.0
+lightning_logs/DRISHTI_STEP1_400/version_8/hparams.yaml
+lightning_logs/DRISHTI_STEP1_400/version_8/Avg loss_train/events.out.tfevents.1655326164.euge-System-Product-Name.193610.4
+lightning_logs/DRISHTI_STEP1_400/version_8/Avg loss_valid/events.out.tfevents.1655326152.euge-System-Product-Name.193610.1
+lightning_logs/DRISHTI_STEP1_400/version_8/Avg_dice_valid/events.out.tfevents.1655326152.euge-System-Product-Name.193610.2
+lightning_logs/DRISHTI_STEP1_400/version_8/Loss_train_loss/events.out.tfevents.1655326156.euge-System-Product-Name.193610.3
+lightning_logs/DRISHTI_STEP1_400/version_8/checkpoints/DRISHTI_f-50_p-50_400-epoch=199.ckpt
+lightning_logs/DRISHTI_STEP1_400/version_8/checkpoints/last.ckpt
+lightning_logs/DRISHTI_STEP2/version_0/events.out.tfevents.1655339186.euge-System-Product-Name.239612.0
+lightning_logs/DRISHTI_STEP2/version_0/hparams.yaml
+lightning_logs/DRISHTI_STEP2/version_0/Avg loss_train/events.out.tfevents.1655339198.euge-System-Product-Name.239612.4
+lightning_logs/DRISHTI_STEP2/version_0/Avg loss_valid/events.out.tfevents.1655339186.euge-System-Product-Name.239612.1
+lightning_logs/DRISHTI_STEP2/version_0/Avg_dice_OC_valid/events.out.tfevents.1655339186.euge-System-Product-Name.239612.2
+lightning_logs/DRISHTI_STEP2/version_0/Avg_dice_OD_valid/events.out.tfevents.1655339186.euge-System-Product-Name.239612.3
+lightning_logs/DRISHTI_STEP2/version_0/checkpoints/DRISHTI_STEP2_f-10_p-10-epoch=399.ckpt
+lightning_logs/DRISHTI_STEP2/version_0/checkpoints/last.ckpt
+lightning_logs/DRISHTI_STEP2/version_1/events.out.tfevents.1655344300.euge-System-Product-Name.281991.0
+lightning_logs/DRISHTI_STEP2/version_1/hparams.yaml
+lightning_logs/DRISHTI_STEP2/version_1/Avg loss_train/events.out.tfevents.1655344313.euge-System-Product-Name.281991.4
+lightning_logs/DRISHTI_STEP2/version_1/Avg loss_valid/events.out.tfevents.1655344300.euge-System-Product-Name.281991.1
+lightning_logs/DRISHTI_STEP2/version_1/Avg_dice_OC_valid/events.out.tfevents.1655344300.euge-System-Product-Name.281991.2
+lightning_logs/DRISHTI_STEP2/version_1/Avg_dice_OD_valid/events.out.tfevents.1655344300.euge-System-Product-Name.281991.3
+lightning_logs/DRISHTI_STEP2/version_1/checkpoints/DRISHTI_STEP2_f-10_p-25-epoch=199.ckpt
+lightning_logs/DRISHTI_STEP2/version_1/checkpoints/last.ckpt
+lightning_logs/DRISHTI_STEP2/version_2/events.out.tfevents.1655349587.euge-System-Product-Name.324459.0
+lightning_logs/DRISHTI_STEP2/version_2/hparams.yaml
+lightning_logs/DRISHTI_STEP2/version_2/Avg loss_train/events.out.tfevents.1655349601.euge-System-Product-Name.324459.4
+lightning_logs/DRISHTI_STEP2/version_2/Avg loss_valid/events.out.tfevents.1655349587.euge-System-Product-Name.324459.1
+lightning_logs/DRISHTI_STEP2/version_2/Avg_dice_OC_valid/events.out.tfevents.1655349587.euge-System-Product-Name.324459.2
+lightning_logs/DRISHTI_STEP2/version_2/Avg_dice_OD_valid/events.out.tfevents.1655349587.euge-System-Product-Name.324459.3
+lightning_logs/DRISHTI_STEP2/version_2/checkpoints/DRISHTI_STEP2_f-10_p-50-epoch=134.ckpt
+lightning_logs/DRISHTI_STEP2/version_2/checkpoints/last.ckpt
+lightning_logs/DRISHTI_STEP2/version_3/events.out.tfevents.1655355200.euge-System-Product-Name.366862.0
+lightning_logs/DRISHTI_STEP2/version_3/hparams.yaml
+lightning_logs/DRISHTI_STEP2/version_3/Avg loss_train/events.out.tfevents.1655355213.euge-System-Product-Name.366862.4
+lightning_logs/DRISHTI_STEP2/version_3/Avg loss_valid/events.out.tfevents.1655355200.euge-System-Product-Name.366862.1
+lightning_logs/DRISHTI_STEP2/version_3/Avg_dice_OC_valid/events.out.tfevents.1655355200.euge-System-Product-Name.366862.2
+lightning_logs/DRISHTI_STEP2/version_3/Avg_dice_OD_valid/events.out.tfevents.1655355200.euge-System-Product-Name.366862.3
+lightning_logs/DRISHTI_STEP2/version_3/checkpoints/DRISHTI_STEP2_f-25_p-10-epoch=274.ckpt
+lightning_logs/DRISHTI_STEP2/version_3/checkpoints/last.ckpt
+lightning_logs/DRISHTI_STEP2/version_4/events.out.tfevents.1655360330.euge-System-Product-Name.409177.0
+lightning_logs/DRISHTI_STEP2/version_4/hparams.yaml
+lightning_logs/DRISHTI_STEP2/version_4/Avg loss_train/events.out.tfevents.1655360342.euge-System-Product-Name.409177.4
+lightning_logs/DRISHTI_STEP2/version_4/Avg loss_valid/events.out.tfevents.1655360330.euge-System-Product-Name.409177.1
+lightning_logs/DRISHTI_STEP2/version_4/Avg_dice_OC_valid/events.out.tfevents.1655360330.euge-System-Product-Name.409177.2
+lightning_logs/DRISHTI_STEP2/version_4/Avg_dice_OD_valid/events.out.tfevents.1655360330.euge-System-Product-Name.409177.3
+lightning_logs/DRISHTI_STEP2/version_4/checkpoints/DRISHTI_STEP2_f-25_p-25-epoch=399.ckpt
+lightning_logs/DRISHTI_STEP2/version_4/checkpoints/last.ckpt
+lightning_logs/DRISHTI_STEP2/version_5/events.out.tfevents.1655365628.euge-System-Product-Name.451417.0
+lightning_logs/DRISHTI_STEP2/version_5/hparams.yaml
+lightning_logs/DRISHTI_STEP2/version_5/Avg loss_train/events.out.tfevents.1655365642.euge-System-Product-Name.451417.4
+lightning_logs/DRISHTI_STEP2/version_5/Avg loss_valid/events.out.tfevents.1655365628.euge-System-Product-Name.451417.1
+lightning_logs/DRISHTI_STEP2/version_5/Avg_dice_OC_valid/events.out.tfevents.1655365628.euge-System-Product-Name.451417.2
+lightning_logs/DRISHTI_STEP2/version_5/Avg_dice_OD_valid/events.out.tfevents.1655365628.euge-System-Product-Name.451417.3
+lightning_logs/DRISHTI_STEP2/version_5/checkpoints/DRISHTI_STEP2_f-25_p-50-epoch=219.ckpt
+lightning_logs/DRISHTI_STEP2/version_5/checkpoints/last.ckpt
+lightning_logs/DRISHTI_STEP2/version_6/events.out.tfevents.1655371262.euge-System-Product-Name.495140.0
+lightning_logs/DRISHTI_STEP2/version_6/hparams.yaml
+lightning_logs/DRISHTI_STEP2/version_6/Avg loss_train/events.out.tfevents.1655371274.euge-System-Product-Name.495140.4
+lightning_logs/DRISHTI_STEP2/version_6/Avg loss_valid/events.out.tfevents.1655371262.euge-System-Product-Name.495140.1
+lightning_logs/DRISHTI_STEP2/version_6/Avg_dice_OC_valid/events.out.tfevents.1655371262.euge-System-Product-Name.495140.2
+lightning_logs/DRISHTI_STEP2/version_6/Avg_dice_OD_valid/events.out.tfevents.1655371262.euge-System-Product-Name.495140.3
+lightning_logs/DRISHTI_STEP2/version_6/checkpoints/DRISHTI_STEP2_f-50_p-10-epoch=294.ckpt
+lightning_logs/DRISHTI_STEP2/version_6/checkpoints/last.ckpt
+lightning_logs/DRISHTI_STEP2/version_7/events.out.tfevents.1655376457.euge-System-Product-Name.557175.0
+lightning_logs/DRISHTI_STEP2/version_7/hparams.yaml
+lightning_logs/DRISHTI_STEP2/version_7/Avg loss_train/events.out.tfevents.1655376470.euge-System-Product-Name.557175.4
+lightning_logs/DRISHTI_STEP2/version_7/Avg loss_valid/events.out.tfevents.1655376457.euge-System-Product-Name.557175.1
+lightning_logs/DRISHTI_STEP2/version_7/Avg_dice_OC_valid/events.out.tfevents.1655376457.euge-System-Product-Name.557175.2
+lightning_logs/DRISHTI_STEP2/version_7/Avg_dice_OD_valid/events.out.tfevents.1655376457.euge-System-Product-Name.557175.3
+lightning_logs/DRISHTI_STEP2/version_7/checkpoints/DRISHTI_STEP2_f-50_p-25-epoch=114.ckpt
+lightning_logs/DRISHTI_STEP2/version_7/checkpoints/last.ckpt
+lightning_logs/DRISHTI_STEP2/version_8/events.out.tfevents.1655381922.euge-System-Product-Name.601112.0
+lightning_logs/DRISHTI_STEP2/version_8/hparams.yaml
+lightning_logs/DRISHTI_STEP2/version_8/Avg loss_train/events.out.tfevents.1655381938.euge-System-Product-Name.601112.4
+lightning_logs/DRISHTI_STEP2/version_8/Avg loss_valid/events.out.tfevents.1655381922.euge-System-Product-Name.601112.1
+lightning_logs/DRISHTI_STEP2/version_8/Avg_dice_OC_valid/events.out.tfevents.1655381922.euge-System-Product-Name.601112.2
+lightning_logs/DRISHTI_STEP2/version_8/Avg_dice_OD_valid/events.out.tfevents.1655381922.euge-System-Product-Name.601112.3
+lightning_logs/DRISHTI_STEP2/version_8/checkpoints/DRISHTI_STEP2_f-50_p-50-epoch=234.ckpt
+lightning_logs/DRISHTI_STEP2/version_8/checkpoints/last.ckpt
+lightning_logs/MULTID_S1/version_0/events.out.tfevents.1655208137.alex.250511.0
+lightning_logs/MULTID_S1/version_0/hparams.yaml
+lightning_logs/MULTID_S1/version_0/Avg loss_train/events.out.tfevents.1655208350.alex.250511.4
+lightning_logs/MULTID_S1/version_0/Avg loss_valid/events.out.tfevents.1655208137.alex.250511.1
+lightning_logs/MULTID_S1/version_0/Avg_dice_valid/events.out.tfevents.1655208137.alex.250511.2
+lightning_logs/MULTID_S1/version_0/Loss_train_loss/events.out.tfevents.1655208144.alex.250511.3
+lightning_logs/MULTID_S1/version_0/checkpoints/last.ckpt
+lightning_logs/MULTID_S1/version_0/checkpoints/MULTID_f-10_p-10-epoch=199.ckpt
+lightning_logs/MULTID_S1/version_1/events.out.tfevents.1655266956.alex.291374.0
+lightning_logs/MULTID_S1/version_1/hparams.yaml
+lightning_logs/MULTID_S1/version_1/Avg loss_train/events.out.tfevents.1655267287.alex.291374.4
+lightning_logs/MULTID_S1/version_1/Avg loss_valid/events.out.tfevents.1655266956.alex.291374.1
+lightning_logs/MULTID_S1/version_1/Avg_dice_valid/events.out.tfevents.1655266956.alex.291374.2
+lightning_logs/MULTID_S1/version_1/Loss_train_loss/events.out.tfevents.1655266988.alex.291374.3
+lightning_logs/MULTID_S1/version_1/checkpoints/last.ckpt
+lightning_logs/MULTID_S1/version_1/checkpoints/MULTID_f-10_p-25-epoch=94.ckpt
+lightning_logs/MULTID_S1/version_2/events.out.tfevents.1655332974.alex.333230.0
+lightning_logs/MULTID_S1/version_2/hparams.yaml
+lightning_logs/MULTID_S1/version_2/Avg loss_train/events.out.tfevents.1655333337.alex.333230.4
+lightning_logs/MULTID_S1/version_2/Avg loss_valid/events.out.tfevents.1655332974.alex.333230.1
+lightning_logs/MULTID_S1/version_2/Avg_dice_valid/events.out.tfevents.1655332974.alex.333230.2
+lightning_logs/MULTID_S1/version_2/Loss_train_loss/events.out.tfevents.1655333000.alex.333230.3
+lightning_logs/MULTID_S1/version_2/checkpoints/last.ckpt
+lightning_logs/MULTID_S1/version_2/checkpoints/MULTID_f-10_p-50-epoch=109.ckpt
+lightning_logs/MULTID_S1/version_3/events.out.tfevents.1655477932.thanos.1417965.0
+lightning_logs/MULTID_S1/version_3/hparams.yaml
+lightning_logs/MULTID_S1/version_3/Avg loss_train/events.out.tfevents.1655478130.thanos.1417965.4
+lightning_logs/MULTID_S1/version_3/Avg loss_valid/events.out.tfevents.1655477932.thanos.1417965.1
+lightning_logs/MULTID_S1/version_3/Avg_dice_valid/events.out.tfevents.1655477932.thanos.1417965.2
+lightning_logs/MULTID_S1/version_3/Loss_train_loss/events.out.tfevents.1655477936.thanos.1417965.3
+lightning_logs/MULTID_S1/version_3/checkpoints/last.ckpt
+lightning_logs/MULTID_S1/version_3/checkpoints/MULTID_f-25_p-10-epoch=184.ckpt
+lightning_logs/MULTID_S1/version_4/events.out.tfevents.1655520306.thanos.1441221.0
+lightning_logs/MULTID_S1/version_4/hparams.yaml
+lightning_logs/MULTID_S1/version_4/Avg loss_train/events.out.tfevents.1655520507.thanos.1441221.4
+lightning_logs/MULTID_S1/version_4/Avg loss_valid/events.out.tfevents.1655520306.thanos.1441221.1
+lightning_logs/MULTID_S1/version_4/Avg_dice_valid/events.out.tfevents.1655520306.thanos.1441221.2
+lightning_logs/MULTID_S1/version_4/Loss_train_loss/events.out.tfevents.1655520312.thanos.1441221.3
+lightning_logs/MULTID_S1/version_4/checkpoints/last.ckpt
+lightning_logs/MULTID_S1/version_4/checkpoints/MULTID_f-25_p-25-epoch=199.ckpt
+lightning_logs/MULTID_S1/version_5/events.out.tfevents.1655562891.thanos.1464842.0
+lightning_logs/MULTID_S1/version_5/hparams.yaml
+lightning_logs/MULTID_S1/version_5/Avg loss_train/events.out.tfevents.1655563093.thanos.1464842.4
+lightning_logs/MULTID_S1/version_5/Avg loss_valid/events.out.tfevents.1655562891.thanos.1464842.1
+lightning_logs/MULTID_S1/version_5/Avg_dice_valid/events.out.tfevents.1655562891.thanos.1464842.2
+lightning_logs/MULTID_S1/version_5/Loss_train_loss/events.out.tfevents.1655562897.thanos.1464842.3
+lightning_logs/MULTID_S1/version_5/checkpoints/last.ckpt
+lightning_logs/MULTID_S1/version_5/checkpoints/MULTID_f-25_p-50-epoch=189.ckpt
+lightning_logs/MULTID_S1/version_6/events.out.tfevents.1655605900.thanos.1487879.0
+lightning_logs/MULTID_S1/version_6/hparams.yaml
+lightning_logs/MULTID_S1/version_6/Avg loss_train/events.out.tfevents.1655606100.thanos.1487879.4
+lightning_logs/MULTID_S1/version_6/Avg loss_valid/events.out.tfevents.1655605900.thanos.1487879.1
+lightning_logs/MULTID_S1/version_6/Avg_dice_valid/events.out.tfevents.1655605900.thanos.1487879.2
+lightning_logs/MULTID_S1/version_6/Loss_train_loss/events.out.tfevents.1655605904.thanos.1487879.3
+lightning_logs/MULTID_S1/version_6/checkpoints/last.ckpt
+lightning_logs/MULTID_S1/version_6/checkpoints/MULTID_f-50_p-10-epoch=164.ckpt
+lightning_logs/MULTID_S1/version_7/events.out.tfevents.1655648299.thanos.1511363.0
+lightning_logs/MULTID_S1/version_7/hparams.yaml
+lightning_logs/MULTID_S1/version_7/Avg loss_train/events.out.tfevents.1655648501.thanos.1511363.4
+lightning_logs/MULTID_S1/version_7/Avg loss_valid/events.out.tfevents.1655648299.thanos.1511363.1
+lightning_logs/MULTID_S1/version_7/Avg_dice_valid/events.out.tfevents.1655648299.thanos.1511363.2
+lightning_logs/MULTID_S1/version_7/Loss_train_loss/events.out.tfevents.1655648306.thanos.1511363.3
+lightning_logs/MULTID_S1/version_7/checkpoints/last.ckpt
+lightning_logs/MULTID_S1/version_7/checkpoints/MULTID_f-50_p-25-epoch=179.ckpt
+lightning_logs/MULTID_S1/version_8/events.out.tfevents.1655690960.thanos.1534445.0
+lightning_logs/MULTID_S1/version_8/hparams.yaml
+lightning_logs/MULTID_S1/version_8/Avg loss_train/events.out.tfevents.1655691163.thanos.1534445.4
+lightning_logs/MULTID_S1/version_8/Avg loss_valid/events.out.tfevents.1655690960.thanos.1534445.1
+lightning_logs/MULTID_S1/version_8/Avg_dice_valid/events.out.tfevents.1655690960.thanos.1534445.2
+lightning_logs/MULTID_S1/version_8/Loss_train_loss/events.out.tfevents.1655690967.thanos.1534445.3
+lightning_logs/MULTID_S1/version_8/checkpoints/last.ckpt
+lightning_logs/MULTID_S1/version_8/checkpoints/MULTID_f-50_p-50-epoch=174.ckpt
+lightning_logs/MULTID_S2/version_0/events.out.tfevents.1655208138.alex.250529.0
+lightning_logs/MULTID_S2/version_0/hparams.yaml
+lightning_logs/MULTID_S2/version_0/Avg loss_train/events.out.tfevents.1655208346.alex.250529.4
+lightning_logs/MULTID_S2/version_0/Avg loss_valid/events.out.tfevents.1655208138.alex.250529.1
+lightning_logs/MULTID_S2/version_0/Avg_dice_OC_valid/events.out.tfevents.1655208138.alex.250529.2
+lightning_logs/MULTID_S2/version_0/Avg_dice_OD_valid/events.out.tfevents.1655208138.alex.250529.3
+lightning_logs/MULTID_S2/version_0/checkpoints/last.ckpt
+lightning_logs/MULTID_S2/version_0/checkpoints/MULTID_STEP2_f-10_p-10-epoch=179.ckpt
+lightning_logs/MULTID_S2/version_1/events.out.tfevents.1655281074.alex.300734.0
+lightning_logs/MULTID_S2/version_1/hparams.yaml
+lightning_logs/MULTID_S2/version_1/Avg loss_train/events.out.tfevents.1655281419.alex.300734.4
+lightning_logs/MULTID_S2/version_1/Avg loss_valid/events.out.tfevents.1655281074.alex.300734.1
+lightning_logs/MULTID_S2/version_1/Avg_dice_OC_valid/events.out.tfevents.1655281074.alex.300734.2
+lightning_logs/MULTID_S2/version_1/Avg_dice_OD_valid/events.out.tfevents.1655281074.alex.300734.3
+lightning_logs/MULTID_S2/version_1/checkpoints/last.ckpt
+lightning_logs/MULTID_S2/version_1/checkpoints/MULTID_STEP2_f-10_p-25-epoch=79.ckpt
+lightning_logs/MULTID_S2/version_2/events.out.tfevents.1655363894.alex.361755.0
+lightning_logs/MULTID_S2/version_2/hparams.yaml
+lightning_logs/MULTID_S2/version_2/Avg loss_train/events.out.tfevents.1655364334.alex.361755.4
+lightning_logs/MULTID_S2/version_2/Avg loss_valid/events.out.tfevents.1655363894.alex.361755.1
+lightning_logs/MULTID_S2/version_2/Avg_dice_OC_valid/events.out.tfevents.1655363894.alex.361755.2
+lightning_logs/MULTID_S2/version_2/Avg_dice_OD_valid/events.out.tfevents.1655363894.alex.361755.3
+lightning_logs/MULTID_S2/version_2/checkpoints/last.ckpt
+lightning_logs/MULTID_S2/version_2/checkpoints/MULTID_STEP2_f-10_p-50-epoch=89.ckpt
+lightning_logs/MULTID_S2/version_3/events.out.tfevents.1655478002.alex.411039.0
+lightning_logs/MULTID_S2/version_3/hparams.yaml
+lightning_logs/MULTID_S2/version_3/Avg loss_train/events.out.tfevents.1655478381.alex.411039.4
+lightning_logs/MULTID_S2/version_3/Avg loss_valid/events.out.tfevents.1655478002.alex.411039.1
+lightning_logs/MULTID_S2/version_3/Avg_dice_OC_valid/events.out.tfevents.1655478002.alex.411039.2
+lightning_logs/MULTID_S2/version_3/Avg_dice_OD_valid/events.out.tfevents.1655478002.alex.411039.3
+lightning_logs/MULTID_S2/version_3/checkpoints/last.ckpt
+lightning_logs/MULTID_S2/version_3/checkpoints/MULTID_STEP2_f-25_p-10-epoch=194.ckpt
+lightning_logs/MULTID_S2/version_4/events.out.tfevents.1655534328.alex.445904.0
+lightning_logs/MULTID_S2/version_4/hparams.yaml
+lightning_logs/MULTID_S2/version_4/Avg loss_train/events.out.tfevents.1655534549.alex.445904.4
+lightning_logs/MULTID_S2/version_4/Avg loss_valid/events.out.tfevents.1655534328.alex.445904.1
+lightning_logs/MULTID_S2/version_4/Avg_dice_OC_valid/events.out.tfevents.1655534328.alex.445904.2
+lightning_logs/MULTID_S2/version_4/Avg_dice_OD_valid/events.out.tfevents.1655534328.alex.445904.3
+lightning_logs/MULTID_S2/version_4/checkpoints/last.ckpt
+lightning_logs/MULTID_S2/version_4/checkpoints/MULTID_STEP2_f-25_p-25-epoch=169.ckpt
+lightning_logs/MULTID_S2/version_5/events.out.tfevents.1655606017.alex.494556.0
+lightning_logs/MULTID_S2/version_5/hparams.yaml
+lightning_logs/MULTID_S2/version_5/Avg loss_train/events.out.tfevents.1655606623.alex.494556.4
+lightning_logs/MULTID_S2/version_5/Avg loss_valid/events.out.tfevents.1655606017.alex.494556.1
+lightning_logs/MULTID_S2/version_5/Avg_dice_OC_valid/events.out.tfevents.1655606017.alex.494556.2
+lightning_logs/MULTID_S2/version_5/Avg_dice_OD_valid/events.out.tfevents.1655606017.alex.494556.3
+lightning_logs/MULTID_S2/version_5/checkpoints/last.ckpt
+lightning_logs/MULTID_S2/version_5/checkpoints/MULTID_STEP2_f-25_p-50-epoch=154.ckpt
+lightning_logs/MULTID_S2/version_6/events.out.tfevents.1655715681.alex.558123.0
+lightning_logs/MULTID_S2/version_6/hparams.yaml
+lightning_logs/MULTID_S2/version_6/Avg loss_train/events.out.tfevents.1655716067.alex.558123.4
+lightning_logs/MULTID_S2/version_6/Avg loss_valid/events.out.tfevents.1655715681.alex.558123.1
+lightning_logs/MULTID_S2/version_6/Avg_dice_OC_valid/events.out.tfevents.1655715681.alex.558123.2
+lightning_logs/MULTID_S2/version_6/Avg_dice_OD_valid/events.out.tfevents.1655715681.alex.558123.3
+lightning_logs/MULTID_S2/version_6/checkpoints/last.ckpt
+lightning_logs/MULTID_S2/version_6/checkpoints/MULTID_STEP2_f-50_p-10-epoch=59.ckpt
+lightning_logs/MULTID_S2/version_7/events.out.tfevents.1655819466.alex.581558.0
+lightning_logs/MULTID_S2/version_7/hparams.yaml
+lightning_logs/MULTID_S2/version_7/Avg loss_train/events.out.tfevents.1655819657.alex.581558.4
+lightning_logs/MULTID_S2/version_7/Avg loss_valid/events.out.tfevents.1655819466.alex.581558.1
+lightning_logs/MULTID_S2/version_7/Avg_dice_OC_valid/events.out.tfevents.1655819466.alex.581558.2
+lightning_logs/MULTID_S2/version_7/Avg_dice_OD_valid/events.out.tfevents.1655819466.alex.581558.3
+lightning_logs/MULTID_S2/version_7/checkpoints/last.ckpt
+lightning_logs/MULTID_S2/version_7/checkpoints/MULTID_STEP2_f-50_p-25-epoch=199.ckpt
+lightning_logs/MULTID_S2/version_8/events.out.tfevents.1655858564.thanos.1568442.0
+lightning_logs/MULTID_S2/version_8/hparams.yaml
+lightning_logs/MULTID_S2/version_8/Avg loss_train/events.out.tfevents.1655858758.thanos.1568442.4
+lightning_logs/MULTID_S2/version_8/Avg loss_valid/events.out.tfevents.1655858564.thanos.1568442.1
+lightning_logs/MULTID_S2/version_8/Avg_dice_OC_valid/events.out.tfevents.1655858564.thanos.1568442.2
+lightning_logs/MULTID_S2/version_8/Avg_dice_OD_valid/events.out.tfevents.1655858564.thanos.1568442.3
+lightning_logs/MULTID_S2/version_8/checkpoints/last.ckpt
+lightning_logs/MULTID_S2/version_8/checkpoints/MULTID_STEP2_f-50_p-50-epoch=139.ckpt
+lightning_logs/REFUGE_S1/version_0/events.out.tfevents.1655208145.thanos.958698.0
+lightning_logs/REFUGE_S1/version_0/hparams.yaml
+lightning_logs/REFUGE_S1/version_0/Avg loss_train/events.out.tfevents.1655208215.thanos.958698.4
+lightning_logs/REFUGE_S1/version_0/Avg loss_valid/events.out.tfevents.1655208145.thanos.958698.1
+lightning_logs/REFUGE_S1/version_0/Avg_dice_valid/events.out.tfevents.1655208145.thanos.958698.2
+lightning_logs/REFUGE_S1/version_0/Loss_train_loss/events.out.tfevents.1655208147.thanos.958698.3
+lightning_logs/REFUGE_S1/version_0/checkpoints/last.ckpt
+lightning_logs/REFUGE_S1/version_0/checkpoints/REFUGE_f-10_p-10-epoch=94.ckpt
+lightning_logs/REFUGE_S1/version_1/events.out.tfevents.1655225292.thanos.1000935.0
+lightning_logs/REFUGE_S1/version_1/hparams.yaml
+lightning_logs/REFUGE_S1/version_1/Avg loss_train/events.out.tfevents.1655225366.thanos.1000935.4
+lightning_logs/REFUGE_S1/version_1/Avg loss_valid/events.out.tfevents.1655225292.thanos.1000935.1
+lightning_logs/REFUGE_S1/version_1/Avg_dice_valid/events.out.tfevents.1655225292.thanos.1000935.2
+lightning_logs/REFUGE_S1/version_1/Loss_train_loss/events.out.tfevents.1655225297.thanos.1000935.3
+lightning_logs/REFUGE_S1/version_1/checkpoints/last.ckpt
+lightning_logs/REFUGE_S1/version_1/checkpoints/REFUGE_f-10_p-25-epoch=69.ckpt
+lightning_logs/REFUGE_S1/version_2/events.out.tfevents.1655242935.thanos.1043006.0
+lightning_logs/REFUGE_S1/version_2/hparams.yaml
+lightning_logs/REFUGE_S1/version_2/Avg loss_train/events.out.tfevents.1655243013.thanos.1043006.4
+lightning_logs/REFUGE_S1/version_2/Avg loss_valid/events.out.tfevents.1655242935.thanos.1043006.1
+lightning_logs/REFUGE_S1/version_2/Avg_dice_valid/events.out.tfevents.1655242935.thanos.1043006.2
+lightning_logs/REFUGE_S1/version_2/Loss_train_loss/events.out.tfevents.1655242941.thanos.1043006.3
+lightning_logs/REFUGE_S1/version_2/checkpoints/last.ckpt
+lightning_logs/REFUGE_S1/version_2/checkpoints/REFUGE_f-10_p-50-epoch=134.ckpt
+lightning_logs/REFUGE_S1/version_3/events.out.tfevents.1655261377.thanos.1084044.0
+lightning_logs/REFUGE_S1/version_3/hparams.yaml
+lightning_logs/REFUGE_S1/version_3/Avg loss_train/events.out.tfevents.1655261453.thanos.1084044.4
+lightning_logs/REFUGE_S1/version_3/Avg loss_valid/events.out.tfevents.1655261377.thanos.1084044.1
+lightning_logs/REFUGE_S1/version_3/Avg_dice_valid/events.out.tfevents.1655261377.thanos.1084044.2
+lightning_logs/REFUGE_S1/version_3/Loss_train_loss/events.out.tfevents.1655261382.thanos.1084044.3
+lightning_logs/REFUGE_S1/version_3/checkpoints/last.ckpt
+lightning_logs/REFUGE_S1/version_3/checkpoints/REFUGE_f-25_p-10-epoch=189.ckpt
+lightning_logs/REFUGE_S1/version_4/events.out.tfevents.1655278711.thanos.1126253.0
+lightning_logs/REFUGE_S1/version_4/hparams.yaml
+lightning_logs/REFUGE_S1/version_4/Avg loss_train/events.out.tfevents.1655278784.thanos.1126253.4
+lightning_logs/REFUGE_S1/version_4/Avg loss_valid/events.out.tfevents.1655278711.thanos.1126253.1
+lightning_logs/REFUGE_S1/version_4/Avg_dice_valid/events.out.tfevents.1655278711.thanos.1126253.2
+lightning_logs/REFUGE_S1/version_4/Loss_train_loss/events.out.tfevents.1655278714.thanos.1126253.3
+lightning_logs/REFUGE_S1/version_4/checkpoints/last.ckpt
+lightning_logs/REFUGE_S1/version_4/checkpoints/REFUGE_f-25_p-25-epoch=74.ckpt
+lightning_logs/REFUGE_S1/version_5/events.out.tfevents.1655296232.thanos.1168911.0
+lightning_logs/REFUGE_S1/version_5/hparams.yaml
+lightning_logs/REFUGE_S1/version_5/Avg loss_train/events.out.tfevents.1655296306.thanos.1168911.4
+lightning_logs/REFUGE_S1/version_5/Avg loss_valid/events.out.tfevents.1655296232.thanos.1168911.1
+lightning_logs/REFUGE_S1/version_5/Avg_dice_valid/events.out.tfevents.1655296232.thanos.1168911.2
+lightning_logs/REFUGE_S1/version_5/Loss_train_loss/events.out.tfevents.1655296236.thanos.1168911.3
+lightning_logs/REFUGE_S1/version_5/checkpoints/last.ckpt
+lightning_logs/REFUGE_S1/version_5/checkpoints/REFUGE_f-25_p-50-epoch=174.ckpt
+lightning_logs/REFUGE_S1/version_6/events.out.tfevents.1655314586.thanos.1210269.0
+lightning_logs/REFUGE_S1/version_6/hparams.yaml
+lightning_logs/REFUGE_S1/version_6/Avg loss_train/events.out.tfevents.1655314661.thanos.1210269.4
+lightning_logs/REFUGE_S1/version_6/Avg loss_valid/events.out.tfevents.1655314586.thanos.1210269.1
+lightning_logs/REFUGE_S1/version_6/Avg_dice_valid/events.out.tfevents.1655314586.thanos.1210269.2
+lightning_logs/REFUGE_S1/version_6/Loss_train_loss/events.out.tfevents.1655314591.thanos.1210269.3
+lightning_logs/REFUGE_S1/version_6/checkpoints/last.ckpt
+lightning_logs/REFUGE_S1/version_6/checkpoints/REFUGE_f-50_p-10-epoch=164.ckpt
+lightning_logs/REFUGE_S1/version_7/events.out.tfevents.1655331766.thanos.1246571.0
+lightning_logs/REFUGE_S1/version_7/hparams.yaml
+lightning_logs/REFUGE_S1/version_7/Avg loss_train/events.out.tfevents.1655331837.thanos.1246571.4
+lightning_logs/REFUGE_S1/version_7/Avg loss_valid/events.out.tfevents.1655331766.thanos.1246571.1
+lightning_logs/REFUGE_S1/version_7/Avg_dice_valid/events.out.tfevents.1655331767.thanos.1246571.2
+lightning_logs/REFUGE_S1/version_7/Loss_train_loss/events.out.tfevents.1655331770.thanos.1246571.3
+lightning_logs/REFUGE_S1/version_7/checkpoints/last.ckpt
+lightning_logs/REFUGE_S1/version_7/checkpoints/REFUGE_f-50_p-25-epoch=159.ckpt
+lightning_logs/REFUGE_S1/version_8/events.out.tfevents.1655348659.thanos.1279333.0
+lightning_logs/REFUGE_S1/version_8/hparams.yaml
+lightning_logs/REFUGE_S1/version_8/Avg loss_train/events.out.tfevents.1655348739.thanos.1279333.4
+lightning_logs/REFUGE_S1/version_8/Avg loss_valid/events.out.tfevents.1655348659.thanos.1279333.1
+lightning_logs/REFUGE_S1/version_8/Avg_dice_valid/events.out.tfevents.1655348659.thanos.1279333.2
+lightning_logs/REFUGE_S1/version_8/Loss_train_loss/events.out.tfevents.1655348666.thanos.1279333.3
+lightning_logs/REFUGE_S1/version_8/checkpoints/last.ckpt
+lightning_logs/REFUGE_S1/version_8/checkpoints/REFUGE_f-50_p-50-epoch=139.ckpt
+lightning_logs/REFUGE_S2/version_0/events.out.tfevents.1655208147.thanos.958718.0
+lightning_logs/REFUGE_S2/version_0/hparams.yaml
+lightning_logs/REFUGE_S2/version_0/Avg loss_train/events.out.tfevents.1655208222.thanos.958718.4
+lightning_logs/REFUGE_S2/version_0/Avg loss_valid/events.out.tfevents.1655208147.thanos.958718.1
+lightning_logs/REFUGE_S2/version_0/Avg_dice_OC_valid/events.out.tfevents.1655208147.thanos.958718.2
+lightning_logs/REFUGE_S2/version_0/Avg_dice_OD_valid/events.out.tfevents.1655208147.thanos.958718.3
+lightning_logs/REFUGE_S2/version_0/checkpoints/last.ckpt
+lightning_logs/REFUGE_S2/version_0/checkpoints/REFUGE_STEP2_f-10_p-10-epoch=39.ckpt
+lightning_logs/REFUGE_S2/version_1/events.out.tfevents.1655226344.thanos.1003559.0
+lightning_logs/REFUGE_S2/version_1/hparams.yaml
+lightning_logs/REFUGE_S2/version_1/Avg loss_train/events.out.tfevents.1655226421.thanos.1003559.4
+lightning_logs/REFUGE_S2/version_1/Avg loss_valid/events.out.tfevents.1655226344.thanos.1003559.1
+lightning_logs/REFUGE_S2/version_1/Avg_dice_OC_valid/events.out.tfevents.1655226344.thanos.1003559.2
+lightning_logs/REFUGE_S2/version_1/Avg_dice_OD_valid/events.out.tfevents.1655226344.thanos.1003559.3
+lightning_logs/REFUGE_S2/version_1/checkpoints/last.ckpt
+lightning_logs/REFUGE_S2/version_1/checkpoints/REFUGE_STEP2_f-10_p-25-epoch=79.ckpt
+lightning_logs/REFUGE_S2/version_2/events.out.tfevents.1655245078.thanos.1047953.0
+lightning_logs/REFUGE_S2/version_2/hparams.yaml
+lightning_logs/REFUGE_S2/version_2/Avg loss_train/events.out.tfevents.1655245165.thanos.1047953.4
+lightning_logs/REFUGE_S2/version_2/Avg loss_valid/events.out.tfevents.1655245078.thanos.1047953.1
+lightning_logs/REFUGE_S2/version_2/Avg_dice_OC_valid/events.out.tfevents.1655245078.thanos.1047953.2
+lightning_logs/REFUGE_S2/version_2/Avg_dice_OD_valid/events.out.tfevents.1655245078.thanos.1047953.3
+lightning_logs/REFUGE_S2/version_2/checkpoints/last.ckpt
+lightning_logs/REFUGE_S2/version_2/checkpoints/REFUGE_STEP2_f-10_p-50-epoch=109.ckpt
+lightning_logs/REFUGE_S2/version_3/events.out.tfevents.1655265379.thanos.1093590.0
+lightning_logs/REFUGE_S2/version_3/hparams.yaml
+lightning_logs/REFUGE_S2/version_3/Avg loss_train/events.out.tfevents.1655265453.thanos.1093590.4
+lightning_logs/REFUGE_S2/version_3/Avg loss_valid/events.out.tfevents.1655265379.thanos.1093590.1
+lightning_logs/REFUGE_S2/version_3/Avg_dice_OC_valid/events.out.tfevents.1655265379.thanos.1093590.2
+lightning_logs/REFUGE_S2/version_3/Avg_dice_OD_valid/events.out.tfevents.1655265379.thanos.1093590.3
+lightning_logs/REFUGE_S2/version_3/checkpoints/last.ckpt
+lightning_logs/REFUGE_S2/version_3/checkpoints/REFUGE_STEP2_f-25_p-10-epoch=69.ckpt
+lightning_logs/REFUGE_S2/version_4/events.out.tfevents.1655283632.thanos.1138205.0
+lightning_logs/REFUGE_S2/version_4/hparams.yaml
+lightning_logs/REFUGE_S2/version_4/Avg loss_train/events.out.tfevents.1655283710.thanos.1138205.4
+lightning_logs/REFUGE_S2/version_4/Avg loss_valid/events.out.tfevents.1655283632.thanos.1138205.1
+lightning_logs/REFUGE_S2/version_4/Avg_dice_OC_valid/events.out.tfevents.1655283632.thanos.1138205.2
+lightning_logs/REFUGE_S2/version_4/Avg_dice_OD_valid/events.out.tfevents.1655283632.thanos.1138205.3
+lightning_logs/REFUGE_S2/version_4/checkpoints/last.ckpt
+lightning_logs/REFUGE_S2/version_4/checkpoints/REFUGE_STEP2_f-25_p-25-epoch=189.ckpt
+lightning_logs/REFUGE_S2/version_5/events.out.tfevents.1655302518.thanos.1183562.0
+lightning_logs/REFUGE_S2/version_5/hparams.yaml
+lightning_logs/REFUGE_S2/version_5/Avg loss_train/events.out.tfevents.1655302594.thanos.1183562.4
+lightning_logs/REFUGE_S2/version_5/Avg loss_valid/events.out.tfevents.1655302518.thanos.1183562.1
+lightning_logs/REFUGE_S2/version_5/Avg_dice_OC_valid/events.out.tfevents.1655302518.thanos.1183562.2
+lightning_logs/REFUGE_S2/version_5/Avg_dice_OD_valid/events.out.tfevents.1655302518.thanos.1183562.3
+lightning_logs/REFUGE_S2/version_5/checkpoints/last.ckpt
+lightning_logs/REFUGE_S2/version_5/checkpoints/REFUGE_STEP2_f-25_p-50-epoch=109.ckpt
+lightning_logs/REFUGE_S2/version_6/events.out.tfevents.1655554490.alex.455381.0
+lightning_logs/REFUGE_S2/version_6/hparams.yaml
+lightning_logs/REFUGE_S2/version_6/Avg loss_train/events.out.tfevents.1655554638.alex.455381.4
+lightning_logs/REFUGE_S2/version_6/Avg loss_valid/events.out.tfevents.1655554490.alex.455381.1
+lightning_logs/REFUGE_S2/version_6/Avg_dice_OC_valid/events.out.tfevents.1655554490.alex.455381.2
+lightning_logs/REFUGE_S2/version_6/Avg_dice_OD_valid/events.out.tfevents.1655554490.alex.455381.3
+lightning_logs/REFUGE_S2/version_6/checkpoints/last.ckpt
+lightning_logs/REFUGE_S2/version_6/checkpoints/REFUGE_STEP2_f-50_p-10-epoch=94.ckpt
+lightning_logs/REFUGE_S2/version_7/events.out.tfevents.1655597127.alex.488913.0
+lightning_logs/REFUGE_S2/version_7/hparams.yaml
+lightning_logs/REFUGE_S2/version_7/Avg loss_train/events.out.tfevents.1655597338.alex.488913.4
+lightning_logs/REFUGE_S2/version_7/Avg loss_valid/events.out.tfevents.1655597127.alex.488913.1
+lightning_logs/REFUGE_S2/version_7/Avg_dice_OC_valid/events.out.tfevents.1655597128.alex.488913.2
+lightning_logs/REFUGE_S2/version_7/Avg_dice_OD_valid/events.out.tfevents.1655597128.alex.488913.3
+lightning_logs/REFUGE_S2/version_7/checkpoints/last.ckpt
+lightning_logs/REFUGE_S2/version_7/checkpoints/REFUGE_STEP2_f-50_p-25-epoch=169.ckpt
+lightning_logs/REFUGE_S2/version_8/events.out.tfevents.1655654178.alex.524128.0
+lightning_logs/REFUGE_S2/version_8/hparams.yaml
+lightning_logs/REFUGE_S2/version_8/Avg loss_train/events.out.tfevents.1655654457.alex.524128.4
+lightning_logs/REFUGE_S2/version_8/Avg loss_valid/events.out.tfevents.1655654178.alex.524128.1
+lightning_logs/REFUGE_S2/version_8/Avg_dice_OC_valid/events.out.tfevents.1655654178.alex.524128.2
+lightning_logs/REFUGE_S2/version_8/Avg_dice_OD_valid/events.out.tfevents.1655654178.alex.524128.3
+lightning_logs/REFUGE_S2/version_8/checkpoints/last.ckpt
+lightning_logs/REFUGE_S2/version_8/checkpoints/REFUGE_STEP2_f-50_p-50-epoch=169.ckpt
+lightning_logs/version_0/events.out.tfevents.1655846332.euge-System-Product-Name.833270.0
+lightning_logs/version_1/events.out.tfevents.1655849825.euge-System-Product-Name.834394.0
+lightning_logs/version_10/events.out.tfevents.1655904127.euge-System-Product-Name.3972.0
+lightning_logs/version_10/Avg loss_valid/events.out.tfevents.1655904127.euge-System-Product-Name.3972.1
+lightning_logs/version_10/Avg_dice_valid/events.out.tfevents.1655904127.euge-System-Product-Name.3972.2
+lightning_logs/version_11/events.out.tfevents.1655904190.euge-System-Product-Name.4085.0
+lightning_logs/version_11/Avg loss_valid/events.out.tfevents.1655904190.euge-System-Product-Name.4085.1
+lightning_logs/version_11/Avg_dice_valid/events.out.tfevents.1655904190.euge-System-Product-Name.4085.2
+lightning_logs/version_12/events.out.tfevents.1655904253.euge-System-Product-Name.4195.0
+lightning_logs/version_12/Avg loss_valid/events.out.tfevents.1655904253.euge-System-Product-Name.4195.1
+lightning_logs/version_12/Avg_dice_valid/events.out.tfevents.1655904253.euge-System-Product-Name.4195.2
+lightning_logs/version_13/events.out.tfevents.1655904427.euge-System-Product-Name.4860.0
+lightning_logs/version_13/Avg loss_valid/events.out.tfevents.1655904427.euge-System-Product-Name.4860.1
+lightning_logs/version_13/Avg_dice_OC_valid/events.out.tfevents.1655904427.euge-System-Product-Name.4860.2
+lightning_logs/version_13/Avg_dice_OD_valid/events.out.tfevents.1655904427.euge-System-Product-Name.4860.3
+lightning_logs/version_14/events.out.tfevents.1655904519.euge-System-Product-Name.4982.0
+lightning_logs/version_14/Avg loss_valid/events.out.tfevents.1655904519.euge-System-Product-Name.4982.1
+lightning_logs/version_14/Avg_dice_OC_valid/events.out.tfevents.1655904519.euge-System-Product-Name.4982.2
+lightning_logs/version_14/Avg_dice_OD_valid/events.out.tfevents.1655904519.euge-System-Product-Name.4982.3
+lightning_logs/version_15/events.out.tfevents.1655904610.euge-System-Product-Name.5093.0
+lightning_logs/version_15/Avg loss_valid/events.out.tfevents.1655904610.euge-System-Product-Name.5093.1
+lightning_logs/version_15/Avg_dice_OC_valid/events.out.tfevents.1655904610.euge-System-Product-Name.5093.2
+lightning_logs/version_15/Avg_dice_OD_valid/events.out.tfevents.1655904610.euge-System-Product-Name.5093.3
+lightning_logs/version_16/events.out.tfevents.1655904702.euge-System-Product-Name.5210.0
+lightning_logs/version_16/Avg loss_valid/events.out.tfevents.1655904702.euge-System-Product-Name.5210.1
+lightning_logs/version_16/Avg_dice_OC_valid/events.out.tfevents.1655904702.euge-System-Product-Name.5210.2
+lightning_logs/version_16/Avg_dice_OD_valid/events.out.tfevents.1655904702.euge-System-Product-Name.5210.3
+lightning_logs/version_17/events.out.tfevents.1655904792.euge-System-Product-Name.5326.0
+lightning_logs/version_17/Avg loss_valid/events.out.tfevents.1655904792.euge-System-Product-Name.5326.1
+lightning_logs/version_17/Avg_dice_OC_valid/events.out.tfevents.1655904792.euge-System-Product-Name.5326.2
+lightning_logs/version_17/Avg_dice_OD_valid/events.out.tfevents.1655904792.euge-System-Product-Name.5326.3
+lightning_logs/version_18/events.out.tfevents.1655904883.euge-System-Product-Name.5437.0
+lightning_logs/version_18/Avg loss_valid/events.out.tfevents.1655904883.euge-System-Product-Name.5437.1
+lightning_logs/version_18/Avg_dice_OC_valid/events.out.tfevents.1655904883.euge-System-Product-Name.5437.2
+lightning_logs/version_18/Avg_dice_OD_valid/events.out.tfevents.1655904883.euge-System-Product-Name.5437.3
+lightning_logs/version_19/events.out.tfevents.1655904974.euge-System-Product-Name.5554.0
+lightning_logs/version_19/Avg loss_valid/events.out.tfevents.1655904974.euge-System-Product-Name.5554.1
+lightning_logs/version_19/Avg_dice_OC_valid/events.out.tfevents.1655904974.euge-System-Product-Name.5554.2
+lightning_logs/version_19/Avg_dice_OD_valid/events.out.tfevents.1655904974.euge-System-Product-Name.5554.3
+lightning_logs/version_2/events.out.tfevents.1655859516.euge-System-Product-Name.837096.0
+lightning_logs/version_20/events.out.tfevents.1655905065.euge-System-Product-Name.5667.0
+lightning_logs/version_20/Avg loss_valid/events.out.tfevents.1655905065.euge-System-Product-Name.5667.1
+lightning_logs/version_20/Avg_dice_OC_valid/events.out.tfevents.1655905065.euge-System-Product-Name.5667.2
+lightning_logs/version_20/Avg_dice_OD_valid/events.out.tfevents.1655905065.euge-System-Product-Name.5667.3
+lightning_logs/version_21/events.out.tfevents.1655905156.euge-System-Product-Name.5783.0
+lightning_logs/version_21/Avg loss_valid/events.out.tfevents.1655905156.euge-System-Product-Name.5783.1
+lightning_logs/version_21/Avg_dice_OC_valid/events.out.tfevents.1655905156.euge-System-Product-Name.5783.2
+lightning_logs/version_21/Avg_dice_OD_valid/events.out.tfevents.1655905156.euge-System-Product-Name.5783.3
+lightning_logs/version_22/events.out.tfevents.1655906174.euge-System-Product-Name.6485.0
+lightning_logs/version_23/events.out.tfevents.1655907607.euge-System-Product-Name.7373.0
+lightning_logs/version_24/events.out.tfevents.1655911183.euge-System-Product-Name.8919.0
+lightning_logs/version_25/events.out.tfevents.1655921350.euge-System-Product-Name.10459.0
+lightning_logs/version_3/events.out.tfevents.1655873375.euge-System-Product-Name.838669.0
+lightning_logs/version_4/events.out.tfevents.1655903752.euge-System-Product-Name.3292.0
+lightning_logs/version_4/Avg loss_valid/events.out.tfevents.1655903752.euge-System-Product-Name.3292.1
+lightning_logs/version_4/Avg_dice_valid/events.out.tfevents.1655903752.euge-System-Product-Name.3292.2
+lightning_logs/version_5/events.out.tfevents.1655903815.euge-System-Product-Name.3406.0
+lightning_logs/version_5/Avg loss_valid/events.out.tfevents.1655903815.euge-System-Product-Name.3406.1
+lightning_logs/version_5/Avg_dice_valid/events.out.tfevents.1655903815.euge-System-Product-Name.3406.2
+lightning_logs/version_6/events.out.tfevents.1655903877.euge-System-Product-Name.3523.0
+lightning_logs/version_6/Avg loss_valid/events.out.tfevents.1655903877.euge-System-Product-Name.3523.1
+lightning_logs/version_6/Avg_dice_valid/events.out.tfevents.1655903877.euge-System-Product-Name.3523.2
+lightning_logs/version_7/events.out.tfevents.1655903940.euge-System-Product-Name.3637.0
+lightning_logs/version_7/Avg loss_valid/events.out.tfevents.1655903940.euge-System-Product-Name.3637.1
+lightning_logs/version_7/Avg_dice_valid/events.out.tfevents.1655903940.euge-System-Product-Name.3637.2
+lightning_logs/version_8/events.out.tfevents.1655904002.euge-System-Product-Name.3748.0
+lightning_logs/version_8/Avg loss_valid/events.out.tfevents.1655904002.euge-System-Product-Name.3748.1
+lightning_logs/version_8/Avg_dice_valid/events.out.tfevents.1655904002.euge-System-Product-Name.3748.2
+lightning_logs/version_9/events.out.tfevents.1655904065.euge-System-Product-Name.3862.0
+lightning_logs/version_9/Avg loss_valid/events.out.tfevents.1655904065.euge-System-Product-Name.3862.1
+lightning_logs/version_9/Avg_dice_valid/events.out.tfevents.1655904065.euge-System-Product-Name.3862.2
+dice.jpg
+drishti_exp_resume.sh
+drishti_exp_s2.sh
+drishti_exp.sh
+Figure_box-plot_metrics.ipynb
+Figure_box-plot_metrics.ipynb
+Figure_boxplot_glaucoma.ipynb
+Figure_matrix_augmentation.ipynb
+Figure_box-plot_metrics.ipynb
+Figure_matrix_augmentation.ipynb
+Figure_matrix_augmentation.ipynb
+Figure_vCDR_estimacion.ipynb
+Figure_box-plot_metrics.ipynb
+Figure_matrix_augmentation.ipynb
+matrix_val_DRISHTI_new.sh
+matrix_val_DRISHTI_S2_new.sh
+matrix_validation_MULTI_S2.sh
+matrix_validation_MULTI_S2.sh
+.gitignore
+MODELD_PAPILA_SEGM.csv
+MODELR_DRISHTI_SEGM.csv
+MULTI_AUGM_S2.txt
+new_DRISHTI_S1_400.txt
+new_DRISHTI_S2.txt
+new_MULTID_S1.txt
+new_DRISHTI_S1.txt
+.gitignore
+notebook_mean.ipynb
+test_code.sh
+vCDR_ModelR.jpg
+vCDR.jpg
+Hausdorff_distance.jpg
+__pycache__/ODOC_segmentation.cpython-39.pyc
+__pycache__/training.cpython-39.pyc
+data_processing/__pycache__/data_preprocesing.cpython-39.pyc
+data_processing/__pycache__/utils_papila.cpython-39.pyc
+data_processing/__pycache__/utils.cpython-39.pyc

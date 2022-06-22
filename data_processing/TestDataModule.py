@@ -1,3 +1,4 @@
+from cgi import test
 from email.mime import base
 import glob
 import ntpath
@@ -10,13 +11,14 @@ from PIL import Image
 import matplotlib.pyplot as plt
 
 class TestDataModule(pl.LightningDataModule):
-    def __init__(self, data_path, dataset, batch_size=1, split_file=None,num_workers=8):
+    def __init__(self, data_path, dataset, batch_size=1, split_file=None,num_workers=8, stage='test'):
         super().__init__()
         self.batch_size = batch_size
         self.data_path = data_path
         self.split_file = split_file
         self.dataset = dataset
         self.num_workers = num_workers
+        self.stage = stage
 
     def setup(self, stage = None):
         img_paths = []
@@ -51,21 +53,17 @@ class TestDataModule(pl.LightningDataModule):
             print('NO MASK FOR THIS DATASET')
 
 
-
-
-
-                      
-
-
         if stage == 'test' and self.split_file:
+            #print("ëNTRO ACA")
             test_names = np.array((self.split_file['split']['test']).split(','))
+            print('Test names: ', test_names)
             self.test_data = TestDataset(img_paths,OD_path= OD_paths, OC_path=OC_paths, split_names= test_names,stage='test')
         elif self.split_file is None:
             print(' No split_file were found, we will predict all the images')
             self.test_data = TestDataset(img_paths,OD_path= OD_paths, OC_path=OC_paths,split_names=names)
 
         if stage == "predict":
-            self.pred_data = TestDataset(self.img_paths)
+            self.pred_data = TestDataset(self.img_paths,stage=self.stage)
     
     def test_dataloader(self):
         '''Return DataLoader for Testing Data here'''
@@ -80,8 +78,8 @@ class TestDataModule(pl.LightningDataModule):
 class TestDataset(Dataset):
 
     def __init__(self, img_paths, OD_path = None, OC_path = None, split_names= None,stage='test'):
-        
-        if split_names.shape != 0:
+        self.stage = stage
+        if stage == 'test':
             paths = []
             OD_masks = []
             OC_masks = []
@@ -90,23 +88,24 @@ class TestDataset(Dataset):
             for i in range(len(img_paths)): 
                 base_name = ntpath.basename(img_paths[i])
                 #print('BASE NAME: ', base_name)
-                if (base_name in split_names) or (('Test/'+base_name) in split_names): 
-                    #print('PATHS:', img_path[i])
+                #print('BASE NAME: ', names)
+
+
+                if (base_name in names)or (('Test/' + base_name)in names): 
+                    #print('ENTRO:')
+
                     paths.insert(len(paths),img_paths[i])
 
                     if OD_path:
                         OD_masks.append(OD_path[i])
                     if OC_path:
                         OC_masks.append(OC_path[i])
-            # print(paths[:3])
-            # print(OD_masks[:3])
-            # print(OC_masks[:3])
+
+            print(len(paths))
+            print(len(OD_masks))
+            print(len(OC_masks))
         else:
             paths = img_paths
-            if OD_path:
-                OD_masks = OD_path
-            if OC_path:
-                OC_masks = OC_path
             names = []
             for p in paths:
                 base_name = ntpath.basename(p)
@@ -143,8 +142,11 @@ class TestDataset(Dataset):
             OC_mask[OC_mask == 255] = 1
 
         #print(self.paths[index], self.OD_masks[index], self.OC_masks[index])
-        mask = np.array(OD_mask)
-        mask = mask  + np.array(OC_mask)
-
+        if self.stage == 'test':
+            mask = np.array(OD_mask)
+            mask = mask  + np.array(OC_mask)
+        else:
+            mask = []
+        #print(self.names[index])
         return np.array(img), mask, self.names[index],shape
 

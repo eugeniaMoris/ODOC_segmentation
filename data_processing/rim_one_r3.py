@@ -13,6 +13,7 @@ from scipy import ndimage
 from skimage.morphology import disk, erosion
 from skimage.util import compare_images
 from skimage import filters
+import csv
 
 proyect_path = '/mnt/Almacenamiento/ODOC_segmentation'
 or_data_path = '/raw_data/'
@@ -57,13 +58,26 @@ def main():
     final_img_name = []
     OD_paths = []
     OC_paths = []
+    dst_filename = '/mnt/Almacenamiento/ODOC_segmentation/data/images/RIM_ONE_R3/labels.csv'
+    with open(dst_filename, 'a+') as tags:
+        writer = csv.writer(tags)
+        writer.writerow(['Name','label'])
 
 
     for subD in sub_dataset:
         for p_img in sorted(glob.glob(proyect_path + or_data_path + dataset + subD + '/Stereo Images/*.jpg')):
             img_paths.insert(len(img_paths), p_img) #path de las imagenes
             final_img_name.insert(len(final_img_name),'{0:0=3d}.png'.format(img_name))
+            with open(dst_filename, 'a+') as tags:
+                writer = csv.writer(tags)
+                if subD == '/Glaucoma and suspects':
+                    writer.writerow([f"{img_name:03}",'Glaucomatous'])
+                elif subD == '/Healthy':
+                    writer.writerow([f"{img_name:03}",'Non-glaucomatous'])
+
             img_name += 1
+            
+
 
         for p_mask in sorted(glob.glob(proyect_path + or_data_path + dataset + subD + '/Average_masks/*Disc*.png')):
             OD_paths.insert(len(OD_paths), p_mask) #path de las mascaras
@@ -73,6 +87,9 @@ def main():
 
         get_images(img_paths,final_img_name)
         get_mask(OD_paths,OC_paths,final_img_name)
+        print(subD)
+
+        
         #Ver si agregar a los expertos
 
 

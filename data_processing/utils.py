@@ -1,9 +1,11 @@
 from ast import Return
 import re
+from traceback import print_tb
 from PIL import Image
 import numpy as np
 from scipy.ndimage import binary_fill_holes, gaussian_filter
 import torchvision.transforms as transforms
+from scipy.spatial.distance import directed_hausdorff
 
 import torchvision.transforms.functional as F
 import torch
@@ -12,7 +14,7 @@ import imageio as iio
 import matplotlib.pyplot as plt
 from skimage.transform import resize
 from sklearn import preprocessing
-	
+from matplotlib.patches import Circle, Wedge, Polygon
 import matplotlib.patches as mpatches
 import cv2
 
@@ -232,11 +234,15 @@ def get_OCOD_crop(mask,delta, descentro= False):
     '''
 
     #mask = mask[0,:,:]
+    blobs_labels = np.array(mask,dtype=np.uint32)
+    blobs_labels = measure.label(blobs_labels, background=0)
+
     #print('VALUES OF THE OUTPUT WITH ARGMAX: ', np.unique(mask))
-    thresh = filters.threshold_otsu(mask) #USAMOS OTSU PARA LA GENERACION DE IMAGENES
-    binary = mask > thresh
-    
-    blobs_labels = measure.label(binary, background=0)
+    if len(np.unique(mask)) > 1:
+        thresh = filters.threshold_otsu(mask) #USAMOS OTSU PARA LA GENERACION DE IMAGENES
+        binary = mask > thresh
+        
+        blobs_labels = measure.label(binary, background=0)
     
     region = measure.regionprops(blobs_labels)
 
@@ -255,11 +261,11 @@ def get_OCOD_crop(mask,delta, descentro= False):
         print('NO CLASIFICATION ON THE FIRST STEP')
         #UTILIZAR OTSU PARA SEGMENTACION BINARIA 
         
-        plt.imshow(binary)
-        #plt.imshow(th2)
+        # plt.imshow(binary)
+        # #plt.imshow(th2)
 
-        plt.show()
-        #return 0, 0, 512, 512, (255,255)
+        # plt.show()
+        return 0, 0, 512, 512, (255,255),blobs_labels
 
 
     
@@ -420,18 +426,67 @@ def stage2_preprocessing(img,ODpred, delta):
     cut_img = torch.unsqueeze(cut_img, 0) #adding the batch dimension
     return c0,c1,c2,c3, cut_img, b_out   
 
+def get_perimeter(mask):
 
+    mask_label = measure.label(mask, background=0)
+    region = measure.regionprops(mask_label)
+
+    try:
+        coords= region[0].coords
+        pair = []
+        for c in coords:
+            x,y = c
+            pair.append((y,x))
+
+
+        return np.array(pair)
+    except:
+        return -1
+
+
+def Hausdorff_distance(gt,pred):
+    '''
+    sen envia el ground truth y la prediccion en forma de matrix, se obtiene su circunferencia y se calcula la distancia
+    '''
+
+    pair_g = get_perimeter(gt) 
+    pair_p = get_perimeter(pred) 
+    if type(pair_p) == int:
+        #print(pair_g.shape, pair_p.shape)
+
+        return np.NaN
+    else:
+        return max(directed_hausdorff(pair_p, pair_g)[0], directed_hausdorff(pair_g, pair_p)[0])
+
+    
+
+    # polygon1 = Polygon(pair_p,edgecolor='b')
+    # #patches.append(polygon1)
+    # fig, ax = plt.subplots()
+
+    # ax.imshow(pred,alpha=0.4)
+    # ax.add_patch(polygon1)
+    #x,y = coords[0]
+    #plt.imshow(pred)
+    # plt.plot(pair[0][0],pair[0][1], 'ro')
+
+
+    #plt.show()
+
+
+
+    
 
 
 # imagen = '/mnt/Almacenamiento/ODOC_segmentation/data/images/IDRID/001.png'
 # mask = '/mnt/Almacenamiento/ODOC_segmentation/data/OD1/IDRID/001.png'
-
-# img = iio.imread(imagen)
+# # img = iio.imread(imagen)
 # mk = iio.imread(mask)
+# Hausdorff_distance(mk,mk)
 
 # new_img, new_mask = crop_fov(img,mk)
 
-
+    
 # fig, (ax0, ax1, ax2) = plt.subplots(1, 3)
 # ax0.imshow(img)
 # ax1.imshow(new_img)

@@ -188,17 +188,18 @@ class DataModuleClass(pl.LightningDataModule):
         Define steps that shouls be done in every GPU, like splitting data
         applying transforms, etc.
         Usually used to handle the task of loading the data'''
-        if self.split_file != None:
+        tr_names = np.array((self.split_file['split']['training']).split(','))
+        val_names = np.array((self.split_file['split']['validation']).split(','))
+        test_names = np.array((self.split_file['split']['test']).split(','))
+        if self.dataset != 'multi':
 
             #OBTENGO EL NOMBRE DE LOS ARCHIVOS PERTENECIENTE A CADA GRUPO
             #YA SEA ENTRENAMIENTO, VALIDACION O TEST
             #transformo el string del .ini en una arreglo de string
-            tr_names = np.array((self.split_file['split']['training']).split(','))
-            val_names = np.array((self.split_file['split']['validation']).split(','))
-            test_names = np.array((self.split_file['split']['test']).split(','))
+            
             
             list_val = val_names.tolist()
-            if len(val_names) == 0:
+            if len(val_names) < 2:
                 #EN CASO DE NO TENER VALORES PARA VALIDACION SE SEPARA EL 10% DE LOS
                 #VALORES DE ENTRENAMIENTO PARA VALIDAR
                 print('ENTRO POR NO TENER DATOS DE VALIDACION')

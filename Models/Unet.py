@@ -299,39 +299,26 @@ class Unet(pl.LightningModule):
             y_d = y.detach().clone()
             y_d[y_d == 2] = 1
 
-            dice_C = self.dice_metric(y,C_pred)
-            dice_D = self.dice_metric(y,D_pred)
+            #dice_C = self.dice_metric(y,C_pred)
+            #dice_D = self.dice_metric(y,D_pred)
 
-            dice_C= torch.tensor(dice_C)
-            dice_D= torch.tensor(dice_D)
+            #dice_C= torch.tensor(dice_C)
+            #dice_D= torch.tensor(dice_D)
 
-            dice_prom = (dice_C + dice_D)/2
-
-            # print('values of argpred: ', torch.unique(y_arg))
-            # print('values of Y: ', torch.unique(y))
-
-            # print('values of the Yd: ', torch.unique(y_d))
-            # print('values of the Yc: ', torch.unique(y_c))
-            # print('values of the Pred d: ', torch.unique(D_pred))
-            # print('values of the Pred c: ', torch.unique(C_pred))
-
-            #SAVE METRICS IN THE TENSORBOARD
-            #self.logger.experiment.add_scalars("Loss", {'train_loss' : loss}, self.global_step)
-            #self.logger.experiment.add_scalars("Dice_OC", {"train_dice_OC": dice_C}, self.global_step)
-            #self.logger.experiment.add_scalars("Dice_OD", {"train_dice_OD": dice_D}, self.global_step) 
+            #dice_prom = (dice_C + dice_D)/2
 
 
-            return{'loss': loss, 'dice_OC': dice_C, 'dice_OD' : dice_D, 'dice_prom' : dice_prom}
+
+            return{'loss': loss}
         else:
             
-            dice = self.dice_metric(y,y_arg)
-            dice= torch.tensor(dice)
+            # dice = self.dice_metric(y,y_arg)
+            # dice= torch.tensor(dice)
 
             #SAVE METRICS IN THE TENSORBOARD
             self.logger.experiment.add_scalars("Loss", {'train_loss' : loss}, self.global_step)
-            self.logger.experiment.add_scalars("Dice", {"train_dice": dice}, self.global_step) 
 
-            return {'loss':loss, 'dice':dice}
+            return {'loss':loss}
 
     def training_epoch_end(self, outputs):
         '''
@@ -341,15 +328,15 @@ class Unet(pl.LightningModule):
         avg_loss = torch.stack([x['loss'] for x in outputs]).mean()
         self.logger.experiment.add_scalars("Avg loss",{'train':avg_loss}, self.current_epoch) #graph in tensorboard
 
-        if self.n_classes == 3:
-            avg_dice_c = torch.stack([x['dice_OC'] for x in outputs]).mean()
-            avg_dice_d = torch.stack([x['dice_OD'] for x in outputs]).mean()
-            self.logger.experiment.add_scalars("Avg_dice_OC",{'train' : avg_dice_c}, self.current_epoch)
-            self.logger.experiment.add_scalars("Avg_dice_OD",{'train' : avg_dice_d}, self.current_epoch)
+        # if self.n_classes == 3:
+        #     avg_dice_c = torch.stack([x['dice_OC'] for x in outputs]).mean()
+        #     avg_dice_d = torch.stack([x['dice_OD'] for x in outputs]).mean()
+        #     self.logger.experiment.add_scalars("Avg_dice_OC",{'train' : avg_dice_c}, self.current_epoch)
+        #     self.logger.experiment.add_scalars("Avg_dice_OD",{'train' : avg_dice_d}, self.current_epoch)
 
-        else:
-            avg_dice = torch.stack([x['dice'] for x in outputs]).mean()
-            self.logger.experiment.add_scalars("Avg_dice",{'train' : avg_dice}, self.current_epoch)
+        # else:
+        #     avg_dice = torch.stack([x['dice'] for x in outputs]).mean()
+        #     self.logger.experiment.add_scalars("Avg_dice",{'train' : avg_dice}, self.current_epoch)
 
     def validation_step(self, batch, batch_nb):
         '''
@@ -596,7 +583,28 @@ class Unet(pl.LightningModule):
         '''
         Configuration of the opimizer used in the model
         '''
-        return torch.optim.Adam(self.parameters(), lr=self.lr) 
+        #return torch.optim.Adam(self.parameters(), lr=self.lr) 
+        optimizer = torch.optim.Adam(self.parameters(), lr=self.lr)
+        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer,
+                                                               mode='min',
+                                                               factor=0.2,
+                                                               patience=2,
+                                                               min_lr=1e-6,
+                                                               verbose=True)
+        metric2track = 'dice'
+        if self.n_classes == 3:
+            metric2track = 'val_dice_prom'
+
+        return {
+        "optimizer": optimizer,
+        "lr_scheduler": {
+            "scheduler": scheduler,
+            "monitor": metric2track,
+            "frequency": 20
+            # If "monitor" references validation metrics, then "frequency" should be set to a
+            # multiple of "trainer.check_val_every_n_epoch".
+        },
+    }
 
     def generate_img(self, pred, true):
         '''

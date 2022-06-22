@@ -77,7 +77,7 @@ class DataModuleClassDC(pl.LightningDataModule):
         test_names = np.array((self.split_file['split']['test']).split(','))
         
         
-        if len(val_names.tolist()) < 1:
+        if len(val_names.tolist()) < 2:
             #EN CASO DE NO TENER VALORES PARA VALIDACION SE SEPARA EL 10% DE LOS
             #VALORES DE ENTRENAMIENTO PARA VALIDAR
 
@@ -309,11 +309,11 @@ class Dataset_DC(Dataset):
         #print('ENTRO A RECORTE')
         np_mask = OD_mask.cpu
         np_mask = np.array(OD_mask[0,:,:])
-        c0, c1, c2, c3, center = get_OCOD_crop(mask= np_mask, delta= 0.1, descentro=True)
+        c0, c1, c2, c3, center,img_cut = get_OCOD_crop(mask= np_mask, delta= 0.1, descentro=True)
         img = img[:,c0:c2,c1:c3]
         #print('IMG SHAPE: ',img.shape)
 
-        print('IMAGEN: ', self.names[index])
+        #print('IMAGEN: ', self.names[index])
         #RE-ESCALO LAS IMAGENES A 512X512 
         img = self.scale_img(img, 512, 512)
         OD_mask = OD_mask[:,c0:c2+1,c1:c3+1]

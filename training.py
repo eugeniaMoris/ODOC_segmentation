@@ -166,11 +166,12 @@ def main(config,hparams):
         auto_lr_find=False,
         resume_from_checkpoint = resume_path,
         auto_scale_batch_size= False,
-        max_epochs=2,#int(config['training']['epochs']), 
+        max_epochs=int(config['training']['epochs']), 
         accelerator="gpu",
         gpus=1,
         logger=logger, #logger for the tensorboard
         log_every_n_steps=5,
+        check_val_every_n_epoch=5,
         fast_dev_run=False) #if True, correra un unico batch, para testear si el modelo anda
 
 
